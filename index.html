@@ -8,7 +8,14 @@
     <link rel="icon" href="./assets/img/favicon.ico">
     <title>City Guide Belgorod</title>
 </head>
-<body>
+<body class="overflow-h">
+    <div class="loader_wrap"><div class="loader"></div></div>
+    <div class="subscribe-window_wrap hidden" id="subscribe-window">
+        <div class="subscribe-window">
+            <h2>Вы подписались на рассылку!</h2>
+            <button id="accept" onclick="accept()">Принять</button>
+        </div>
+    </div>
     <header class="header">
         <div class="container">
             <div class="header_wrap">
@@ -19,25 +26,30 @@
                     <a href="index.html#" class="header_menu-item selected">
                         Главная
                     </a>
-                    <a href="#" class="header_menu-item">
+                    <!-- <a href="#" class="header_menu-item">
                         О нас
-                    </a>
+                    </a> -->
                     <a href="#" class="header_menu-item">
                         Каталог
                     </a>
                     <a href="#" class="header_menu-item">
                         Контакты
                     </a>
-                    <a href="#" class="header_menu-item">
-                        <img src="./assets/img/search.png" alt="search">
-                    </a>
+                    <div class="header_menu-item">
+                        <div class="header_search-container">
+                            <input type="text" id="searchInput" class="header_search-input" placeholder="Поиск...">
+                            <button id="searchButton" class="header_search-button">
+                                <img src="./assets/img/search.png" alt="search">
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </header>
     <main class="main" id="main">
         <div class="main_wrap">
-            <button class="main_btn-lft" onclick="back_main_photo()">⬅️</button>
+            <button class="main_btn-back" onclick="back_main_photo()">🠈</button>
             <div class="main_title">
                 <h2 class="main-subtitle">
                     City Guide
@@ -46,8 +58,8 @@
                     Belgorod
                 </h1>
             </div>
-            <button class="main_btn-rght" onclick="next_main_photo()">➡️</button>
-            <button class="main_btn-cntr" id="btn-pause" onclick="pause()">▶️</button>
+            <button class="main_btn-next" onclick="next_main_photo()">🠊</button>
+            <button class="main_btn-pause" id="btn-pause" onclick="pause()" title="Поставить на паузу слайдшоу">▶️</button>
         </div>
     </main>
     <section class="about">
@@ -98,5 +110,121 @@
             </div>
         </div>
     </section>
+    <section class="maps" id="maps">
+        <div class="container">
+            <div class="maps_wrap">
+                <div class="maps_title">
+                    <h2>Выбрать карту:</h2>
+                    <select id="maps_sort">
+                        <option value="map_monemunts">памятники</option>
+                        <option value="map_museums">музеи</option>
+                        <option value="map_parks">парки и сады</option>
+                        <option value="map_temples">храмы и церкви</option>
+                        <option value="map_theaters">театры и культ. центры</option>
+                        <option value="map_fountains">фонтаны</option>
+                        <option value="map_squares">площади</option>
+                        <option value="map_observation-decks">смотровые площадки</option>
+                    </select>
+                </div>
+                <iframe name="map" id="map_monemunts" src="https://yandex.ru/map-widget/v1/?um=constructor%3A7dba4573af2fb158f5ecce2cd7410825eafb3415b6fb70d438d627a1572570fa&amp;source=constructor" width="100%" height="400" frameborder="0"></iframe>
+                <iframe name="map" class="hidden" id="map_museums" src="https://yandex.ru/map-widget/v1/?um=constructor%3A995291e81d14870338d522bcf2003cc3ea46a7fe6d64e601916328058bea92a6&amp;source=constructor" width="100%" height="400" frameborder="0"></iframe>
+                <iframe name="map" class="hidden" id="map_parks" src="https://yandex.ru/map-widget/v1/?um=constructor%3Aa025175ae9759c043175cae12055705381ac104ecd9938f66f5958ac061ef3f7&amp;source=constructor" width="100%" height="400" frameborder="0"></iframe>
+                <iframe name="map" class="hidden" id="map_temples" src="https://yandex.ru/map-widget/v1/?um=constructor%3Ad1a22f8f04dbcfea7a3f7dbb5e0482b4b02f64b242b5c851cb1b226ffa455b4a&amp;source=constructor" width="100%" height="400" frameborder="0"></iframe>
+                <iframe name="map" class="hidden" id="map_theaters" src="https://yandex.ru/map-widget/v1/?um=constructor%3Adc7a9a4c6460a8752016342f3b4f7ce1233181a51cecf5e94e1b4d873f111fc0&amp;source=constructor" width="100%" height="400" frameborder="0"></iframe>
+                <iframe name="map" class="hidden" id="map_fountains" src="https://yandex.ru/map-widget/v1/?um=constructor%3A216cd1be212f86b6e4349e92b94a4cb699524482488bfcb0c9e675ea6e750e6c&amp;source=constructor" width="100%" height="400" frameborder="0"></iframe>
+                <iframe name="map" class="hidden" id="map_squares" src="https://yandex.ru/map-widget/v1/?um=constructor%3Ac5ee0a6a9aa2b0e631988dde7fee539d3d69b3ff5137ff3ea41e3a1cb236e4c6&amp;source=constructor" width="100%" height="400" frameborder="0"></iframe>
+                <iframe name="map" class="hidden" id="map_observation-decks" src="https://yandex.ru/map-widget/v1/?um=constructor%3Abb28276cd4bd975d7b27c78168b2add53b1f7934e2469e3c1e4f7003192c8044&amp;source=constructor" width="100%" height="400" frameborder="0"></iframe>
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer_wrap">
+                <div class="footer_block">
+                    <img src="./assets/img/logo.png" alt="" class="footer_logo">
+                    <p class="footer_block-text">
+                        Мы стремимся создать удобный инструмент, который 
+                        поможет как туристам, так и местным жителям 
+                        открывать лучшие кафе, парки, музеи и другие 
+                        интересные места. С CityGuide вы всегда будете 
+                        в курсе самых актуальных событий и самых 
+                        захватывающих маршрутов.
+                    </p>
+                    <form class="footer_subscribe-block" onsubmit="subscribe()">
+                        <input id="subscribe-input" type="email" name="email" class="footer_subscribe-input" placeholder="Введите email адресс" required>
+                        <button class="footer_subcribe-btn" id="btn-subscribe" type="submit">Подписаться</button>
+                    </form>
+                </div>
+                <div class="footer_block">
+                    <a href="index.html#maps" class="footer_block-title">
+                        Каталог
+                    </a>
+                    <a href="index.html#maps" class="footer_block-subtitle" id="map0">
+                        Памятники
+                    </a>
+                    <a href="index.html#maps" class="footer_block-subtitle" id="map1">
+                        Музеи
+                    </a>
+                    <a href="index.html#maps" class="footer_block-subtitle" id="map2">
+                        Парки и сады
+                    </a>
+                    <a href="index.html#maps" class="footer_block-subtitle" id="map3">
+                        Храмы и церкви
+                    </a>
+                    <a href="index.html#maps" class="footer_block-subtitle" id="map4">
+                        Театры и культурные центры
+                    </a>
+                    <a href="index.html#maps" class="footer_block-subtitle" id="map5">
+                        Фонтаны 
+                    </a>
+                    <a href="index.html#maps" class="footer_block-subtitle" id="map6">
+                        Площади
+                    </a>
+                    <a href="index.html#maps" class="footer_block-subtitle" id="map7">
+                        Смотровые площадки
+                    </a>
+                </div>
+                <div class="footer_block">
+                    <a href="#" class="footer_block-title">
+                        Контакты
+                    </a>
+                    <div class="footer_block-point">
+                        <div class="footer_block-point-title">
+                            <img src="./assets/img/location.png" alt="location">
+                            <h3>Место</h3> 
+                        </div>
+                        <div class="footer_block-point-subtitle">
+                            <a href="#">
+                                Комплекс сверхскоплений Рыб-Кита, 
+                                сверхскопление Ланиакея, сверхскопление Девы, 
+                                скопление Девы, Местная группа галактик, 
+                                галактика Млечный Путь, галактический рукав 
+                                Ориона, Солнечная система, материк Евразия, 
+                                страна Россия, город Белгород, 308XXX
+                            </a>
+                        </div>
+                    </div>
+                    <div class="footer_block-point">
+                        <div class="footer_block-point-title">
+                            <img src="./assets/img/mail.png" alt="mail">
+                            <h3>Почта</h3> 
+                        </div>
+                        <div class="footer_block-point-subtitle">
+                            <a href="#">hello@example.com</a>
+                        </div>
+                    </div>
+                    <div class="footer_block-point">
+                        <div class="footer_block-point-title">
+                            <img src="./assets/img/phone.png" alt="phone">
+                            <h3>Телефон</h3> 
+                        </div>
+                        <div class="footer_block-point-subtitle">
+                            <a href="#">+12 345 678 999</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
