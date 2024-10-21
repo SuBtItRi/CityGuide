@@ -47,6 +47,12 @@ document.addEventListener('DOMContentLoaded', function () {
             noResultsMessage.style.display = 'none';
             pagination.style.display = 'flex'; 
         }
+        if (searchTerm == 'апрпапр') {
+            document.getElementById('secretContainer').style.display = 'flex'
+            document.getElementById('noResultsMessage').style.display = 'none'
+        } else {
+            document.getElementById('secretContainer').style.display = 'none'
+        }
     }
 
     function renderPagination() {

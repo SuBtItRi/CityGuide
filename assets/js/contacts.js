@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
             email.style = 'border-bottom: 2px solid #fff'
         } else {
             email.style = 'border-bottom: 2px solid red'
-            end_this = true
+            end_this = true 
         }
         if (namem.value === '') {
             namem.style = 'border-bottom: 2px solid red'
