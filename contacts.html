@@ -5,19 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./assets/css/style.css">
     <script src="./assets/js/loader.js"></script>
-    <script src="./assets/js/script.js"></script>
     <script src="./assets/js/footer_filters.js"></script>
     <link rel="icon" href="./assets/img/favicon.ico">
-    <title>City Guide Belgorod</title>
+    <title>City Guide Catalog</title>
 </head>
 <body class="overflow-h">
     <div class="loader__wrap"><div class="loader"></div></div>
-    <div class="subscribe-window__wrap hidden" id="subscribe-window">
-        <div class="subscribe-window">
-            <h2>Вы подписались на рассылку!</h2>
-            <button id="accept" onclick="accept()">Принять</button>
-        </div>
-    </div>
     <header class="header">
         <div class="container">
             <div class="header__wrap">
@@ -25,7 +18,7 @@
                     <img src="./assets/img/logo.png" alt="logo">
                 </a>
                 <div class="header__menu">
-                    <a href="index.html#" class="header__menu_item selected">
+                    <a href="index.html#" class="header__menu_item">
                         Главная
                     </a>
                     <!-- <a href="about.html" class="header__menu_item">
@@ -34,92 +27,81 @@
                     <a href="catalog.html" class="header__menu_item">
                         Каталог
                     </a>
-                    <a href="contacts.html" class="header__menu_item">
+                    <a href="contacts.html" class="header__menu_item selected">
                         Контакты
                     </a>
                 </div>
             </div>
         </div>
     </header>
-    <main class="main" id="main">
-        <div class="main__wrap">
-            <button class="main__btn_back" onclick="back_main_photo()">🠈</button>
-            <div class="main__title">
-                <h2 class="main__subtitle">
-                    City Guide
-                </h2>
-                <h1 class="main__title_text">
-                    Belgorod
-                </h1>
+    <main class="main-2">
+        <div class="main-2__wrap">
+            <div class="main-2__title">
+                <h5 class="main-2_subtitle">
+                    Контакты
+                </h5>
+                <h6 class="main-2__title_text">
+                    <a href="index.html" class="main-2__title_text-link">Главная</a>Контакты
+                </h6>
             </div>
-            <button class="main__btn_next" onclick="next_main_photo()">🠊</button>
-            <button class="main__btn_pause" id="btn_pause" onclick="pause()" title="Поставить на паузу слайдшоу">▶️</button>
         </div>
     </main>
-    <section class="about">
+    <section class="contacts">
         <div class="container">
-            <div class="about__wrap">
-                <div class="about__text">
-                    <h2 class="about_title">
-                        Узнайте больше про Белгород
-                    </h2>
-                    <p class="about_subtitle">
-                        Бе́лгород — город на юге средней полосы европейской части 
-                        России, административный центр Белгородской области. 
-                        Образует одноимённый городской округ.
-                    </p>
-                    <p class="about_subtitle">
-                        Расположен на южной окраине Среднерусской возвышенности, 
-                        на берегах Белгородского водохранилища, рек Везёлки и 
-                        Северского Донца, в 700 км к югу от Москвы, в 35 км от 
-                        границы с Украиной. Город областного значения. 
-                        Население — 328 482 человека (2024). Вокруг города 
-                        образовалась Белгородская агломерация с численностью 
-                        населения более 0,5 млн человек. Город первого салюта. 
-                        Первый в России город, получивший звание «Город воинской 
-                        славы».
-                    </p>
+            <div class="contacts__wrap">
+                <div class="contacts__block-left">
+                    <div class="contacts__title">Свяжитесь с нами</div>
+                    <div class="contacts__blocks">
+                        <div class="contacts__block">
+                            <div class="contacts__block_title">
+                                <img src="./assets/img/location.png" alt="location">
+                                <h2>Местоположение</h2>
+                            </div>
+                            <div class="contacts__block_subtitle">
+                                Комплекс сверхскоплений Рыб-Кита, сверхскопление Ланиакея, сверхскопление Девы, скопление Девы, Местная группа галактик, галактика Млечный Путь, галактический рукав Ориона, Солнечная система, материк Евразия, страна Россия, город Белгород, 308XXX
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contacts__blocks">
+                        <div class="contacts__block">
+                            <div class="contacts__block_title">
+                                <img src="./assets/img/phone.png" alt="phone">
+                                <h2>Телефон</h2>
+                            </div>
+                            <div class="contacts__block_subtitle">
+                                +12 345 678 999
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contacts__blocks">
+                        <div class="contacts__block">
+                            <div class="contacts__block_title">
+                                <img src="./assets/img/mail.png" alt="mail">
+                                <h2>Почта</h2>
+                            </div>
+                            <div class="contacts__block_subtitle">
+                                hello@example.com
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contacts__blocks">
+                        <div class="contacts__block">
+                            <div class="contacts__block_title">
+                                <img src="./assets/img/location.png" alt="location">
+                                <h2>Часы работы</h2>
+                            </div>
+                            <div class="contacts__block_subtitle">
+                                Пн-вт С 8:00 до 20:00
+                            </div>
+                            <div class="contacts__block_subtitle">
+                                Сб-вс Закрыто
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <img class="about__img" src="./assets/img/about3.png" alt="">
-            </div>
-        </div>
-    </section>
-    <section class="advice">
-        <div class="advice__wrap">
-            <img src="./assets/img/advice.png" alt="advice__img" class="advice__img">
-            <div class="advice__text">
-                <div class="advice__text_box">
-                    <p class="advice__text_title">
-                        Путешествуйте рано и часто. По возможности живите за пределами 
-                        своего города. Поймите другие культуры, кроме своей собственной. 
-                        По мере того как вы будете понимать другие культуры, ваше 
-                        понимание себя и своей собственной культуры будет расти в 
-                        геометрической прогрессии.
-                    </p>
-                    <p class="advice__text_subtitle">
-                        У хорошего путешественника нет определенных планов, и он не 
-                        стремится вернуться домой.
-                    </p>
+                <div class="contacts__block-right">
+                    <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Ac7162617ed9f871eb0f7bbdcb852d50fc45e0f6eba42a3e33d04b490df4b561c&amp;source=constructor" width="100%" height="90%" frameborder="0"></iframe>
                 </div>
-            </div>
-        </div>
-    </section>
-    <section class="maps" id="maps">
-        <div class="container">
-            <div class="maps__wrap">
-                <div class="maps__title">
-                    <h2>Выбрать карту:</h2>
-                    <select id="maps__sort">
-                        <option value="map__monemunts">памятники</option>
-                        <option value="map__museums">музеи</option>
-                        <option value="map__parks">парки и сады</option>
-                        <option value="map__temples">храмы и церкви</option>
-                        <option value="map__theaters">театры и культ. центры</option>
-                        <option value="map__fountains">фонтаны</option>
-                        <option value="map__squares">площади</option>
-                    </select>
-                </div>
-                <iframe name="map" id="map" src="https://yandex.ru/map-widget/v1/?um=constructor%3A7dba4573af2fb158f5ecce2cd7410825eafb3415b6fb70d438d627a1572570fa&amp;source=constructor" width="100%" height="400" frameborder="0"></iframe>
             </div>
         </div>
     </section>

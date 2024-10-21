@@ -4,84 +4,42 @@ let notpause = true
 
 
 document.addEventListener("DOMContentLoaded", function() {
-    let map0 = document.getElementById('map_monemunts');
-    let map1 = document.getElementById('map_museums');
-    let map2 = document.getElementById('map_parks');
-    let map3 = document.getElementById('map_temples');
-    let map4 = document.getElementById('map_theaters');
-    let map5 = document.getElementById('map_fountains');
-    let map6 = document.getElementById('map_squares');
-    let map7 = document.getElementById('map_observation-decks');
-    // search btn
-    document.getElementById('searchButton').addEventListener('click', () => {
-        document.querySelector('.header_search-container').classList.toggle('active') 
-    }) 
-    // maps sort
-    function maps_sort() {
-        map0.classList.add('hidden')
-        map1.classList.add('hidden')
-        map2.classList.add('hidden')
-        map3.classList.add('hidden')
-        map4.classList.add('hidden')
-        map5.classList.add('hidden')
-        map6.classList.add('hidden')
-        map7.classList.add('hidden')
-        selectValue = document.getElementById('maps_sort').value
-        if (selectValue == 'map_monemunts') {
-            map0.classList.remove('hidden')
-        } if (selectValue == 'map_museums') {
-            map1.classList.remove('hidden')
-        } if (selectValue == 'map_parks') {
-            map2.classList.remove('hidden')
-        } if (selectValue == 'map_temples') {
-            map3.classList.remove('hidden')
-        } if (selectValue == 'map_theaters') {
-            map4.classList.remove('hidden')
-        } if (selectValue == 'map_fountains') {
-            map5.classList.remove('hidden')
-        } if (selectValue == 'map_squares') {
-            map6.classList.remove('hidden')
-        } if (selectValue == 'map_observation-decks') {
-            map7.classList.remove('hidden')
+    // auto slide slider
+    setInterval( function () {
+        if (notpause) {
+            next_main_photo() 
         }
-    }
-    document.getElementById('maps_sort').addEventListener('click', () => {
-        maps_sort()
+    }, 7500) 
+    let map = document.getElementById('map');
+    // maps sort
+    document.getElementById('maps__sort').addEventListener('change', () => {
+        map.src = ''
+        selectValue = document.getElementById('maps__sort').value
+        if (selectValue == 'map__monemunts') {
+            map.src = "https://yandex.ru/map-widget/v1/?um=constructor%3A7dba4573af2fb158f5ecce2cd7410825eafb3415b6fb70d438d627a1572570fa&amp;source=constructor"
+        } if (selectValue == 'map__museums') {
+            map.src = "https://yandex.ru/map-widget/v1/?um=constructor%3A995291e81d14870338d522bcf2003cc3ea46a7fe6d64e601916328058bea92a6&amp;source=constructor"
+        } if (selectValue == 'map__parks') {
+            map.src = "https://yandex.ru/map-widget/v1/?um=constructor%3Aa025175ae9759c043175cae12055705381ac104ecd9938f66f5958ac061ef3f7&amp;source=constructor"
+        } if (selectValue == 'map__temples') {
+            map.src = "https://yandex.ru/map-widget/v1/?um=constructor%3Ad1a22f8f04dbcfea7a3f7dbb5e0482b4b02f64b242b5c851cb1b226ffa455b4a&amp;source=constructor"
+        } if (selectValue == 'map__theaters') {
+            map.src = "https://yandex.ru/map-widget/v1/?um=constructor%3Adc7a9a4c6460a8752016342f3b4f7ce1233181a51cecf5e94e1b4d873f111fc0&amp;source=constructor"
+        } if (selectValue == 'map__fountains') {
+            map.src = "https://yandex.ru/map-widget/v1/?um=constructor%3A216cd1be212f86b6e4349e92b94a4cb699524482488bfcb0c9e675ea6e750e6c&amp;source=constructor"
+        } if (selectValue == 'map__squares') {
+            map.src = "https://yandex.ru/map-widget/v1/?um=constructor%3Ac5ee0a6a9aa2b0e631988dde7fee539d3d69b3ff5137ff3ea41e3a1cb236e4c6&amp;source=constructor"
+        } 
     })
-    // select map footer btns
-    document.querySelector('#map0').addEventListener('click', () => {
-        document.querySelector('#maps_sort').value = 'map_monemunts'
-        maps_sort()
+    // subscribe btn
+    document.querySelector('.footer__subscribe_block').addEventListener('submit', (e) => {
+        e.preventDefault()
+        document.getElementById('btn_subscribe').textContent = 'Отправлено'
+        setInterval( function() {
+            document.getElementById('btn_subscribe').textContent = 'Подписаться'
+        }, 1500) 
+        document.getElementById('subscribe-window').classList.remove('hidden')
     })
-    document.querySelector('#map1').addEventListener('click', () => {
-        document.querySelector('#maps_sort').value = 'map_museums'
-        maps_sort()
-    })
-    document.querySelector('#map2').addEventListener('click', () => {
-        document.querySelector('#maps_sort').value = 'map_parks'
-        maps_sort()
-    })
-    document.querySelector('#map3').addEventListener('click', () => {
-        document.querySelector('#maps_sort').value = 'map_temples'
-        maps_sort()
-    })
-    document.querySelector('#map4').addEventListener('click', () => {
-        document.querySelector('#maps_sort').value = 'map_theaters'
-        maps_sort()
-    })
-    document.querySelector('#map5').addEventListener('click', () => {
-        document.querySelector('#maps_sort').value = 'map_fountains'
-        maps_sort()
-    })
-    document.querySelector('#map6').addEventListener('click', () => {
-        document.querySelector('#maps_sort').value = 'map_squares'
-        maps_sort()
-    })
-    document.querySelector('#map7').addEventListener('click', () => {
-        document.querySelector('#maps_sort').value = 'map_observation-decks'
-        maps_sort()
-    })
-    
 }) 
 
 // slide sliders hotkeys
@@ -108,36 +66,12 @@ function next_main_photo() {
 function pause() {
     if (notpause) {
         notpause=false 
-        document.getElementById('btn-pause').textContent = '⏸️'
+        document.getElementById('btn_pause').textContent = '⏸️'
     } else {
         notpause=true 
-        document.getElementById('btn-pause').textContent = '▶️'
+        document.getElementById('btn_pause').textContent = '▶️'
     }
-}
-// subscribe btn
-function subscribe(e) {
-    e.preventDefault()
-    console.log(document.querySelector('#subscribe-input').value == null)
-    if (document.querySelector('#subscribe-input').value == '') {
-        document.getElementById('btn-subscribe').textContent = 'Введите почту'
-    }
-    document.getElementById('btn-subscribe').textContent = 'Отправлено'
-    setInterval( function() {
-        document.getElementById('btn-subscribe').textContent = 'Подписаться'
-    }, 1500) 
-    document.getElementById('subscribe-window').classList.remove('hidden')
 }
 function accept(){
     document.getElementById('subscribe-window').classList.add('hidden')
 }
-
-window.onload = function () {
-    document.querySelector('.loader_wrap').classList.add('hidden')
-    document.body.classList.remove('overflow-h')
-    // auto slide slider
-    setInterval( function () {
-        if (notpause) {
-            next_main_photo() 
-        }
-    }, 7500) 
-} 

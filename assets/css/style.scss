@@ -37,7 +37,7 @@ html {
 }
 
 body {
-    font-family: LXGW WenKai Mono TC;
+    font-family: Unbounded;
 }
 
 .overflow-h {
@@ -50,7 +50,7 @@ a {
 }
 
 .loader {
-    &_wrap {
+    &__wrap {
         position: fixed;
         @include center;
         width: 100%;
@@ -91,7 +91,7 @@ a {
             background-color: red;
         }
     }
-    &_wrap {
+    &__wrap {
         z-index: 100;
         position: fixed;
         @include center;
@@ -122,7 +122,7 @@ a {
     @include center;
     position: absolute;
     width: 100%;
-    &_wrap {
+    &__wrap {
         display: flex;
         justify-content: space-between;
         width: 100%;
@@ -130,19 +130,19 @@ a {
         padding: 25px;
         height: 100px;
     }
-    &_logo {
+    &__logo {
         height: 80%;
         padding-left: 50px;
         & img {
             height: 100%
         }
     }
-    &_menu {
+    &__menu {
         display: flex;
         align-items: center;
         color: #fff;
         font-family: Unbounded;
-        &-item {
+        &_item {
             position: relative;
             display: inline-block;
             margin-left: 50px;
@@ -168,11 +168,11 @@ a {
             }
         }
     }
-    &_search-container {
+    &__search_container {
         position: relative;
     }
     
-    &_search-input {
+    &__search_input {
         width: 0;
         padding: 5px;
         border: none;
@@ -184,14 +184,14 @@ a {
         top: 40px;
     }
     
-    &_search-button {
+    &__search_button {
         background: none;
         border: none;
         cursor: pointer;
         outline: none;
     }
     
-    &_search-container.active &_search-input {
+    &__search_container.active &__search_input {
         width: 200px;
         opacity: 1;
     }
@@ -215,14 +215,14 @@ a {
     object-fit: cover;
     color: #fff;
     font-size: 60px;
-    &_wrap {
+    &__wrap {
         position: relative;
         display: flex;
         justify-content: space-between;
         align-items: center;
         width: 100%;
     }
-    &-subtitle {
+    &__subtitle {
         position: absolute;
         margin: auto;
         font-family: Great Vibes;
@@ -243,9 +243,9 @@ a {
             opacity: 0;
         }
     }
-    &_title {
+    &__title {
         margin: 20% 0;
-        &-text {
+        &_text {
             font-family: Unbounded;
         }        
         animation: mt 1.25s ease 0s 1 reverse both;
@@ -258,18 +258,18 @@ a {
             opacity: 0;
         }
     }
-    &_btn {
-        &-back {
+    &__btn {
+        &_back {
             @include btn;
             top: 310px;
             left: 0px;
         }
-        &-next {
+        &_next {
             @include btn;
             top: 310px;
             right: 0px;
         }
-        &-pause {
+        &_pause {
             position: absolute;
             @include btn;
             top: 0;
@@ -279,27 +279,247 @@ a {
     }
 }
 
+.main-2 {
+    @include center;
+    background: url('../img/catalog-bg.jpg') no-repeat;
+    background-size: 100%;
+    object-fit: cover;
+    color: #fff;
+    font-size: 40px;
+    &__wrap {
+        margin-top: 50px;
+        @include center;
+    }
+    &_subtitle {
+        position: absolute;
+        margin: auto;
+        font-family: Great Vibes;
+        font-weight: 600;
+        letter-spacing: 3px;
+        font-size: 60px;
+        opacity: 0.5;
+        margin-top: -70px;
+        margin-left: 35px;
+        animation: ms 1.25s ease 0s 1 reverse both;
+    }
+    @keyframes ms {
+        0% {
+            opacity: 0.5;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+    &__title {
+        margin-top: 120px;
+        margin-bottom: 60px;
+        &_text {
+            font-family: Unbounded;
+            &-link {
+                transition: 0.5s;
+                border-right: 4px solid #fff;
+                padding-right: 5px;
+                margin-right: 5px;
+                &:hover {
+                    color: #b9b9b9;
+                }
+            }
+        }        
+        animation: mt 1.5s ease 0s 1 reverse both;
+    }
+    @keyframes mt {
+        0% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+}
+
+.catalog {
+    &__wrap {
+        margin-top: 50px;
+        margin-bottom: 100px;
+        display: flex;
+    }
+    &__filters {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        &_title {
+            font-family: Unbounded;
+            font-size: 20px;
+        }
+        #showAllButton {
+            color: #696969;
+            &::before {
+                position: absolute;
+                content: '❌';
+                margin-left: -25px;
+                margin-top: -2px;
+            }
+        }
+    }
+    &__filter-btn {
+        border: none;
+        background: none;
+        text-align: left;
+        cursor: pointer;
+        font-size: 16px;
+        font-family: Unbounded;
+        &:hover {
+            text-decoration: underline;
+        }
+        &.catalog__filter-btn.active {
+            &::before {
+                position: absolute;
+                content: '✔️';
+                margin-left: -25px;
+                margin-top: -2px;
+            }
+        }
+    }
+    &__search-input {
+        margin-top: 20px;
+        padding: 10px;
+        border-radius: 25px;
+        font-family: Unbounded;
+        border: 2px solid #ccc;
+        width: 40%;
+        &::placeholder {
+            font-family: Unbounded;
+        }
+    }
+    &__left-block {
+        margin-right: 20px;
+        margin-left: 25px;
+    }
+    &__right-block {
+        #noResultsMessage {
+            margin-top: 20px;
+            display: none;
+            font-family: Unbounded;
+            font-size: 20px;
+        }
+    }
+    &__title {
+        font-family: Unbounded;
+        font-size: 25px;
+    }
+    &__container {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        gap: 10px;
+    }
+    &__plate {
+        box-shadow: 0 0 10px 0 rgba(97, 97, 97, 0.2);
+        color: #000;
+        border-radius: 10px;
+        display: none;
+        font-family: Unbounded;
+        flex-direction: column;
+        & img {
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            width: 100%;
+            height: 53%;
+        }
+        &_text {
+            padding: 10px;
+        }
+        &_title {
+            font-size: 16px;
+        }
+        &_grade {
+            margin-top: 5px;
+            &:before {
+                content: "⭐";
+            }
+        }
+        &_type {
+            margin-top: 5px;
+            font-size: 13px;
+            color: #4f4f4f;
+        }
+        &_description {
+            margin-top: 10px;
+            font-family: Caveat;
+            font-size: 16px;
+        }
+        &_adress {
+            margin-top: 5px;
+            font-size: 13px;
+            color: #000;
+            vertical-align:bottom;
+        }
+    }
+}
+
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    & button {
+        width: 60px;
+        height: 30px;
+        border: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #000;
+        cursor: pointer;
+        background-color: #F0F0F0;
+        transition: 0.3s;
+        &.active {
+            border-bottom: 3.5px solid #000;
+            padding-top: 3.5px;
+        }
+        &:disabled {
+            &:hover {
+                background-color: #F0F0F0;
+            }
+            cursor: not-allowed;
+        }
+        &:first-child {
+            border-top-left-radius: 15px;
+            border-bottom-left-radius: 15px;
+        }
+        &:last-child {
+            border-top-right-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+        &:hover {
+            background-color: #dfdfdf;
+        }
+    }
+}
+
 .about {
     padding-top: 100px;
-    &_wrap {
+    &__wrap {
         display: flex;
         position: relative;
         justify-content: space-between;
     }
-    &_text {
+    &__text {
         max-width: 40%;
         font-family: Caveat;
     }
-    &-title {
+    &_title {
         font-family: Unbounded;
         font-size: 30px;
         text-transform: uppercase;
     }
-    &-subtitle {
+    &_subtitle {
         font-size: 20px;
         margin-top: 30px;
     }
-    &_img {
+    &__img {
         height: 40%;
         width: 50%;
     }
@@ -308,36 +528,36 @@ a {
 .advice {
     position: relative;
     @include center();
-    &_wrap {
+    &__wrap {
         display: flex;
         margin-top: 100px;
         margin-bottom: 200px;
         max-width: 1600px;
     }
-    &_img {
+    &__img {
         position: absolute;
         width: 600px;
         z-index: -1;
     }
-    &_text {
+    &__text {
         background-color: #c4eeec;
         margin-left: 450px;
         height: 30%;
         width: 100%;
         padding: 9.5% 5% 9.5% 5%;
-        &-box {
+        &_box {
             border-left: 3.5px solid #000;
             padding: 25px 0 15px 10%;
             background: url('../img/quotes.png') no-repeat;
             background-size: 15px;
             background-position: top 7.5px left 5%;
         }
-        &-title {
+        &_title {
             font-size: 22px;
             font-weight: 700;
             font-family: Unbounded;
         }
-        &-subtitle {
+        &_subtitle {
             padding-top: 20px;
             font-size: 16px;
             font-style: italic;
@@ -347,10 +567,8 @@ a {
 }
 
 .maps {
-    &_wrap {
-
-    }
-    &_title {
+    margin-bottom: 100px;
+    &__title {
         display: flex;
         margin-bottom: 25px;
         & h2 {
@@ -366,34 +584,76 @@ a {
     }
 }
 
+.contacts {
+    padding: 50px;
+    background: url(../img/contacts-bg.jpg);
+    &__wrap {
+        margin: 100px 50px;
+        display: flex;
+        color: #fff;
+    }
+    &__title {
+        font-size: 40px;
+    }
+    &__block {
+        margin-top: 20px;
+        &_title {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            font-weight: 900;
+            & img {
+                width: 4%;
+                height: auto;
+            }
+            & h2 {
+                font-size: 24px;
+            }
+        }
+        &_subtitle {
+            margin: 10px;
+            max-width: 50%;
+            font-size: 14px;
+        }
+        &-left {
+            max-width: 50%;
+        }
+        &-right {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50%;
+        }
+    }
+}
+
 .footer {
-    margin-top: 100px;
     background-color: #000;
     color: #fff;
     font-family: Unbounded;
-    &_wrap {
+    &__wrap {
         padding: 50px 0;
         display: grid;
         grid-template-columns: 2fr 1fr 1fr;
         gap: 15px;
     }
-    &_logo {
+    &__logo {
         width: 140px;
     }
-    &_block {
+    &__block {
         display: flex;
         flex-direction: column;
-        &-title {
+        &_title {
             font-size: 20px;
             font-weight: 900;
             padding-bottom: 15px;
         }
-        &-text {
+        &_text {
             margin: 15px 0;
             font-size: 14px;
             color: rgb(186, 186, 186);
         }
-        &-subtitle {
+        &_subtitle {
             padding-top: 10px;
             font-size: 12px;
             &:before {
@@ -411,12 +671,12 @@ a {
                 }
             }
         }
-        &-point {
+        &_point {
             margin-top: 5px;
             &:first-child {
                 margin-top: 0;
             }
-            &-title {
+            &_title {
                 align-items: center;
                 display: flex;
                 justify-content: start;
@@ -429,7 +689,7 @@ a {
                 width: 25px;
                 margin-right: 10px;
             }
-            &-subtitle {
+            &_subtitle {
                 padding-top: 2px;
                 font-size: 12px;
                 padding-left: 35px;
@@ -442,8 +702,8 @@ a {
             }
         }
     }
-    &_subscribe {
-        &-block {
+    &__subscribe {
+        &_block {
             display: flex;
             & button {
                 border: none;
@@ -459,7 +719,7 @@ a {
                 }
             }
         }
-        &-input {
+        &_input {
             color: #000;
             font-family: Unbounded;
             width: 100%;
