@@ -77,6 +77,7 @@ a {
     border-radius: 25px;
     text-align: center;
     font-family: Unbounded;
+    background-color: #0000009f;
     & button {
         margin-top: 20px;
         padding: 10px 20px;
@@ -99,6 +100,90 @@ a {
         top: 0;
         width: 100%; 
         height: 100%; 
+    }
+}
+
+.contact__modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    z-index: 100;
+    background-color: #0000009f;
+    &_wrap {
+        position: relative;
+        padding: 20px;
+        border-radius: 15px;
+        flex-direction: column;
+        background-color: #4f4f4f;
+        width: 480px;
+    }
+    &_email-name {
+        display: flex;
+        gap: 10px;
+    }
+    &_title {
+        font-size: 16px;
+        color: #fff;
+    }
+    &_block {
+        margin: 10px 0;
+        & input {
+            margin-top: 10px;
+            padding: 10px;
+            width: 100%;
+            font-family: Unbounded;
+            color: #fff;
+            background: none;
+            border: none;
+            border-bottom: 2px solid #fff;
+            outline: none;
+            transition: 0.5s;
+            .no-filled {
+                border-bottom: 2px solid red;
+            }
+        }
+        & textarea {
+            margin-top: 10px;
+            padding: 10px;
+            width: 100%;
+            max-width: 100%;
+            min-width: 100%;
+            font-family: Unbounded;
+            color: #fff;
+            background: none;
+            border: none;
+            border-bottom: 2px solid #fff;
+            outline: none;
+            transition: 0.5s;
+        }
+    }
+    &_btn {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 25px;
+        border: none;
+        background-color: #d9940d;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: #fff;
+        font-family: Unbounded;
+        font-weight: 900;
+        cursor: pointer;
+    }
+    &_close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 20px;
+        background: none;
+        border: none;
+        cursor: pointer;
     }
 }
 
@@ -585,15 +670,27 @@ a {
 }
 
 .contacts {
-    padding: 50px;
     background: url(../img/contacts-bg.jpg);
     &__wrap {
-        margin: 100px 50px;
-        display: flex;
+        padding: 100px 50px;
         color: #fff;
     }
     &__title {
-        font-size: 40px;
+        font-size: 42px;
+    }
+    &__blocks {
+        display: flex;
+        &-left {
+            max-width: 50%;
+            display: flex;
+            flex-direction: column;
+        }
+        &-right {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50%;
+        }
     }
     &__block {
         margin-top: 20px;
@@ -611,18 +708,25 @@ a {
             }
         }
         &_subtitle {
+            color: #d9d9d9;
             margin: 10px;
-            max-width: 50%;
+            margin-left: 40px;
             font-size: 14px;
+            width: 90%;
         }
-        &-left {
-            max-width: 50%;
-        }
-        &-right {
+    }
+    &__btn {
+        margin-top: 20px;
+        font-size: 28px;
+        padding: 10px 120px;
+        border: none;
+        border-radius: 25px;
+        background-color: #000;
+        color: #fff;
+        cursor: pointer;
+        &_container {
             display: flex;
             justify-content: center;
-            align-items: center;
-            width: 50%;
         }
     }
 }

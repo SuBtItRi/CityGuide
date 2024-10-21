@@ -6,11 +6,36 @@
     <link rel="stylesheet" href="./assets/css/style.css">
     <script src="./assets/js/loader.js"></script>
     <script src="./assets/js/footer_filters.js"></script>
+    <script src="./assets/js/contacts.js"></script>
     <link rel="icon" href="./assets/img/favicon.ico">
     <title>City Guide Catalog</title>
 </head>
 <body class="overflow-h">
     <div class="loader__wrap"><div class="loader"></div></div>
+    <div class="contact__modal">
+        <form class="contact__modal_wrap">
+            <button class="contact__modal_close">❌</button>
+            <div class="contact__modal_email-name">
+                <div class="contact__modal_block">
+                    <h3 class="contact__modal_title">Email</h3>
+                    <input type="email" placeholder="Введите вашу почту" id="contact_email" required>
+                </div>
+                <div class="contact__modal_block">
+                    <h3 class="contact__modal_title">Name</h3>
+                    <input type="text" placeholder="Введите ваше имя" id="contact_name" required>
+                </div>
+            </div>
+            <div class="contact__modal_block">
+                <h3 class="contact__modal_title">Adress</h3>
+                <input type="text" placeholder="Введите ваш адресс" id="contact_adress" required>
+            </div>
+            <div class="contact__modal_block">
+                <h3 class="contact__modal_title">Сообщение</h3>
+                <textarea type="text" placeholder="Введите сообщение" id="contact_msg" required></textarea>
+            </div>
+            <button class="contact__modal_btn" type="submit">Предоставить на рассмотрение</button>
+        </form>
+    </div>
     <header class="header">
         <div class="container">
             <div class="header__wrap">
@@ -49,9 +74,9 @@
     <section class="contacts">
         <div class="container">
             <div class="contacts__wrap">
-                <div class="contacts__block-left">
-                    <div class="contacts__title">Свяжитесь с нами</div>
-                    <div class="contacts__blocks">
+                <h1 class="contacts__title">Свяжитесь с нами</h1>
+                <div class="contacts__blocks">
+                    <div class="contacts__blocks-left">
                         <div class="contacts__block">
                             <div class="contacts__block_title">
                                 <img src="./assets/img/location.png" alt="location">
@@ -61,8 +86,6 @@
                                 Комплекс сверхскоплений Рыб-Кита, сверхскопление Ланиакея, сверхскопление Девы, скопление Девы, Местная группа галактик, галактика Млечный Путь, галактический рукав Ориона, Солнечная система, материк Евразия, страна Россия, город Белгород, 308XXX
                             </div>
                         </div>
-                    </div>
-                    <div class="contacts__blocks">
                         <div class="contacts__block">
                             <div class="contacts__block_title">
                                 <img src="./assets/img/phone.png" alt="phone">
@@ -72,8 +95,6 @@
                                 +12 345 678 999
                             </div>
                         </div>
-                    </div>
-                    <div class="contacts__blocks">
                         <div class="contacts__block">
                             <div class="contacts__block_title">
                                 <img src="./assets/img/mail.png" alt="mail">
@@ -83,24 +104,23 @@
                                 hello@example.com
                             </div>
                         </div>
-                    </div>
-                    <div class="contacts__blocks">
                         <div class="contacts__block">
                             <div class="contacts__block_title">
                                 <img src="./assets/img/location.png" alt="location">
                                 <h2>Часы работы</h2>
                             </div>
                             <div class="contacts__block_subtitle">
-                                Пн-вт С 8:00 до 20:00
-                            </div>
-                            <div class="contacts__block_subtitle">
-                                Сб-вс Закрыто
+                                Пн-вт С 8:00 до 20:00 |  Сб-вс Закрыто
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="contacts__block-right">
-                    <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Ac7162617ed9f871eb0f7bbdcb852d50fc45e0f6eba42a3e33d04b490df4b561c&amp;source=constructor" width="100%" height="90%" frameborder="0"></iframe>
+                        <div class="contacts__blocks-right">
+                            <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Ac7162617ed9f871eb0f7bbdcb852d50fc45e0f6eba42a3e33d04b490df4b561c&amp;source=constructor" width="100%" height="90%" frameborder="0"></iframe>
+                        </div>
+                    </div>
+                    <div class="contacts__btn_container">
+                        <button class="contacts__btn">Связаться с нами</button>
+                    </div>
                 </div>
             </div>
         </div>

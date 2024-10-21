@@ -111,12 +111,6 @@ document.addEventListener('DOMContentLoaded', function () {
         updateCatalog();
     });
 
-    document.getElementById('searchInput').addEventListener('keydown', function (event) {
-        if (event.key === 'Enter') {
-            updateCatalog();
-        }
-    });
-
     document.querySelectorAll('.catalog__filter-btn').forEach(button => {
         button.addEventListener('click', function () {
             document.querySelectorAll('.catalog__filter-btn').forEach(button => {
