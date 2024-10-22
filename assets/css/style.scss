@@ -38,6 +38,7 @@ html {
 
 body {
     font-family: Unbounded;
+    overflow-x: hidden;
 }
 
 .overflow-h {
@@ -77,7 +78,9 @@ a {
     border-radius: 25px;
     text-align: center;
     font-family: Unbounded;
-    background-color: #0000009f;
+    &__wrap {
+        background-color: #0000009f;
+    }
     & button {
         margin-top: 20px;
         padding: 10px 20px;
@@ -214,6 +217,10 @@ a {
         align-items: center;
         padding: 25px;
         height: 100px;
+        @media (max-width:1024px) {
+            padding: 10px;
+            height: 50px;
+        }
     }
     &__logo {
         height: 80%;
@@ -227,6 +234,9 @@ a {
         align-items: center;
         color: #fff;
         font-family: Unbounded;
+        @media (max-width: 1024px) {
+            display: none;
+        }
         &_item {
             position: relative;
             display: inline-block;
@@ -253,6 +263,7 @@ a {
             }
         }
     }
+    
     &__search_container {
         position: relative;
     }
@@ -280,6 +291,82 @@ a {
         width: 200px;
         opacity: 1;
     }
+    &__burger-checkbox {
+        position: absolute;
+        visibility: hidden;
+    }
+    &__burger {
+        @media (min-width: 1025px) {
+            display: none;
+        }
+        position: relative;
+        z-index: 1;
+        cursor: pointer;
+        display: block;
+        position: relative;
+        border: none;
+        background: transparent;
+        width: 40px;
+        height: 26px;
+        &::before,
+        &::after {
+            content: '';
+            left: 0;
+            position: absolute;
+            display: block;
+            width: 100%;
+            height: 4px;
+            border-radius: 10px;
+            background: #fff;
+        }
+        &::before {
+        top: 0;
+        box-shadow: 0 11px 0 #fff;
+        transition: box-shadow .3s .15s, top .3s .15s, transform .3s;
+        }
+        &::after {
+            bottom: 0;
+            transition: bottom .3s .15s, transform .3s;
+        }
+    }
+    &__burger-checkbox:checked + &__burger::before {
+        top: 11px;
+        transform: rotate(45deg);
+        box-shadow: 0 6px 0 rgba(0, 0, 0, 0);
+        transition: box-shadow .15s, top .3s, transform .3s .15s;
+    }
+    &__burger-checkbox:checked + &__burger::after {
+        bottom: 11px;
+        transform: rotate(-45deg);
+        transition: bottom .3s, transform .3s .15s;
+    }
+    &__menu-list {
+        top: 0;
+        right: 0;
+        position: absolute;
+        padding-top: 100px;
+        margin: 0;
+        background: #000;
+        list-style-type: none;
+        transform: translateX(100%);
+        transition: .3s;
+        width: 100vh;
+        height: 200vh;
+    }
+    &__menu-item {
+        display: block;
+        color: white;
+        padding: 10px 0;
+        font-size: 18px;
+        text-align: center;
+        text-decoration: none;
+        &:hover {
+            background: rgba(255,255,255,.2)
+        }
+    }
+    &__burger-checkbox:checked ~ &__menu-list {
+        transform: translateX(0);
+    }
 }
 
 .selected {
@@ -300,6 +387,12 @@ a {
     object-fit: cover;
     color: #fff;
     font-size: 60px;
+    @media (max-width: 1024px) {
+        font-size: 30px;
+    }
+    @media (max-width:600px) {
+        font-size: 10px;
+    }
     &__wrap {
         position: relative;
         display: flex;
@@ -316,6 +409,15 @@ a {
         font-size: 40px;
         opacity: 0.5;
         font-size: 60px;
+        @media (max-width: 1024px) {
+            font-size: 30px;
+            margin-left: 100px;
+        }
+        @media (max-width:600px) {
+            font-size: 15px;
+            margin-left: 25px;
+            margin-top: -10px;
+        }
         margin-top: -20px;
         margin-left: 250px;
         animation: ms 1.5s ease 0s 1 reverse both;
@@ -348,11 +450,25 @@ a {
             @include btn;
             top: 310px;
             left: 0px;
+            font-size: 40px;
+            @media (max-width:1024px) {
+                font-size: 30px;
+            }
+            @media (max-width:600px) {
+                font-size: 20px;
+            }
         }
         &_next {
             @include btn;
             top: 310px;
             right: 0px;
+            font-size: 40px;
+            @media (max-width:1024px) {
+                font-size: 30px;
+            }
+            @media (max-width:600px) {
+                font-size: 20px;
+            }
         }
         &_pause {
             position: absolute;
@@ -360,6 +476,13 @@ a {
             top: 0;
             left: 0;
             z-index: 1;
+            font-size: 40px;
+            @media (max-width:1024px) {
+                font-size: 30px;
+            }
+            @media (max-width:600px) {
+                font-size: 20px;
+            }
         }
     }
 }
@@ -371,6 +494,9 @@ a {
     object-fit: cover;
     color: #fff;
     font-size: 40px;
+    @media (max-width: 1024px) {
+        font-size: 30px;
+    }
     &__wrap {
         margin-top: 50px;
         @include center;
@@ -386,6 +512,11 @@ a {
         margin-top: -70px;
         margin-left: 35px;
         animation: ms 1.25s ease 0s 1 reverse both;
+        @media (max-width: 1024px) {
+            font-size: 30px;
+            margin-left: 50px;
+            margin-top: -30px;
+        }
     }
     @keyframes ms {
         0% {
@@ -424,18 +555,35 @@ a {
 
 .catalog {
     &__wrap {
+        padding: 20px;
         margin-top: 50px;
         margin-bottom: 100px;
         display: flex;
+        @media (max-width: 1024px) {
+            flex-direction: column;
+        }
     }
     &__filters {
         margin-top: 30px;
         display: flex;
         flex-direction: column;
+        @media (max-width: 1024px) {
+            margin-top: 15px;
+            flex-direction: row;
+            align-items: start;
+        }
+        @media (max-width:630px) {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 20px;
+        }
         gap: 10px;
         &_title {
             font-family: Unbounded;
             font-size: 20px;
+            @media (max-width: 1024px) {
+                font-size: 15px;
+            }
         }
         #showAllButton {
             color: #696969;
@@ -444,6 +592,10 @@ a {
                 content: '❌';
                 margin-left: -25px;
                 margin-top: -2px;
+                @media (max-width: 1024px) {
+                    margin-left: 0;
+                    margin-top: -20px;
+                }
             }
         }
     }
@@ -453,6 +605,9 @@ a {
         text-align: left;
         cursor: pointer;
         font-size: 16px;
+        @media (max-width: 1024px) {
+            font-size: 12px;
+        }
         font-family: Unbounded;
         &:hover {
             text-decoration: underline;
@@ -463,6 +618,10 @@ a {
                 content: '✔️';
                 margin-left: -25px;
                 margin-top: -2px;
+                @media (max-width: 1024px) {
+                    margin-left: 0;
+                    margin-top: -20px;
+                }
             }
         }
     }
@@ -480,6 +639,10 @@ a {
     &__left-block {
         margin-right: 20px;
         margin-left: 25px;
+        @media (max-width:1024px) {
+            margin:0;
+            max-width: 100%;
+        }
     }
     &__right-block {
         #noResultsMessage {
@@ -487,18 +650,35 @@ a {
             display: none;
             font-family: Unbounded;
             font-size: 20px;
+            @media (max-width: 1024px) {
+                font-size: 16px;
+            }
         }
     }
     &__title {
         font-family: Unbounded;
         font-size: 25px;
+        margin-top: 15px;
+        @media (max-width: 1024px) {
+            font-size: 18px;
+        }
+        @media (max-width:600px) {
+            font-size: 12px;
+        }
     }
     &__container {
         margin-top: 20px;
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
-        grid-template-rows: 1fr 1fr;
         gap: 10px;
+        @media (max-width:600px) {
+            max-width: 100%;
+            grid-template-columns: 1fr 1fr;
+        }
+        @media (max-width:400px) {
+            max-width: 100%;
+            grid-template-columns: 1fr;
+        }
     }
     &__plate {
         box-shadow: 0 0 10px 0 rgba(97, 97, 97, 0.2);
@@ -511,7 +691,6 @@ a {
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
             width: 100%;
-            height: 53%;
         }
         &_text {
             padding: 10px;
@@ -582,6 +761,7 @@ a {
 }
 
 .pagination {
+    padding: 20px;
     margin-top: 20px;
     display: flex;
     justify-content: center;
@@ -589,6 +769,14 @@ a {
     & button {
         width: 60px;
         height: 30px;
+        @media (max-width:1024px) {
+            width: 40px;
+            height: 20px;
+        }
+        @media (max-width:600px) {
+            width: 30px;
+            height: 15px;
+        }
         border: none;
         display: flex;
         justify-content: center;
@@ -623,27 +811,46 @@ a {
 
 .about {
     padding-top: 100px;
+    @media (max-width:600px) {
+        padding: 20px;
+    }
     &__wrap {
         display: flex;
         position: relative;
         justify-content: space-between;
+        @media (max-width:600px) {
+            flex-direction: column;
+        }
     }
     &__text {
         max-width: 40%;
         font-family: Caveat;
+        @media (max-width:600px) {
+            max-width: 100%;
+        }
     }
     &_title {
         font-family: Unbounded;
         font-size: 30px;
         text-transform: uppercase;
+        @media (max-width: 1024px) {
+            font-size: 20px;
+        }
     }
     &_subtitle {
         font-size: 20px;
         margin-top: 30px;
+        @media (max-width: 1024px) {
+            font-size: 14px;
+        }
     }
     &__img {
         height: 40%;
         width: 50%;
+        @media (max-width:600px) {
+            width: 100%;
+            padding-top: 20px;
+        }
     }
 }
 
@@ -658,15 +865,22 @@ a {
     }
     &__img {
         position: absolute;
-        width: 600px;
+        width: 40%;
+        max-width: 600px;
         z-index: -1;
+        @media (max-width: 1024px) {
+            display: none;
+        }
     }
     &__text {
         background-color: #c4eeec;
-        margin-left: 450px;
+        margin-left: 35%;
         height: 30%;
         width: 100%;
         padding: 9.5% 5% 9.5% 5%;
+        @media (max-width: 1024px) {
+            margin-left: 0;
+        }
         &_box {
             border-left: 3.5px solid #000;
             padding: 25px 0 15px 10%;
@@ -678,12 +892,18 @@ a {
             font-size: 22px;
             font-weight: 700;
             font-family: Unbounded;
-        }
+            @media (max-width: 1024px) {
+                font-size: 16px;
+            }
+            }
         &_subtitle {
             padding-top: 20px;
             font-size: 16px;
             font-style: italic;
             color: rgb(87, 87, 87);
+            @media (max-width: 1024px) {
+                font-size: 12px;
+            }
         }
     }
 }
@@ -714,19 +934,32 @@ a {
     }
     &__title {
         font-size: 42px;
+        @media (max-width: 1024px) {
+            font-size: 20px;
+        }
     }
     &__blocks {
         display: flex;
+        gap: 10px;
+        @media (max-width:800px) {
+            flex-direction: column;
+        }
         &-left {
             max-width: 50%;
             display: flex;
             flex-direction: column;
+            @media (max-width:800px) {
+                width: 100%;
+            }
         }
         &-right {
             display: flex;
             justify-content: center;
             align-items: center;
             width: 50%;
+            @media (max-width:800px) {
+                width: 100%;
+            }
         }
     }
     &__block {
@@ -742,6 +975,9 @@ a {
             }
             & h2 {
                 font-size: 24px;
+                @media (max-width: 1024px) {
+                    font-size: 16px;
+                }
             }
         }
         &_subtitle {
@@ -750,6 +986,9 @@ a {
             margin-left: 40px;
             font-size: 14px;
             width: 90%;
+            @media (max-width: 1024px) {
+                font-size: 8px;
+            }
         }
     }
     &__btn {
@@ -761,6 +1000,11 @@ a {
         background-color: #000;
         color: #fff;
         cursor: pointer;
+        @media (max-width:1024px) {
+            font-size: 14px;
+            margin-top: 10px;
+            padding: 5px 60px;
+        }
         &_container {
             display: flex;
             justify-content: center;
@@ -775,15 +1019,32 @@ a {
     &__wrap {
         padding: 50px 0;
         display: grid;
-        grid-template-columns: 2fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
         gap: 15px;
+        padding: 20px;
+        @media (max-width: 1024px) {
+            grid-template-columns: 1fr;
+        }
     }
     &__logo {
         width: 140px;
     }
+    &__blocks2 {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        & div {
+            @media (max-width: 1024px) {
+                width: 50%;
+            }
+        }
+    }
     &__block {
         display: flex;
         flex-direction: column;
+        & div {
+            width: 100%;
+        }
         &_title {
             font-size: 20px;
             font-weight: 900;

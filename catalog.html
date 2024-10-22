@@ -7,17 +7,39 @@
     <script src="./assets/js/loader.js"></script>
     <script src="./assets/js/pagination.js"></script>
     <script src="./assets/js/footer_filters.js"></script>
+    <script src="./assets/js/subscribe.js"></script>
     <link rel="icon" href="./assets/img/favicon.ico">
     <title>City Guide Catalog</title>
 </head>
 <body class="overflow-h">
     <div class="loader__wrap"><div class="loader"></div></div>
+    <div class="subscribe-window__wrap hidden" id="subscribe-window">
+        <div class="subscribe-window">
+            <h2>Вы подписались на рассылку!</h2>
+            <button id="accept" onclick="accept()">Принять</button>
+        </div>
+    </div>
     <header class="header">
         <div class="container">
             <div class="header__wrap">
                 <a href="index.html" class="header__logo">
                     <img src="./assets/img/logo.png" alt="logo">
                 </a>
+                <div class="header__burger_menu">
+                    <input type="checkbox" id="burger-checkbox" class="header__burger-checkbox">
+                    <label for="burger-checkbox" class="header__burger"></label>
+                    <ul class="header__menu-list">
+                        <a href="index.html#" class="header__menu-item">
+                            Главная
+                        </a>
+                        <a href="catalog.html" class="header__menu-item selected">
+                            Каталог
+                        </a>
+                        <a href="contacts.html" class="header__menu-item">
+                            Контакты
+                        </a>
+                    </ul>
+                </div>
                 <div class="header__menu">
                     <a href="index.html#" class="header__menu_item">
                         Главная
@@ -83,104 +105,680 @@
                         </div>
                     </div>
                     <div class="catalog__container">
-                    <div class="catalog__plate" id="Памятники">
-                        <img src="./assets/img/catalog-pic2.jpg" class="catalog__container_plate_img"></img>
-                        <div class="catalog__plate_text">
-                            <h4 class="catalog__plate_title">
-                                Памятник Владимиру Великому
-                            </h4>
-                            <p class="catalog__plate_grade">4.5</p>
-                            <p class="catalog__plate_type"></p>
-                            <p class="catalog__plate_description">
-                                Памятник работы Клыкова был установлен в 1998 году в преддверии 2000-летия Рождества Христова. Трехъярусный памятник высотой около 22 метров возвышается на северной оконечности Харьковской горы и смотрит вниз на город.
-                            </p>
-                            <p class="catalog__plate_adress">Район Харьковская гора</p>
+                        <div class="catalog__plate" id="Памятники">
+                            <img src="./assets/img/catalog-pic2.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Памятник Владимиру Великому
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Памятник работы Клыкова был установлен в 1998 году в преддверии 2000-летия Рождества Христова. Трехъярусный памятник высотой около 22 метров возвышается на северной оконечности Харьковской горы и смотрит вниз на город.
+                                </p>
+                                <p class="catalog__plate_adress">Район Харьковская гора</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Музеи">
+                            <img src="./assets/img/catalog-pic3.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Диорама Курская Битва
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Торжественное открытие музея-диорамы состоялось 4 августа 1987 года. Есть сенсорный киоск с военной тематикой, который включает информацию о составе и характеристиках воюющих сторон, биографиях командующих, вооружении и снаряжении.                                
+                                </p>
+                                <p class="catalog__plate_adress">ул. Попова, 2</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Парки и сады">
+                            <img src="./assets/img/catalog-pic1.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Пикник-парк
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Пикник-парк представляет собой ухоженную лесопарковую зону недалеко от города, на берегу Белгородского водохранилища. Вход для прогулок, отдыха, пользование детской пложадкой, пляжем - бесплато. Рекомендуестя для семейного отдыха, проведения корпоративных мероприятий.
+                                </p>
+                                <p class="catalog__plate_adress">Дальняя Тихая улица, 2П</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Храмы и церкви">
+                            <img src="./assets/img/catalog-pic4.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Храм святых мучениц Веры
+                                </h4>
+                                <p class="catalog__plate_grade">5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Храм святых мучениц Веры, Надежды, Любови и матери их Софии — это часть храмового комплекса. У церкви 17 куполов, а само здание построено в форме креста, но увидеть это возможно только с высоты птичьего полёта.                                
+                                </p>
+                                <p class="catalog__plate_adress">ул. Королёва, 1</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Театры и культурные центры">
+                            <img src="./assets/img/catalog-pic5.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Гос. академический драмтеатр им. М.С. Щепкина
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Сцена открылась в 1930-х годах под именем Белгородский колхозно-совхозный театр. Учреждение организовали для того, чтобы приблизить театральное искусство к народу.
+                                </p>
+                                <p class="catalog__plate_adress">Соборная площадь, 1</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Фонтаны">
+                            <img src="./assets/img/catalog-pic6.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Фонтан у Белгородского университета                            </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    В Белгороде много фонтанов. Один из лучших на Университетской площади перед зданием Белгородского государственного университета. Он носит имя покровителя Университета Архангела Гавриила.
+                                </p>
+                                <p class="catalog__plate_adress">Университетская площадь</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Площади">
+                            <img src="./assets/img/catalog-pic7.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Соборная площадь
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Площадь, носившая название Торговой в XVIII веке, Соборной в XIX веке, Жертв контрреволюции и площадь Революции в XX-ом веке, сейчас вновь называется Соборной.
+                                </p>
+                                <p class="catalog__plate_adress">пр. Ватутина</p>
+                            </div>
+                        </div><div class="catalog__plate" id="Памятники">
+                            <img src="./assets/img/catalog-pic2.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Памятник Владимиру Великому
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Памятник работы Клыкова был установлен в 1998 году в преддверии 2000-летия Рождества Христова. Трехъярусный памятник высотой около 22 метров возвышается на северной оконечности Харьковской горы и смотрит вниз на город.
+                                </p>
+                                <p class="catalog__plate_adress">Район Харьковская гора</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Музеи">
+                            <img src="./assets/img/catalog-pic3.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Диорама Курская Битва
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Торжественное открытие музея-диорамы состоялось 4 августа 1987 года. Есть сенсорный киоск с военной тематикой, который включает информацию о составе и характеристиках воюющих сторон, биографиях командующих, вооружении и снаряжении.                                
+                                </p>
+                                <p class="catalog__plate_adress">ул. Попова, 2</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Парки и сады">
+                            <img src="./assets/img/catalog-pic1.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Пикник-парк
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Пикник-парк представляет собой ухоженную лесопарковую зону недалеко от города, на берегу Белгородского водохранилища. Вход для прогулок, отдыха, пользование детской пложадкой, пляжем - бесплато. Рекомендуестя для семейного отдыха, проведения корпоративных мероприятий.
+                                </p>
+                                <p class="catalog__plate_adress">Дальняя Тихая улица, 2П</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Храмы и церкви">
+                            <img src="./assets/img/catalog-pic4.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Храм святых мучениц Веры
+                                </h4>
+                                <p class="catalog__plate_grade">5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Храм святых мучениц Веры, Надежды, Любови и матери их Софии — это часть храмового комплекса. У церкви 17 куполов, а само здание построено в форме креста, но увидеть это возможно только с высоты птичьего полёта.                                
+                                </p>
+                                <p class="catalog__plate_adress">ул. Королёва, 1</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Театры и культурные центры">
+                            <img src="./assets/img/catalog-pic5.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Гос. академический драмтеатр им. М.С. Щепкина
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Сцена открылась в 1930-х годах под именем Белгородский колхозно-совхозный театр. Учреждение организовали для того, чтобы приблизить театральное искусство к народу.
+                                </p>
+                                <p class="catalog__plate_adress">Соборная площадь, 1</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Фонтаны">
+                            <img src="./assets/img/catalog-pic6.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Фонтан у Белгородского университета                            </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    В Белгороде много фонтанов. Один из лучших на Университетской площади перед зданием Белгородского государственного университета. Он носит имя покровителя Университета Архангела Гавриила.
+                                </p>
+                                <p class="catalog__plate_adress">Университетская площадь</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Площади">
+                            <img src="./assets/img/catalog-pic7.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Соборная площадь
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Площадь, носившая название Торговой в XVIII веке, Соборной в XIX веке, Жертв контрреволюции и площадь Революции в XX-ом веке, сейчас вновь называется Соборной.
+                                </p>
+                                <p class="catalog__plate_adress">пр. Ватутина</p>
+                            </div>
+                        </div><div class="catalog__plate" id="Памятники">
+                            <img src="./assets/img/catalog-pic2.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Памятник Владимиру Великому
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Памятник работы Клыкова был установлен в 1998 году в преддверии 2000-летия Рождества Христова. Трехъярусный памятник высотой около 22 метров возвышается на северной оконечности Харьковской горы и смотрит вниз на город.
+                                </p>
+                                <p class="catalog__plate_adress">Район Харьковская гора</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Музеи">
+                            <img src="./assets/img/catalog-pic3.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Диорама Курская Битва
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Торжественное открытие музея-диорамы состоялось 4 августа 1987 года. Есть сенсорный киоск с военной тематикой, который включает информацию о составе и характеристиках воюющих сторон, биографиях командующих, вооружении и снаряжении.                                
+                                </p>
+                                <p class="catalog__plate_adress">ул. Попова, 2</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Парки и сады">
+                            <img src="./assets/img/catalog-pic1.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Пикник-парк
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Пикник-парк представляет собой ухоженную лесопарковую зону недалеко от города, на берегу Белгородского водохранилища. Вход для прогулок, отдыха, пользование детской пложадкой, пляжем - бесплато. Рекомендуестя для семейного отдыха, проведения корпоративных мероприятий.
+                                </p>
+                                <p class="catalog__plate_adress">Дальняя Тихая улица, 2П</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Храмы и церкви">
+                            <img src="./assets/img/catalog-pic4.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Храм святых мучениц Веры
+                                </h4>
+                                <p class="catalog__plate_grade">5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Храм святых мучениц Веры, Надежды, Любови и матери их Софии — это часть храмового комплекса. У церкви 17 куполов, а само здание построено в форме креста, но увидеть это возможно только с высоты птичьего полёта.                                
+                                </p>
+                                <p class="catalog__plate_adress">ул. Королёва, 1</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Театры и культурные центры">
+                            <img src="./assets/img/catalog-pic5.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Гос. академический драмтеатр им. М.С. Щепкина
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Сцена открылась в 1930-х годах под именем Белгородский колхозно-совхозный театр. Учреждение организовали для того, чтобы приблизить театральное искусство к народу.
+                                </p>
+                                <p class="catalog__plate_adress">Соборная площадь, 1</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Фонтаны">
+                            <img src="./assets/img/catalog-pic6.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Фонтан у Белгородского университета                            </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    В Белгороде много фонтанов. Один из лучших на Университетской площади перед зданием Белгородского государственного университета. Он носит имя покровителя Университета Архангела Гавриила.
+                                </p>
+                                <p class="catalog__plate_adress">Университетская площадь</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Площади">
+                            <img src="./assets/img/catalog-pic7.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Соборная площадь
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Площадь, носившая название Торговой в XVIII веке, Соборной в XIX веке, Жертв контрреволюции и площадь Революции в XX-ом веке, сейчас вновь называется Соборной.
+                                </p>
+                                <p class="catalog__plate_adress">пр. Ватутина</p>
+                            </div>
+                        </div><div class="catalog__plate" id="Памятники">
+                            <img src="./assets/img/catalog-pic2.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Памятник Владимиру Великому
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Памятник работы Клыкова был установлен в 1998 году в преддверии 2000-летия Рождества Христова. Трехъярусный памятник высотой около 22 метров возвышается на северной оконечности Харьковской горы и смотрит вниз на город.
+                                </p>
+                                <p class="catalog__plate_adress">Район Харьковская гора</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Музеи">
+                            <img src="./assets/img/catalog-pic3.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Диорама Курская Битва
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Торжественное открытие музея-диорамы состоялось 4 августа 1987 года. Есть сенсорный киоск с военной тематикой, который включает информацию о составе и характеристиках воюющих сторон, биографиях командующих, вооружении и снаряжении.                                
+                                </p>
+                                <p class="catalog__plate_adress">ул. Попова, 2</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Парки и сады">
+                            <img src="./assets/img/catalog-pic1.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Пикник-парк
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Пикник-парк представляет собой ухоженную лесопарковую зону недалеко от города, на берегу Белгородского водохранилища. Вход для прогулок, отдыха, пользование детской пложадкой, пляжем - бесплато. Рекомендуестя для семейного отдыха, проведения корпоративных мероприятий.
+                                </p>
+                                <p class="catalog__plate_adress">Дальняя Тихая улица, 2П</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Храмы и церкви">
+                            <img src="./assets/img/catalog-pic4.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Храм святых мучениц Веры
+                                </h4>
+                                <p class="catalog__plate_grade">5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Храм святых мучениц Веры, Надежды, Любови и матери их Софии — это часть храмового комплекса. У церкви 17 куполов, а само здание построено в форме креста, но увидеть это возможно только с высоты птичьего полёта.                                
+                                </p>
+                                <p class="catalog__plate_adress">ул. Королёва, 1</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Театры и культурные центры">
+                            <img src="./assets/img/catalog-pic5.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Гос. академический драмтеатр им. М.С. Щепкина
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Сцена открылась в 1930-х годах под именем Белгородский колхозно-совхозный театр. Учреждение организовали для того, чтобы приблизить театральное искусство к народу.
+                                </p>
+                                <p class="catalog__plate_adress">Соборная площадь, 1</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Фонтаны">
+                            <img src="./assets/img/catalog-pic6.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Фонтан у Белгородского университета                            </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    В Белгороде много фонтанов. Один из лучших на Университетской площади перед зданием Белгородского государственного университета. Он носит имя покровителя Университета Архангела Гавриила.
+                                </p>
+                                <p class="catalog__plate_adress">Университетская площадь</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Площади">
+                            <img src="./assets/img/catalog-pic7.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Соборная площадь
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Площадь, носившая название Торговой в XVIII веке, Соборной в XIX веке, Жертв контрреволюции и площадь Революции в XX-ом веке, сейчас вновь называется Соборной.
+                                </p>
+                                <p class="catalog__plate_adress">пр. Ватутина</p>
+                            </div>
+                        </div><div class="catalog__plate" id="Памятники">
+                            <img src="./assets/img/catalog-pic2.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Памятник Владимиру Великому
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Памятник работы Клыкова был установлен в 1998 году в преддверии 2000-летия Рождества Христова. Трехъярусный памятник высотой около 22 метров возвышается на северной оконечности Харьковской горы и смотрит вниз на город.
+                                </p>
+                                <p class="catalog__plate_adress">Район Харьковская гора</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Музеи">
+                            <img src="./assets/img/catalog-pic3.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Диорама Курская Битва
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Торжественное открытие музея-диорамы состоялось 4 августа 1987 года. Есть сенсорный киоск с военной тематикой, который включает информацию о составе и характеристиках воюющих сторон, биографиях командующих, вооружении и снаряжении.                                
+                                </p>
+                                <p class="catalog__plate_adress">ул. Попова, 2</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Парки и сады">
+                            <img src="./assets/img/catalog-pic1.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Пикник-парк
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Пикник-парк представляет собой ухоженную лесопарковую зону недалеко от города, на берегу Белгородского водохранилища. Вход для прогулок, отдыха, пользование детской пложадкой, пляжем - бесплато. Рекомендуестя для семейного отдыха, проведения корпоративных мероприятий.
+                                </p>
+                                <p class="catalog__plate_adress">Дальняя Тихая улица, 2П</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Храмы и церкви">
+                            <img src="./assets/img/catalog-pic4.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Храм святых мучениц Веры
+                                </h4>
+                                <p class="catalog__plate_grade">5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Храм святых мучениц Веры, Надежды, Любови и матери их Софии — это часть храмового комплекса. У церкви 17 куполов, а само здание построено в форме креста, но увидеть это возможно только с высоты птичьего полёта.                                
+                                </p>
+                                <p class="catalog__plate_adress">ул. Королёва, 1</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Театры и культурные центры">
+                            <img src="./assets/img/catalog-pic5.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Гос. академический драмтеатр им. М.С. Щепкина
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Сцена открылась в 1930-х годах под именем Белгородский колхозно-совхозный театр. Учреждение организовали для того, чтобы приблизить театральное искусство к народу.
+                                </p>
+                                <p class="catalog__plate_adress">Соборная площадь, 1</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Фонтаны">
+                            <img src="./assets/img/catalog-pic6.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Фонтан у Белгородского университета                            </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    В Белгороде много фонтанов. Один из лучших на Университетской площади перед зданием Белгородского государственного университета. Он носит имя покровителя Университета Архангела Гавриила.
+                                </p>
+                                <p class="catalog__plate_adress">Университетская площадь</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Площади">
+                            <img src="./assets/img/catalog-pic7.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Соборная площадь
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Площадь, носившая название Торговой в XVIII веке, Соборной в XIX веке, Жертв контрреволюции и площадь Революции в XX-ом веке, сейчас вновь называется Соборной.
+                                </p>
+                                <p class="catalog__plate_adress">пр. Ватутина</p>
+                            </div>
+                        </div><div class="catalog__plate" id="Памятники">
+                            <img src="./assets/img/catalog-pic2.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Памятник Владимиру Великому
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Памятник работы Клыкова был установлен в 1998 году в преддверии 2000-летия Рождества Христова. Трехъярусный памятник высотой около 22 метров возвышается на северной оконечности Харьковской горы и смотрит вниз на город.
+                                </p>
+                                <p class="catalog__plate_adress">Район Харьковская гора</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Музеи">
+                            <img src="./assets/img/catalog-pic3.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Диорама Курская Битва
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Торжественное открытие музея-диорамы состоялось 4 августа 1987 года. Есть сенсорный киоск с военной тематикой, который включает информацию о составе и характеристиках воюющих сторон, биографиях командующих, вооружении и снаряжении.                                
+                                </p>
+                                <p class="catalog__plate_adress">ул. Попова, 2</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Парки и сады">
+                            <img src="./assets/img/catalog-pic1.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Пикник-парк
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Пикник-парк представляет собой ухоженную лесопарковую зону недалеко от города, на берегу Белгородского водохранилища. Вход для прогулок, отдыха, пользование детской пложадкой, пляжем - бесплато. Рекомендуестя для семейного отдыха, проведения корпоративных мероприятий.
+                                </p>
+                                <p class="catalog__plate_adress">Дальняя Тихая улица, 2П</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Храмы и церкви">
+                            <img src="./assets/img/catalog-pic4.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Храм святых мучениц Веры
+                                </h4>
+                                <p class="catalog__plate_grade">5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Храм святых мучениц Веры, Надежды, Любови и матери их Софии — это часть храмового комплекса. У церкви 17 куполов, а само здание построено в форме креста, но увидеть это возможно только с высоты птичьего полёта.                                
+                                </p>
+                                <p class="catalog__plate_adress">ул. Королёва, 1</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Театры и культурные центры">
+                            <img src="./assets/img/catalog-pic5.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Гос. академический драмтеатр им. М.С. Щепкина
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Сцена открылась в 1930-х годах под именем Белгородский колхозно-совхозный театр. Учреждение организовали для того, чтобы приблизить театральное искусство к народу.
+                                </p>
+                                <p class="catalog__plate_adress">Соборная площадь, 1</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Фонтаны">
+                            <img src="./assets/img/catalog-pic6.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Фонтан у Белгородского университета                            </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    В Белгороде много фонтанов. Один из лучших на Университетской площади перед зданием Белгородского государственного университета. Он носит имя покровителя Университета Архангела Гавриила.
+                                </p>
+                                <p class="catalog__plate_adress">Университетская площадь</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Площади">
+                            <img src="./assets/img/catalog-pic7.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Соборная площадь
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Площадь, носившая название Торговой в XVIII веке, Соборной в XIX веке, Жертв контрреволюции и площадь Революции в XX-ом веке, сейчас вновь называется Соборной.
+                                </p>
+                                <p class="catalog__plate_adress">пр. Ватутина</p>
+                            </div>
+                        </div><div class="catalog__plate" id="Памятники">
+                            <img src="./assets/img/catalog-pic2.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Памятник Владимиру Великому
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Памятник работы Клыкова был установлен в 1998 году в преддверии 2000-летия Рождества Христова. Трехъярусный памятник высотой около 22 метров возвышается на северной оконечности Харьковской горы и смотрит вниз на город.
+                                </p>
+                                <p class="catalog__plate_adress">Район Харьковская гора</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Музеи">
+                            <img src="./assets/img/catalog-pic3.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Диорама Курская Битва
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Торжественное открытие музея-диорамы состоялось 4 августа 1987 года. Есть сенсорный киоск с военной тематикой, который включает информацию о составе и характеристиках воюющих сторон, биографиях командующих, вооружении и снаряжении.                                
+                                </p>
+                                <p class="catalog__plate_adress">ул. Попова, 2</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Парки и сады">
+                            <img src="./assets/img/catalog-pic1.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Пикник-парк
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Пикник-парк представляет собой ухоженную лесопарковую зону недалеко от города, на берегу Белгородского водохранилища. Вход для прогулок, отдыха, пользование детской пложадкой, пляжем - бесплато. Рекомендуестя для семейного отдыха, проведения корпоративных мероприятий.
+                                </p>
+                                <p class="catalog__plate_adress">Дальняя Тихая улица, 2П</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Храмы и церкви">
+                            <img src="./assets/img/catalog-pic4.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Храм святых мучениц Веры
+                                </h4>
+                                <p class="catalog__plate_grade">5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Храм святых мучениц Веры, Надежды, Любови и матери их Софии — это часть храмового комплекса. У церкви 17 куполов, а само здание построено в форме креста, но увидеть это возможно только с высоты птичьего полёта.                                
+                                </p>
+                                <p class="catalog__plate_adress">ул. Королёва, 1</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Театры и культурные центры">
+                            <img src="./assets/img/catalog-pic5.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Гос. академический драмтеатр им. М.С. Щепкина
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Сцена открылась в 1930-х годах под именем Белгородский колхозно-совхозный театр. Учреждение организовали для того, чтобы приблизить театральное искусство к народу.
+                                </p>
+                                <p class="catalog__plate_adress">Соборная площадь, 1</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Фонтаны">
+                            <img src="./assets/img/catalog-pic6.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Фонтан у Белгородского университета                            </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    В Белгороде много фонтанов. Один из лучших на Университетской площади перед зданием Белгородского государственного университета. Он носит имя покровителя Университета Архангела Гавриила.
+                                </p>
+                                <p class="catalog__plate_adress">Университетская площадь</p>
+                            </div>
+                        </div>
+                        <div class="catalog__plate" id="Площади">
+                            <img src="./assets/img/catalog-pic7.jpg" class="catalog__container_plate_img"></img>
+                            <div class="catalog__plate_text">
+                                <h4 class="catalog__plate_title">
+                                    Соборная площадь
+                                </h4>
+                                <p class="catalog__plate_grade">4.5</p>
+                                <p class="catalog__plate_type"></p>
+                                <p class="catalog__plate_description">
+                                    Площадь, носившая название Торговой в XVIII веке, Соборной в XIX веке, Жертв контрреволюции и площадь Революции в XX-ом веке, сейчас вновь называется Соборной.
+                                </p>
+                                <p class="catalog__plate_adress">пр. Ватутина</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="catalog__plate" id="Музеи">
-                        <img src="./assets/img/catalog-pic3.jpg" class="catalog__container_plate_img"></img>
-                        <div class="catalog__plate_text">
-                            <h4 class="catalog__plate_title">
-                                Диорама Курская Битва
-                            </h4>
-                            <p class="catalog__plate_grade">4.5</p>
-                            <p class="catalog__plate_type"></p>
-                            <p class="catalog__plate_description">
-                                Торжественное открытие музея-диорамы состоялось 4 августа 1987 года. Есть сенсорный киоск с военной тематикой, который включает информацию о составе и характеристиках воюющих сторон, биографиях командующих, вооружении и снаряжении.                                
-                            </p>
-                            <p class="catalog__plate_adress">ул. Попова, 2</p>
-                        </div>
-                    </div>
-                    <div class="catalog__plate" id="Парки и сады">
-                        <img src="./assets/img/catalog-pic1.jpg" class="catalog__container_plate_img"></img>
-                        <div class="catalog__plate_text">
-                            <h4 class="catalog__plate_title">
-                                Пикник-парк
-                            </h4>
-                            <p class="catalog__plate_grade">4.5</p>
-                            <p class="catalog__plate_type"></p>
-                            <p class="catalog__plate_description">
-                                Пикник-парк представляет собой ухоженную лесопарковую зону недалеко от города, на берегу Белгородского водохранилища. Вход для прогулок, отдыха, пользование детской пложадкой, пляжем - бесплато. Рекомендуестя для семейного отдыха, проведения корпоративных мероприятий.
-                            </p>
-                            <p class="catalog__plate_adress">Дальняя Тихая улица, 2П</p>
-                        </div>
-                    </div>
-                    <div class="catalog__plate" id="Храмы и церкви">
-                        <img src="./assets/img/catalog-pic4.jpg" class="catalog__container_plate_img"></img>
-                        <div class="catalog__plate_text">
-                            <h4 class="catalog__plate_title">
-                                Храм святых мучениц Веры
-                            </h4>
-                            <p class="catalog__plate_grade">5</p>
-                            <p class="catalog__plate_type"></p>
-                            <p class="catalog__plate_description">
-                                Храм святых мучениц Веры, Надежды, Любови и матери их Софии — это часть храмового комплекса. У церкви 17 куполов, а само здание построено в форме креста, но увидеть это возможно только с высоты птичьего полёта.                                
-                            </p>
-                            <p class="catalog__plate_adress">ул. Королёва, 1</p>
-                        </div>
-                    </div>
-                    <div class="catalog__plate" id="Театры и культурные центры">
-                        <img src="./assets/img/catalog-pic5.jpg" class="catalog__container_plate_img"></img>
-                        <div class="catalog__plate_text">
-                            <h4 class="catalog__plate_title">
-                                Гос. академический драмтеатр им. М.С. Щепкина
-                            </h4>
-                            <p class="catalog__plate_grade">4.5</p>
-                            <p class="catalog__plate_type"></p>
-                            <p class="catalog__plate_description">
-                                Сцена открылась в 1930-х годах под именем Белгородский колхозно-совхозный театр. Учреждение организовали для того, чтобы приблизить театральное искусство к народу.
-                            </p>
-                            <p class="catalog__plate_adress">Соборная площадь, 1</p>
-                        </div>
-                    </div>
-                    <div class="catalog__plate" id="Фонтаны">
-                        <img src="./assets/img/catalog-pic6.jpg" class="catalog__container_plate_img"></img>
-                        <div class="catalog__plate_text">
-                            <h4 class="catalog__plate_title">
-                                Фонтан у Белгородского университета                            </h4>
-                            <p class="catalog__plate_grade">4.5</p>
-                            <p class="catalog__plate_type"></p>
-                            <p class="catalog__plate_description">
-                                В Белгороде много фонтанов. Один из лучших на Университетской площади перед зданием Белгородского государственного университета. Он носит имя покровителя Университета Архангела Гавриила.
-                            </p>
-                            <p class="catalog__plate_adress">Университетская площадь</p>
-                        </div>
-                    </div>
-                    <div class="catalog__plate" id="Площади">
-                        <img src="./assets/img/catalog-pic7.jpg" class="catalog__container_plate_img"></img>
-                        <div class="catalog__plate_text">
-                            <h4 class="catalog__plate_title">
-                                Соборная площадь
-                            </h4>
-                            <p class="catalog__plate_grade">4.5</p>
-                            <p class="catalog__plate_type"></p>
-                            <p class="catalog__plate_description">
-                                Площадь, носившая название Торговой в XVIII веке, Соборной в XIX веке, Жертв контрреволюции и площадь Революции в XX-ом веке, сейчас вновь называется Соборной.
-                            </p>
-                            <p class="catalog__plate_adress">пр. Ватутина</p>
-                        </div>
-                    </div>
-                </div>
                 <div class="pagination" id="pagination"></div>
                 </div>
             </div>
@@ -204,68 +802,70 @@
                         <button class="footer__subcribe_btn" id="btn_subscribe" type="submit">Подписаться</button>
                     </form>
                 </div>
-                <div class="footer__block">
-                    <a href="catalog.html" class="footer__block_title" id="Все">
-                        Каталог
-                    </a>
-                    <a href="catalog.html" class="footer__block_subtitle" id="Памятники">
-                        Памятники
-                    </a>
-                    <a href="catalog.html" class="footer__block_subtitle" id="Музеи">
-                        Музеи
-                    </a>
-                    <a href="catalog.html" class="footer__block_subtitle" id="Парки и сады">
-                        Парки и сады
-                    </a>
-                    <a href="catalog.html" class="footer__block_subtitle" id="Храмы и церкви">
-                        Храмы и церкви
-                    </a>
-                    <a href="catalog.html" class="footer__block_subtitle" id="Театры и культурные центры">
-                        Театры и культурные центры
-                    </a>
-                    <a href="catalog.html" class="footer__block_subtitle" id="Фонтаны">
-                        Фонтаны 
-                    </a>
-                    <a href="catalog.html" class="footer__block_subtitle" id="Площади">
-                        Площади
-                    </a>
-                </div>
-                <div class="footer__block">
-                    <a href="contacts.html" class="footer__block_title">
-                        Контакты
-                    </a>
-                    <div class="footer__block_point">
-                        <div class="footer__block_point_title">
-                            <img src="./assets/img/location.png" alt="location">
-                            <h3>Место</h3> 
-                        </div>
-                        <div class="footer__block_point_subtitle">
-                            <a href="contacts.html">
-                                Комплекс сверхскоплений Рыб-Кита, 
-                                сверхскопление Ланиакея, сверхскопление Девы, 
-                                скопление Девы, Местная группа галактик, 
-                                галактика Млечный Путь, галактический рукав 
-                                Ориона, Солнечная система, материк Евразия, 
-                                страна Россия, город Белгород, 308XXX
-                            </a>
-                        </div>
+                <div class="footer__blocks2">
+                    <div class="footer__block">
+                        <a href="catalog.html" class="footer__block_title" id="Все">
+                            Каталог
+                        </a>
+                        <a href="catalog.html" class="footer__block_subtitle" id="Памятники">
+                            Памятники
+                        </a>
+                        <a href="catalog.html" class="footer__block_subtitle" id="Музеи">
+                            Музеи
+                        </a>
+                        <a href="catalog.html" class="footer__block_subtitle" id="Парки и сады">
+                            Парки и сады
+                        </a>
+                        <a href="catalog.html" class="footer__block_subtitle" id="Храмы и церкви">
+                            Храмы и церкви
+                        </a>
+                        <a href="catalog.html" class="footer__block_subtitle" id="Театры и культурные центры">
+                            Театры и культурные центры
+                        </a>
+                        <a href="catalog.html" class="footer__block_subtitle" id="Фонтаны">
+                            Фонтаны 
+                        </a>
+                        <a href="catalog.html" class="footer__block_subtitle" id="Площади">
+                            Площади
+                        </a>
                     </div>
-                    <div class="footer__block_point">
-                        <div class="footer__block_point_title">
-                            <img src="./assets/img/mail.png" alt="mail">
-                            <h3>Почта</h3> 
+                    <div class="footer__block">
+                        <a href="contacts.html" class="footer__block_title">
+                            Контакты
+                        </a>
+                        <div class="footer__block_point">
+                            <div class="footer__block_point_title">
+                                <img src="./assets/img/location.png" alt="location">
+                                <h3>Место</h3> 
+                            </div>
+                            <div class="footer__block_point_subtitle">
+                                <a href="contacts.html">
+                                    Комплекс сверхскоплений Рыб-Кита, 
+                                    сверхскопление Ланиакея, сверхскопление Девы, 
+                                    скопление Девы, Местная группа галактик, 
+                                    галактика Млечный Путь, галактический рукав 
+                                    Ориона, Солнечная система, материк Евразия, 
+                                    страна Россия, город Белгород, 308XXX
+                                </a>
+                            </div>
                         </div>
-                        <div class="footer__block_point_subtitle">
-                            <a href="contacts.html">hello@example.com</a>
+                        <div class="footer__block_point">
+                            <div class="footer__block_point_title">
+                                <img src="./assets/img/mail.png" alt="mail">
+                                <h3>Почта</h3> 
+                            </div>
+                            <div class="footer__block_point_subtitle">
+                                <a href="contacts.html">hello@example.com</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="footer__block_point">
-                        <div class="footer__block_point_title">
-                            <img src="./assets/img/phone.png" alt="phone">
-                            <h3>Телефон</h3> 
-                        </div>
-                        <div class="footer__block_point_subtitle">
-                            <a href="contacts.html">+12 345 678 999</a>
+                        <div class="footer__block_point">
+                            <div class="footer__block_point_title">
+                                <img src="./assets/img/phone.png" alt="phone">
+                                <h3>Телефон</h3> 
+                            </div>
+                            <div class="footer__block_point_subtitle">
+                                <a href="contacts.html">+12 345 678 999</a>
+                            </div>
                         </div>
                     </div>
                 </div>

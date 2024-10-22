@@ -57,69 +57,33 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function renderPagination() {
         const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
-        pagination.innerHTML = '';
-
-        // Кнопка "Первая страница"
-        const firstButton = document.createElement('button');
-        firstButton.textContent = '<<';
-        firstButton.disabled = currentPage === 1;
-        firstButton.addEventListener('click', () => {
-            currentPage = 1;
-            saveState();
-            updateCatalog();
-        });
-        pagination.appendChild(firstButton);
-
-        // Кнопка "Назад"
-        const prevButton = document.createElement('button');
-        prevButton.textContent = '<';
-        prevButton.disabled = currentPage === 1;
-        prevButton.addEventListener('click', () => {
-            if (currentPage > 1) {
-                currentPage--;
-                saveState();
-                updateCatalog();
-            }
-        });
-        pagination.appendChild(prevButton);
-
-        // Кнопки страниц
-        for (let i = 1; i <= totalPages; i++) {
-            const pageButton = document.createElement('button');
-            pageButton.textContent = i;
-            pageButton.classList.toggle('active', i === currentPage);
-            pageButton.addEventListener('click', () => {
-                currentPage = i;
-                saveState();
-                updateCatalog();
-            });
-            pagination.appendChild(pageButton);
+        pagination.innerHTML = ''; // Очищаем текущие элементы пагинации
+    
+        if (totalPages <= 1) {
+            return; // Если страниц 1 или меньше, скрываем пагинацию
         }
-
-        // Кнопка "Вперед"
-        const nextButton = document.createElement('button');
-        nextButton.textContent = '>';
-        nextButton.disabled = currentPage === totalPages;
-        nextButton.addEventListener('click', () => {
-            if (currentPage < totalPages) {
-                currentPage++;
-                saveState();
-                updateCatalog();
+    
+        // Создаем кнопки пагинации
+        for (let i = 1; i <= totalPages; i++) {
+            const button = document.createElement('button');
+            button.classList.add('pagination-btn');
+            button.textContent = i;
+    
+            // Отмечаем активную страницу
+            if (i === currentPage) {
+                button.classList.add('active');
             }
-        });
-        pagination.appendChild(nextButton);
-
-        // Кнопка "Последняя страница"
-        const lastButton = document.createElement('button');
-        lastButton.textContent = '>>';
-        lastButton.disabled = currentPage === totalPages;
-        lastButton.addEventListener('click', () => {
-            currentPage = totalPages;
-            saveState();
-            updateCatalog();
-        });
-        pagination.appendChild(lastButton);
-    }
+    
+            // Обработчик клика на кнопку пагинации
+            button.addEventListener('click', function () {
+                currentPage = i;
+                saveState(); // Сохраняем текущую страницу в localStorage
+                updateCatalog(); // Обновляем каталог при смене страницы
+            });
+    
+            pagination.appendChild(button);
+        }
+    }    
 
     // Сохранение состояния (активный фильтр и текущая страница)
     function saveState() {

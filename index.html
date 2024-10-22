@@ -7,11 +7,12 @@
     <script src="./assets/js/loader.js"></script>
     <script src="./assets/js/script.js"></script>
     <script src="./assets/js/footer_filters.js"></script>
+    <script src="./assets/js/subscribe.js"></script>
     <link rel="icon" href="./assets/img/favicon.ico">
     <title>City Guide Belgorod</title>
 </head>
-<body class="overflow-h">
-    <div class="loader__wrap"><div class="loader"></div></div>
+<body>  <!--class="overflow-h"-->
+    <!-- <div class="loader__wrap"><div class="loader"></div></div> -->
     <div class="subscribe-window__wrap hidden" id="subscribe-window">
         <div class="subscribe-window">
             <h2>Вы подписались на рассылку!</h2>
@@ -24,6 +25,21 @@
                 <a href="index.html" class="header__logo">
                     <img src="./assets/img/logo.png" alt="logo">
                 </a>
+                <div class="header__burger_menu">
+                    <input type="checkbox" id="burger-checkbox" class="header__burger-checkbox">
+                    <label for="burger-checkbox" class="header__burger"></label>
+                    <ul class="header__menu-list">
+                        <a href="index.html#" class="header__menu-item selected">
+                            Главная
+                        </a>
+                        <a href="catalog.html" class="header__menu-item">
+                            Каталог
+                        </a>
+                        <a href="contacts.html" class="header__menu-item">
+                            Контакты
+                        </a>
+                    </ul>
+                </div>
                 <div class="header__menu">
                     <a href="index.html#" class="header__menu_item selected">
                         Главная
@@ -141,68 +157,70 @@
                         <button class="footer__subcribe_btn" id="btn_subscribe" type="submit">Подписаться</button>
                     </form>
                 </div>
-                <div class="footer__block">
-                    <a href="catalog.html" class="footer__block_title" id="Все">
-                        Каталог
-                    </a>
-                    <a href="catalog.html" class="footer__block_subtitle" id="Памятники">
-                        Памятники
-                    </a>
-                    <a href="catalog.html" class="footer__block_subtitle" id="Музеи">
-                        Музеи
-                    </a>
-                    <a href="catalog.html" class="footer__block_subtitle" id="Парки и сады">
-                        Парки и сады
-                    </a>
-                    <a href="catalog.html" class="footer__block_subtitle" id="Храмы и церкви">
-                        Храмы и церкви
-                    </a>
-                    <a href="catalog.html" class="footer__block_subtitle" id="Театры и культурные центры">
-                        Театры и культурные центры
-                    </a>
-                    <a href="catalog.html" class="footer__block_subtitle" id="Фонтаны">
-                        Фонтаны 
-                    </a>
-                    <a href="catalog.html" class="footer__block_subtitle" id="Площади">
-                        Площади
-                    </a>
-                </div>
-                <div class="footer__block">
-                    <a href="contacts.html" class="footer__block_title">
-                        Контакты
-                    </a>
-                    <div class="footer__block_point">
-                        <div class="footer__block_point_title">
-                            <img src="./assets/img/location.png" alt="location">
-                            <h3>Место</h3> 
-                        </div>
-                        <div class="footer__block_point_subtitle">
-                            <a href="contacts.html">
-                                Комплекс сверхскоплений Рыб-Кита, 
-                                сверхскопление Ланиакея, сверхскопление Девы, 
-                                скопление Девы, Местная группа галактик, 
-                                галактика Млечный Путь, галактический рукав 
-                                Ориона, Солнечная система, материк Евразия, 
-                                страна Россия, город Белгород, 308XXX
-                            </a>
-                        </div>
+                <div class="footer__blocks2">
+                    <div class="footer__block">
+                        <a href="catalog.html" class="footer__block_title" id="Все">
+                            Каталог
+                        </a>
+                        <a href="catalog.html" class="footer__block_subtitle" id="Памятники">
+                            Памятники
+                        </a>
+                        <a href="catalog.html" class="footer__block_subtitle" id="Музеи">
+                            Музеи
+                        </a>
+                        <a href="catalog.html" class="footer__block_subtitle" id="Парки и сады">
+                            Парки и сады
+                        </a>
+                        <a href="catalog.html" class="footer__block_subtitle" id="Храмы и церкви">
+                            Храмы и церкви
+                        </a>
+                        <a href="catalog.html" class="footer__block_subtitle" id="Театры и культурные центры">
+                            Театры и культурные центры
+                        </a>
+                        <a href="catalog.html" class="footer__block_subtitle" id="Фонтаны">
+                            Фонтаны 
+                        </a>
+                        <a href="catalog.html" class="footer__block_subtitle" id="Площади">
+                            Площади
+                        </a>
                     </div>
-                    <div class="footer__block_point">
-                        <div class="footer__block_point_title">
-                            <img src="./assets/img/mail.png" alt="mail">
-                            <h3>Почта</h3> 
+                    <div class="footer__block">
+                        <a href="contacts.html" class="footer__block_title">
+                            Контакты
+                        </a>
+                        <div class="footer__block_point">
+                            <div class="footer__block_point_title">
+                                <img src="./assets/img/location.png" alt="location">
+                                <h3>Место</h3> 
+                            </div>
+                            <div class="footer__block_point_subtitle">
+                                <a href="contacts.html">
+                                    Комплекс сверхскоплений Рыб-Кита, 
+                                    сверхскопление Ланиакея, сверхскопление Девы, 
+                                    скопление Девы, Местная группа галактик, 
+                                    галактика Млечный Путь, галактический рукав 
+                                    Ориона, Солнечная система, материк Евразия, 
+                                    страна Россия, город Белгород, 308XXX
+                                </a>
+                            </div>
                         </div>
-                        <div class="footer__block_point_subtitle">
-                            <a href="contacts.html">hello@example.com</a>
+                        <div class="footer__block_point">
+                            <div class="footer__block_point_title">
+                                <img src="./assets/img/mail.png" alt="mail">
+                                <h3>Почта</h3> 
+                            </div>
+                            <div class="footer__block_point_subtitle">
+                                <a href="contacts.html">hello@example.com</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="footer__block_point">
-                        <div class="footer__block_point_title">
-                            <img src="./assets/img/phone.png" alt="phone">
-                            <h3>Телефон</h3> 
-                        </div>
-                        <div class="footer__block_point_subtitle">
-                            <a href="contacts.html">+12 345 678 999</a>
+                        <div class="footer__block_point">
+                            <div class="footer__block_point_title">
+                                <img src="./assets/img/phone.png" alt="phone">
+                                <h3>Телефон</h3> 
+                            </div>
+                            <div class="footer__block_point_subtitle">
+                                <a href="contacts.html">+12 345 678 999</a>
+                            </div>
                         </div>
                     </div>
                 </div>

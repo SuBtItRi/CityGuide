@@ -31,15 +31,6 @@ document.addEventListener("DOMContentLoaded", function() {
             map.src = "https://yandex.ru/map-widget/v1/?um=constructor%3Ac5ee0a6a9aa2b0e631988dde7fee539d3d69b3ff5137ff3ea41e3a1cb236e4c6&amp;source=constructor"
         } 
     })
-    // subscribe btn
-    document.querySelector('.footer__subscribe_block').addEventListener('submit', (e) => {
-        e.preventDefault()
-        document.getElementById('btn_subscribe').textContent = 'Отправлено'
-        setInterval( function() {
-            document.getElementById('btn_subscribe').textContent = 'Подписаться'
-        }, 1500) 
-        document.getElementById('subscribe-window').classList.remove('hidden')
-    })
 }) 
 
 // slide sliders hotkeys
@@ -71,7 +62,4 @@ function pause() {
         notpause=true 
         document.getElementById('btn_pause').textContent = '▶️'
     }
-}
-function accept(){
-    document.getElementById('subscribe-window').classList.add('hidden')
 }
