@@ -358,7 +358,8 @@ a {
         color: white;
         padding: 10px 0;
         font-size: 18px;
-        text-align: center;
+        text-align: end;
+        padding-right: 15px;
         text-decoration: none;
         &:hover {
             background: rgba(255,255,255,.2)
@@ -949,7 +950,7 @@ a {
             display: flex;
             flex-direction: column;
             @media (max-width:800px) {
-                width: 100%;
+                max-width: 100%;
             }
         }
         &-right {
