@@ -338,7 +338,7 @@ a {
   list-style-type: none;
   transform: translateX(100%);
   transition: 0.3s;
-  width: 100vh;
+  width: 100%;
   height: 200vh;
 }
 .header__menu-item {
@@ -346,8 +346,7 @@ a {
   color: white;
   padding: 10px 0;
   font-size: 18px;
-  text-align: end;
-  padding-right: 15px;
+  text-align: center;
   text-decoration: none;
 }
 .header__menu-item:hover {
@@ -692,6 +691,11 @@ a {
 }
 .catalog__search-input::placeholder {
   font-family: Unbounded;
+}
+@media (max-width: 1024px) {
+  .catalog__search-input {
+    width: 90%;
+  }
 }
 .catalog__left-block {
   margin-right: 20px;

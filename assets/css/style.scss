@@ -350,7 +350,7 @@ a {
         list-style-type: none;
         transform: translateX(100%);
         transition: .3s;
-        width: 100vh;
+        width: 100%;
         height: 200vh;
     }
     &__menu-item {
@@ -358,8 +358,7 @@ a {
         color: white;
         padding: 10px 0;
         font-size: 18px;
-        text-align: end;
-        padding-right: 15px;
+        text-align: center;
         text-decoration: none;
         &:hover {
             background: rgba(255,255,255,.2)
@@ -635,6 +634,9 @@ a {
         width: 40%;
         &::placeholder {
             font-family: Unbounded;
+        }
+        @media (max-width:1024px) {
+            width: 90%;
         }
     }
     &__left-block {
