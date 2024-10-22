@@ -1156,10 +1156,8 @@ a {
   justify-content: center;
   gap: 10px;
 }
-@media (max-width: 1024px) {
-  .footer__blocks2 div {
-    width: 50%;
-  }
+.footer__blocks2 div {
+  width: 50%;
 }
 .footer__block {
   display: flex;

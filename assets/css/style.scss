@@ -1046,9 +1046,7 @@ a {
         justify-content: center;
         gap: 10px;
         & div {
-            @media (max-width: 1024px) {
-                width: 50%;
-            }
+            width: 50%;
         }
     }
     &__block {
