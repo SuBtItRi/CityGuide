@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
     const itemsPerPage = 6;
-    let currentPage = parseInt(localStorage.getItem('currentPage')) || 1; // Восстановление текущей страницы из localStorage
+    let currentPage = parseInt(localStorage.getItem('currentPage')) || 1;
     let showAllItems = false;
     let filteredItems = [];
-    let activeFilter = localStorage.getItem('selectedFilter') || 'Все'; // Восстановление фильтра из localStorage
+    let activeFilter = localStorage.getItem('selectedFilter') || 'Все';
 
     const items = document.querySelectorAll('.catalog__plate');
     const pagination = document.getElementById('pagination');
@@ -59,69 +59,66 @@ document.addEventListener('DOMContentLoaded', function () {
         const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
         pagination.innerHTML = '';
 
-        // Кнопка "Первая страница"
+        // btn first_page
         const firstButton = document.createElement('button');
         firstButton.textContent = '<<';
         firstButton.disabled = currentPage === 1;
         firstButton.addEventListener('click', () => {
-            currentPage = 1;
-            saveState();
-            updateCatalog();
+            if (firstButton.textContent == '<<') {
+                currentPage = 1;
+                updateCatalog();
+            }
         });
         pagination.appendChild(firstButton);
 
-        // Кнопка "Назад"
+        // btn back_page
         const prevButton = document.createElement('button');
         prevButton.textContent = '<';
         prevButton.disabled = currentPage === 1;
         prevButton.addEventListener('click', () => {
             if (currentPage > 1) {
                 currentPage--;
-                saveState();
                 updateCatalog();
             }
         });
         pagination.appendChild(prevButton);
 
-        // Кнопки страниц
+        // btns
         for (let i = 1; i <= totalPages; i++) {
             const pageButton = document.createElement('button');
             pageButton.textContent = i;
             pageButton.classList.toggle('active', i === currentPage);
             pageButton.addEventListener('click', () => {
                 currentPage = i;
-                saveState();
                 updateCatalog();
             });
             pagination.appendChild(pageButton);
         }
 
-        // Кнопка "Вперед"
+        // btn next_page
         const nextButton = document.createElement('button');
         nextButton.textContent = '>';
         nextButton.disabled = currentPage === totalPages;
         nextButton.addEventListener('click', () => {
             if (currentPage < totalPages) {
                 currentPage++;
-                saveState();
                 updateCatalog();
             }
         });
         pagination.appendChild(nextButton);
 
-        // Кнопка "Последняя страница"
+        // btn last_page
         const lastButton = document.createElement('button');
         lastButton.textContent = '>>';
         lastButton.disabled = currentPage === totalPages;
         lastButton.addEventListener('click', () => {
             currentPage = totalPages;
-            saveState();
             updateCatalog();
         });
         pagination.appendChild(lastButton);
     }
 
-    // Сохранение состояния (активный фильтр и текущая страница)
+    // save filter and page
     function saveState() {
         localStorage.setItem('selectedFilter', activeFilter);
         localStorage.setItem('currentPage', currentPage);
@@ -138,11 +135,13 @@ document.addEventListener('DOMContentLoaded', function () {
             });
             activeFilter = this.getAttribute('data-id');
             this.classList.add('active');
-            currentPage = 1;
-            saveState(); // Сохранение фильтра и страницы
             updateCatalog();
         });
     });
+
+    function set_first_page() {
+        currentPage=1
+    }
 
     document.getElementById('showAllButton').addEventListener('click', function () {
         showAllItems = true;
@@ -151,6 +150,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updateCatalog() {
         showAllItems = false;
+        saveState(); 
         renderCatalog(currentPage);
         renderPagination();
     }
