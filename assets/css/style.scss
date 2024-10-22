@@ -301,6 +301,7 @@ a {
         @media (min-width: 1025px) {
             display: none;
         }
+        margin-right: 50px;
         position: relative;
         z-index: 1;
         cursor: pointer;
@@ -350,7 +351,7 @@ a {
         margin: 0;
         background: #000;
         list-style-type: none;
-        transform: translateX(-100%);
+        transform: translateX(100%);
         transition: .3s;
         width: 100%;
         height: 100vh;
