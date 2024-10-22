@@ -640,6 +640,11 @@ a {
 }
 @media (max-width: 1024px) {
   .catalog__filters_title {
+    font-size: 20px;
+  }
+}
+@media (max-width: 600px) {
+  .catalog__filters_title {
     font-size: 15px;
   }
 }
@@ -727,15 +732,16 @@ a {
   font-family: Unbounded;
   font-size: 25px;
   margin-top: 15px;
+  font-weight: 700;
 }
 @media (max-width: 1024px) {
   .catalog__title {
-    font-size: 18px;
+    font-size: 20px;
   }
 }
 @media (max-width: 600px) {
   .catalog__title {
-    font-size: 12px;
+    font-size: 15px;
   }
 }
 .catalog__container {
