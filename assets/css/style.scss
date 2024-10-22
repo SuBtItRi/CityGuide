@@ -669,10 +669,10 @@ a {
     &__title {
         font-family: Unbounded;
         font-size: 25px;
-        margin-top: 15px;
         font-weight: 700;
         @media (max-width: 1024px) {
             font-size: 20px;
+            margin-top: 15px;
         }
         @media (max-width:600px) {
             font-size: 15px;
