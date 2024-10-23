@@ -496,6 +496,7 @@ a {
     @include center;
     background: url('../img/catalog-bg.jpg') no-repeat;
     background-size: 100%;
+    background-color: #0012b2;
     object-fit: cover;
     color: #fff;
     font-size: 40px;
@@ -579,7 +580,7 @@ a {
         }
         @media (max-width:630px) {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 20px;
         }
         gap: 10px;
@@ -753,8 +754,11 @@ a {
         display: none;
         font-family: Unbounded;
         flex-direction: column;
-        width: 33%;
+        width: 40%;
         margin-top: 20px;
+        @media (max-width:600px) {
+            width: 100%;
+        }
         & img {
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
@@ -927,9 +931,13 @@ a {
     margin-bottom: 100px;
     &__title {
         display: flex;
-        margin-bottom: 25px;
+        margin: 20px;
+        max-width: 100%;
         & h2 {
             font-family: Unbounded;
+            @media (max-width:1024px) {
+                font-size: 20px;
+            }
         }
         & select {
             margin-left: 15px;
@@ -937,6 +945,9 @@ a {
             font-size: 16px;
             border: none;
             outline: 0;
+            @media (max-width:600px) {
+                width: 100%;
+            }
         }
     }
 }
@@ -1035,7 +1046,7 @@ a {
         padding: 50px 0;
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 15px;
+        gap: 10px;
         padding: 20px;
         @media (max-width: 1024px) {
             grid-template-columns: 1fr;
@@ -1048,16 +1059,10 @@ a {
         display: flex;
         justify-content: center;
         gap: 10px;
-        & div {
-            width: 50%;
-        }
     }
     &__block {
         display: flex;
         flex-direction: column;
-        & div {
-            width: 100%;
-        }
         &_title {
             font-size: 20px;
             font-weight: 900;
