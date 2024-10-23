@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
     const itemsPerPage = 6;
-    let currentPage = parseInt(localStorage.getItem('currentPage')) || 1;
     let showAllItems = false;
     let filteredItems = [];
     let activeFilter = localStorage.getItem('selectedFilter') || 'Все';
+    let currentPage = parseInt(localStorage.getItem('currentPage')) || 1;
 
     const items = document.querySelectorAll('.catalog__plate');
     const pagination = document.getElementById('pagination');
@@ -12,7 +12,8 @@ document.addEventListener('DOMContentLoaded', function () {
     function renderCatalog(page) {
         const searchTerm = document.getElementById('searchInput').value.toLowerCase();
         const savedFilter = localStorage.getItem('selectedFilter');
-
+        currentPage = parseInt(localStorage.getItem('currentPage'));
+    
         if (savedFilter) {
             const filterButton = document.querySelector(`button[data-id="${savedFilter}"]`);
             if (filterButton) {
@@ -139,14 +140,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    function set_first_page() {
-        currentPage=1
-    }
-
     document.getElementById('showAllButton').addEventListener('click', function () {
         showAllItems = true;
         updateCatalog();
     });
+
 
     function updateCatalog() {
         showAllItems = false;
