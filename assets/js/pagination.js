@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function renderCatalog(page) {
         currentPage = parseInt(localStorage.getItem('currentPage'));
+        items.forEach(item => item.style.display = 'none');
 
         // Переводим значение из инпута и в дальнейшем из заголовка плажки в ловерскейс 
                                                                     //чтобы не было проблем
@@ -40,7 +41,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
         
-        items.forEach(item => item.style.display = 'none');
         filteredItems.forEach(item => item.querySelector('.catalog__plate_type').innerHTML = item.id);
 
         const start = (page - 1) * itemsPerPage;
@@ -68,62 +68,58 @@ document.addEventListener('DOMContentLoaded', function () {
         pagination.innerHTML = '';
 
         // btn first_page
-        const firstButton = document.createElement('button');
-        firstButton.textContent = '<<';
-        firstButton.disabled = currentPage === 1;
-        firstButton.addEventListener('click', () => {
-            if (firstButton.textContent == '<<') {
+        const btn = document.createElement('button');
+        btn.textContent = '<<';
+        btn.disabled = currentPage === 1;
+        btn.addEventListener('click', () => {
+            if (btn.textContent == '<<') {
                 currentPage = 1;
                 updateCatalog();
             }
         });
-        pagination.appendChild(firstButton);
+        pagination.appendChild(btn);
 
         // btn back_page
-        const prevButton = document.createElement('button');
-        prevButton.textContent = '<';
+        btn.textContent = '<';
         prevButton.disabled = currentPage === 1;
-        prevButton.addEventListener('click', () => {
+        btn.addEventListener('click', () => {
             if (currentPage > 1) {
                 currentPage--;
                 updateCatalog();
             }
         });
-        pagination.appendChild(prevButton);
+        pagination.appendChild(btn);
 
         // btns
         for (let i = 1; i <= totalPages; i++) {
-            const pageButton = document.createElement('button');
-            pageButton.textContent = i;
-            pageButton.classList.toggle('active', i === currentPage);
-            pageButton.addEventListener('click', () => {
+            btn.textContent = i;
+            btn.classList.toggle('active', i === currentPage);
+            btn.addEventListener('click', () => {
                 currentPage = i;
                 updateCatalog();
             });
-            pagination.appendChild(pageButton);
+            pagination.appendChild(btn);
         }
 
         // btn next_page
-        const nextButton = document.createElement('button');
-        nextButton.textContent = '>';
-        nextButton.disabled = currentPage === totalPages;
-        nextButton.addEventListener('click', () => {
+        btn.textContent = '>';
+        btn.disabled = currentPage === totalPages;
+        btn.addEventListener('click', () => {
             if (currentPage < totalPages) {
                 currentPage++;
                 updateCatalog();
             }
         });
-        pagination.appendChild(nextButton);
+        pagination.appendChild(btn);
 
         // btn last_page
-        const lastButton = document.createElement('button');
-        lastButton.textContent = '>>';
-        lastButton.disabled = currentPage === totalPages;
-        lastButton.addEventListener('click', () => {
+        btn.textContent = '>>';
+        btn.disabled = currentPage === totalPages;
+        btn.addEventListener('click', () => {
             currentPage = totalPages;
             updateCatalog();
         });
-        pagination.appendChild(lastButton);
+        pagination.appendChild(btn);
     }
 
     // save filter and page
