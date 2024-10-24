@@ -10,9 +10,28 @@ document.addEventListener('DOMContentLoaded', function () {
     const noResultsMessage = document.getElementById('noResultsMessage');
 
     function renderCatalog(page) {
-        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-        const savedFilter = localStorage.getItem('selectedFilter');
         currentPage = parseInt(localStorage.getItem('currentPage'));
+
+        // Переводим значение из инпута и в дальнейшем из заголовка плажки в ловерскейс 
+                                                                    //чтобы не было проблем
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        
+        // Проходимся по каждому элементу и берем из него заголовок
+        filteredItems = Array.from(items).filter(item => {
+            const title = item.querySelector('.catalog__plate_title').textContent.toLowerCase(); 
+            // Если значения из инпута и заголовка совподают, то выводим данную плажку
+            return title.includes(searchTerm) && (activeFilter === 'Все' || item.id === activeFilter);
+        });
+        
+        // А в этой части когда реализован вывод секретки, если значение из инпута == 'апрпапр'
+        if (searchTerm === 'апрпапр') {
+            document.getElementById('secretContainer').style.display = 'flex';
+            document.getElementById('noResultsMessage').style.display = 'none';
+        } else {
+            document.getElementById('secretContainer').style.display = 'none';
+        }
+
+        const savedFilter = localStorage.getItem('selectedFilter');
     
         if (savedFilter) {
             const filterButton = document.querySelector(`button[data-id="${savedFilter}"]`);
@@ -20,13 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 filterButton.click();
             }
         }
-
-        filteredItems = Array.from(items).filter(item => {
-            const titleElement = item.querySelector('.catalog__plate_title');
-            const title = titleElement.textContent.toLowerCase();
-            return title.includes(searchTerm) && (activeFilter === 'Все' || item.id === activeFilter);
-        });
-
+        
         items.forEach(item => item.style.display = 'none');
         filteredItems.forEach(item => item.querySelector('.catalog__plate_type').innerHTML = item.id);
 
@@ -47,12 +60,6 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             noResultsMessage.style.display = 'none';
             pagination.style.display = 'flex';
-        }
-        if (searchTerm === 'апрпапр') {
-            document.getElementById('secretContainer').style.display = 'flex';
-            document.getElementById('noResultsMessage').style.display = 'none';
-        } else {
-            document.getElementById('secretContainer').style.display = 'none';
         }
     }
 
