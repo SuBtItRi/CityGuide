@@ -31,6 +31,9 @@ document.addEventListener("DOMContentLoaded", function() {
             map.src = "https://yandex.ru/map-widget/v1/?um=constructor%3Ac5ee0a6a9aa2b0e631988dde7fee539d3d69b3ff5137ff3ea41e3a1cb236e4c6&amp;source=constructor"
         } 
     })
+    for (let i=1; 1 <= i <= 10; i++) {
+        console.log(i)
+    }
 }) 
 
 // slide sliders hotkeys
