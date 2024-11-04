@@ -377,7 +377,8 @@ a {
   background: url("../img/main0.jpeg") no-repeat;
   background-size: 100%;
   background-color: #0057c0;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
   color: #fff;
   font-size: 60px;
 }
@@ -536,7 +537,8 @@ a {
   background: url("../img/catalog-bg.jpg") no-repeat;
   background-size: 100%;
   background-color: #0012b2;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
   color: #fff;
   font-size: 40px;
 }
@@ -699,6 +701,9 @@ a {
   font-family: Unbounded;
   border: 2px solid #ccc;
   width: 40%;
+}
+.catalog__search-input::-moz-placeholder {
+  font-family: Unbounded;
 }
 .catalog__search-input::placeholder {
   font-family: Unbounded;
