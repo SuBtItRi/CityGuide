@@ -723,6 +723,9 @@ a {
     max-width: 100%;
   }
 }
+.catalog__right-block {
+  transition: 0.5s;
+}
 .catalog__right-block #noResultsMessage {
   margin-top: 20px;
   display: none;
@@ -756,17 +759,24 @@ a {
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr;
   gap: 10px;
+  height: 970px;
+  transition: 0.3s;
+}
+.catalog__container.none-h {
+  height: 0;
 }
 @media (max-width: 600px) {
   .catalog__container {
-    max-width: 100%;
+    width: 100%;
+    height: 1600px;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
   }
 }
 @media (max-width: 400px) {
   .catalog__container {
-    max-width: 100%;
+    width: 100%;
+    height: 3200px;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
   }
@@ -827,7 +837,7 @@ a {
   display: none;
   font-family: Unbounded;
   flex-direction: column;
-  width: 40%;
+  width: 50%;
   margin-top: 20px;
 }
 @media (max-width: 600px) {
@@ -871,18 +881,6 @@ a {
   cursor: pointer;
   background-color: #F0F0F0;
   transition: 0.3s;
-}
-@media (max-width: 1024px) {
-  .pagination button {
-    width: 40px;
-    height: 20px;
-  }
-}
-@media (max-width: 600px) {
-  .pagination button {
-    width: 30px;
-    height: 15px;
-  }
 }
 .pagination button.active {
   border-bottom: 3.5px solid #000;
@@ -1057,7 +1055,7 @@ a {
 }
 
 .contacts {
-  background: url(../img/contacts-bg.jpg);
+  background: url(../img/contacts-bg.jpg) no-repeat center top/cover;
 }
 .contacts__wrap {
   padding: 100px 50px;
@@ -1157,6 +1155,8 @@ a {
 }
 
 .footer {
+  display: flex;
+  align-items: flex-end;
   background-color: #000;
   color: #fff;
   font-family: Unbounded;

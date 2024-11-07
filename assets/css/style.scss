@@ -657,6 +657,7 @@ a {
         }
     }
     &__right-block {
+        transition: 0.5s;
         #noResultsMessage {
             margin-top: 20px;
             display: none;
@@ -685,13 +686,20 @@ a {
         grid-template-columns: 1fr 1fr 1fr;
         grid-template-rows: 1fr 1fr;
         gap: 10px;
+        height: 970px;
+        transition: 0.3s;
+        &.none-h {
+            height: 0;
+        }
         @media (max-width:600px) {
-            max-width: 100%;
+            width: 100%;
+            height: 1600px;
             grid-template-columns: 1fr 1fr;
             grid-template-rows: 1fr 1fr 1fr;
         }
         @media (max-width:400px) {
-            max-width: 100%;
+            width: 100%;
+            height: 3200px;
             grid-template-columns: 1fr;
             grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
         }
@@ -754,7 +762,7 @@ a {
         display: none;
         font-family: Unbounded;
         flex-direction: column;
-        width: 40%;
+        width: 50%;
         margin-top: 20px;
         @media (max-width:600px) {
             width: 100%;
@@ -788,14 +796,6 @@ a {
     & button {
         width: 60px;
         height: 30px;
-        @media (max-width:1024px) {
-            width: 40px;
-            height: 20px;
-        }
-        @media (max-width:600px) {
-            width: 30px;
-            height: 15px;
-        }
         border: none;
         display: flex;
         justify-content: center;
@@ -953,7 +953,7 @@ a {
 }
 
 .contacts {
-    background: url(../img/contacts-bg.jpg);
+    background: url(../img/contacts-bg.jpg) no-repeat center top / cover;
     &__wrap {
         padding: 100px 50px;
         color: #fff;
@@ -1039,6 +1039,8 @@ a {
 }
 
 .footer {
+    display: flex;
+    align-items: flex-end;
     background-color: #000;
     color: #fff;
     font-family: Unbounded;

@@ -1,19 +1,17 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const itemsPerPage = 6;
     let showAllItems = false;
     let filteredItems = [];
-    let activeFilter = localStorage.getItem('selectedFilter') || 'Все';
+    let activeFilter = new URLSearchParams(window.location.search).get('filter') || 'Все';
     let currentPage = parseInt(localStorage.getItem('currentPage')) || 1;
 
+    const itemsPerPage = 6;
     const items = document.querySelectorAll('.catalog__plate');
     const pagination = document.getElementById('pagination');
     const noResultsMessage = document.getElementById('noResultsMessage');
 
     function renderCatalog(page) {
-        currentPage = parseInt(localStorage.getItem('currentPage'));
+        currentPage = parseInt(localStorage.getItem('currentPage')) || 1;
         const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-        const catalogContainer = document.querySelector('.catalog__container')
-        catalogContainer.classList.remove('none-h')
         
         filteredItems = Array.from(items).filter(item => {
             const title = item.querySelector('.catalog__plate_title').textContent.toLowerCase(); 
@@ -23,20 +21,11 @@ document.addEventListener('DOMContentLoaded', function () {
         if (searchTerm === 'апрпапр') {
             document.getElementById('secretContainer').style.display = 'flex';
             document.getElementById('noResultsMessage').style.display = 'none';
-            catalogContainer.classList.add('none-h')
         } else {
-            catalogContainer.classList.remove('none-h')
             document.getElementById('secretContainer').style.display = 'none';
         }
 
-        const savedFilter = localStorage.getItem('selectedFilter');
-    
-        if (savedFilter) {
-            const filterButton = document.querySelector(`button[data-id="${savedFilter}"]`);
-            if (filterButton) {
-                filterButton.click();
-            }
-        }
+        document.querySelector(`button[data-id="${activeFilter}"]`).classList.add('active');
         
         items.forEach(item => item.style.display = 'none');
         filteredItems.forEach(item => item.querySelector('.catalog__plate_type').innerHTML = item.id);
@@ -54,12 +43,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (filteredItems.length === 0) {
             noResultsMessage.style.display = 'block';
-            catalogContainer.classList.add('none-h')
             pagination.style.display = 'none';
         } else {
             noResultsMessage.style.display = 'none';
             pagination.style.display = 'flex';
-            catalogContainer.classList.remove('none-h')
         }
     }
 
@@ -67,19 +54,15 @@ document.addEventListener('DOMContentLoaded', function () {
         const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
         pagination.innerHTML = '';
 
-        // btn first_page
         const firstButton = document.createElement('button');
         firstButton.textContent = '<<';
         firstButton.disabled = currentPage === 1;
         firstButton.addEventListener('click', () => {
-            if (firstButton.textContent == '<<') {
-                currentPage = 1;
-                updateCatalog();
-            }
+            currentPage = 1;
+            updateCatalog();
         });
         pagination.appendChild(firstButton);
 
-        // btn back_page
         const prevButton = document.createElement('button');
         prevButton.textContent = '<';
         prevButton.disabled = currentPage === 1;
@@ -91,7 +74,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         pagination.appendChild(prevButton);
 
-        // btns
         for (let i = 1; i <= totalPages; i++) {
             const pageButton = document.createElement('button');
             pageButton.textContent = i;
@@ -103,7 +85,6 @@ document.addEventListener('DOMContentLoaded', function () {
             pagination.appendChild(pageButton);
         }
 
-        // btn next_page
         const nextButton = document.createElement('button');
         nextButton.textContent = '>';
         nextButton.disabled = currentPage === totalPages;
@@ -115,7 +96,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         pagination.appendChild(nextButton);
 
-        // btn last_page
         const lastButton = document.createElement('button');
         lastButton.textContent = '>>';
         lastButton.disabled = currentPage === totalPages;
@@ -126,22 +106,23 @@ document.addEventListener('DOMContentLoaded', function () {
         pagination.appendChild(lastButton);
     }
 
-    // save filter and page
     function saveState() {
-        localStorage.setItem('selectedFilter', activeFilter);
         localStorage.setItem('currentPage', currentPage);
+        const url = new URL(window.location);
+        url.searchParams.set('filter', activeFilter);
+        window.history.replaceState(null, '', url);
     }
 
     document.getElementById('searchInput').addEventListener('input', function () {
+        currentPage = 1; 
         updateCatalog();
     });
 
     document.querySelectorAll('.catalog__filter-btn').forEach(button => {
         button.addEventListener('click', function () {
-            document.querySelectorAll('.catalog__filter-btn').forEach(button => {
-                button.classList.remove('active');
-            });
             activeFilter = this.getAttribute('data-id');
+            currentPage = 1; 
+            document.querySelectorAll('.catalog__filter-btn').forEach(btn => btn.classList.remove('active'));
             this.classList.add('active');
             updateCatalog();
         });
@@ -151,7 +132,6 @@ document.addEventListener('DOMContentLoaded', function () {
         showAllItems = true;
         updateCatalog();
     });
-
 
     function updateCatalog() {
         showAllItems = false;
