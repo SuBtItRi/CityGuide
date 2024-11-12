@@ -1,52 +1,110 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
     let showAllItems = false;
     let filteredItems = [];
     let activeFilter = new URLSearchParams(window.location.search).get('filter') || 'Все';
     let currentPage = parseInt(localStorage.getItem('currentPage')) || 1;
 
     const itemsPerPage = 6;
-    const items = document.querySelectorAll('.catalog__plate');
+    // const items = document.querySelectorAll('.catalog__plate');
+    let items = []
     const pagination = document.getElementById('pagination');
     const noResultsMessage = document.getElementById('noResultsMessage');
+    
+    async function getData() {
+        try {
+            const response = await fetch('https://6728a8d3270bd0b97556a70f.mockapi.io/catalog/filters');
+            const items_temp = await response.json(); 
+            items_temp.forEach(item => {
+                items.push(item)
+            })
+        } catch (error) {
+            console.error('Ошибка:', error);
+        }
+    }
+    await getData()
+
+    function createPlate(elemNum) {
+        const catalogPlate = document.createElement('div');
+        catalogPlate.classList.add('catalog__plate');
+        catalogPlate.id = filteredItems[elemNum].filter
+        catalogPlate.setAttribute('data-id', filteredItems[elemNum].id)
+        catalogPlate.innerHTML = `
+        <a href="landmark.html">
+            <img src="./assets/img/${filteredItems[elemNum].imgs[0]}"></img>
+            <div class="catalog__plate_text">
+                <h4 class="catalog__plate_title">
+                    ${filteredItems[elemNum].title}
+                </h4>
+                <p class="catalog__plate_grade">${filteredItems[elemNum].grade}</p>
+                <p class="catalog__plate_type">${filteredItems[elemNum].filter}</p>
+                <p class="catalog__plate_description">
+                    ${filteredItems[elemNum].description}
+                </p>
+                <p class="catalog__plate_adress">${filteredItems[elemNum].adress}</p>
+            </div>
+        </a>
+        `
+        document.getElementById('catalog__container').appendChild(catalogPlate);
+    }
+
+    function createPage(elemNum) {
+        document.querySelector('.catalog__container').innerHTML = '';
+    }
 
     function renderCatalog(page) {
         currentPage = parseInt(localStorage.getItem('currentPage')) || 1;
-        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        let searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        if (localStorage.getItem('textinput')) {
+            document.getElementById('searchInput').value=localStorage.getItem('textinput')
+            searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        } 
+        const start = (page - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
         
         filteredItems = Array.from(items).filter(item => {
-            const title = item.querySelector('.catalog__plate_title').textContent.toLowerCase(); 
-            return title.includes(searchTerm) && (activeFilter === 'Все' || item.id === activeFilter);
+            const title = item.title.toLowerCase(); 
+            return title.includes(searchTerm) && (activeFilter === 'Все' || item.filter === activeFilter);
         });
+        localStorage.setItem('textinput', '')
         
         if (searchTerm === 'апрпапр') {
             document.getElementById('secretContainer').style.display = 'flex';
             document.getElementById('noResultsMessage').style.display = 'none';
+            document.getElementById('catalog__container').style.display = 'none'
         } else {
             document.getElementById('secretContainer').style.display = 'none';
+            document.getElementById('catalog__container').style.display = 'grid'
         }
 
         document.querySelector(`button[data-id="${activeFilter}"]`).classList.add('active');
         
-        items.forEach(item => item.style.display = 'none');
-        filteredItems.forEach(item => item.querySelector('.catalog__plate_type').innerHTML = item.id);
+        // items.forEach(item => item.style.display = 'none');
+        filteredItems.forEach(item => {
+            createPage()
+            for (let i = start; i < end && i < filteredItems.length; i++) {
+                createPlate(i)
+            }
+        });
 
-        const start = (page - 1) * itemsPerPage;
-        const end = start + itemsPerPage;
-
-        for (let i = start; i < end && i < filteredItems.length; i++) {
-            filteredItems[i].style.display = 'flex';
+        for (let i = start; i < end && i < items.length; i++) {
+            items[i].style = 'display: flex';
         }
 
         if (showAllItems) {
-            items.forEach(item => item.style.display = 'flex');
+            createPage()
+            for (let i = start; i < end && i < filteredItems.length; i++) {
+                createPlate(i)
+            }
         }
 
         if (filteredItems.length === 0) {
             noResultsMessage.style.display = 'block';
             pagination.style.display = 'none';
+            document.getElementById('catalog__container').style.display = 'none'
         } else {
             noResultsMessage.style.display = 'none';
             pagination.style.display = 'flex';
+            document.getElementById('catalog__container').style.display = 'grid'
         }
     }
 
@@ -74,16 +132,23 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         pagination.appendChild(prevButton);
 
-        for (let i = 1; i <= totalPages; i++) {
-            const pageButton = document.createElement('button');
-            pageButton.textContent = i;
-            pageButton.classList.toggle('active', i === currentPage);
-            pageButton.addEventListener('click', () => {
-                currentPage = i;
-                updateCatalog();
-            });
-            pagination.appendChild(pageButton);
-        }
+        let plusPages = 0
+        let minusPages = 0
+        if (currentPage < 4) {plusPages = 4-currentPage}
+        if (currentPage > totalPages-4) {minusPages = 3 - (totalPages - currentPage)}
+        const startPage = Math.max(1, currentPage - 3 - minusPages);
+        const endPage = Math.min(totalPages, currentPage + 3 + plusPages);
+
+        for (let i = startPage; i <= endPage; i++) {
+        const pageButton = document.createElement('button');
+        pageButton.textContent = i;
+        pageButton.classList.toggle('active', i === currentPage);
+        pageButton.addEventListener('click', () => {
+            currentPage = i;
+            updateCatalog();
+        });
+        pagination.appendChild(pageButton);
+    }
 
         const nextButton = document.createElement('button');
         nextButton.textContent = '>';
@@ -128,16 +193,30 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    document.querySelectorAll('.catalog__container').forEach(plate => {
+        plate.addEventListener('click', function (elem) {
+            const itemid = elem.target.closest('.catalog__plate').getAttribute('data-id')
+            localStorage.setItem('item-id', itemid)
+        });
+    });
+
+    // document.querySelector('.catalog__container').forEach(plate => {
+    //     plate.addEventListener('click', function(event) {
+    //         const clickedElement = event.target;
+    //         console.log(clickedElement); // Элемент, на который кликнули
+    //     });
+    // })
+
     document.getElementById('showAllButton').addEventListener('click', function () {
         showAllItems = true;
         updateCatalog();
     });
 
     function updateCatalog() {
-        showAllItems = false;
         saveState(); 
         renderCatalog(currentPage);
         renderPagination();
+        showAllItems=false
     }
 
     updateCatalog();
