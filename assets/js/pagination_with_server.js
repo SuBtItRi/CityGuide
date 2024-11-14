@@ -75,7 +75,6 @@ document.addEventListener('DOMContentLoaded', async function () {
             document.getElementById('secretContainer').style.display = 'none';
             document.getElementById('catalog__container').style.display = 'grid'
         }
-
         document.querySelector(`button[data-id="${activeFilter}"]`).classList.add('active');
         
         // items.forEach(item => item.style.display = 'none');
@@ -85,10 +84,6 @@ document.addEventListener('DOMContentLoaded', async function () {
                 createPlate(i)
             }
         });
-
-        for (let i = start; i < end && i < items.length; i++) {
-            items[i].style = 'display: flex';
-        }
 
         if (showAllItems) {
             createPage()
