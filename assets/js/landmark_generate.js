@@ -104,4 +104,3 @@ function switch_slider() {
     document.querySelector('.landmark__window-main').classList.toggle('active')
     document.querySelector('.landmark__window-imgs').classList.toggle('active')
 }
-
