@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     document.querySelector('.landmark__wrap').innerHTML = 
     `
     <p class="landmark__href">
-        <a href="catalog.html">Каталог</a> > <a href="catalog.html?filter=Памятники" id="href_with_filter">${getItem.filter}</a> > <a href="catalog.html" id="spec_href"> ${getItem.title} </a> </span>
+        <a href="catalog.html">Каталог</a> > <a href="catalog.html?filter=${getItem.filter}" id="href_with_filter">${getItem.filter}</a> > <a href="catalog.html" id="spec_href"> ${getItem.title} </a> </span>
     </p>
     <h2 class="landmark__title">${getItem.title}</h2>
     <div class="landmark__window">
@@ -69,10 +69,10 @@ document.addEventListener('DOMContentLoaded', async function () {
     if (getItem.imgs.length < 3) {
         document.querySelector('.landmark__window_imgs').innerHTML = 
         `
-        <img class="imgs-slider__item" src="./assets/img/${getItem.imgs[0]}" alt="${getItem.imgs[0]}">
+        <img class="imgs__item" src="./assets/img/${getItem.imgs[0]}" alt="${getItem.imgs[0]}">
         `
         document.querySelector('.landmark__window_imgs').style = 'display: flex'
-        document.querySelector('.imgs-slider__item').style = 'cursor: unset; border-radius: 20px'
+        document.querySelector('.imgs__item').style = 'cursor: unset; border-radius: 20px'
     }
     document.querySelector('#spec_href').addEventListener('click', function () {
         localStorage.setItem('textinput', getItem.title)
@@ -94,6 +94,10 @@ document.addEventListener('DOMContentLoaded', async function () {
         currentImg = (currentImg - 1 + slider_items.length) % slider_items.length; 
         updateSlider();
     });
+    setTimeout(() => {
+        document.querySelector('.loader__wrap').classList.add('hidden')
+        document.body.classList.remove('overflow-h')
+    }, 500);
 })
 
 function switch_slider() {

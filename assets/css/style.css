@@ -1258,6 +1258,7 @@ a {
   height: 800px;
   -o-object-fit: cover;
      object-fit: cover;
+  cursor: unset;
 }
 .landmark__window_imgs-slider .imgs-slider__btn_prev {
   position: absolute;
@@ -1265,13 +1266,14 @@ a {
   transform: translateY(-50%);
   width: 40px;
   height: 40px;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(255, 255, 255, 0.5);
   border: none;
   cursor: pointer;
   z-index: 10;
   left: 10px;
   font-size: 24px;
-  color: #fff;
+  color: #000;
+  border-radius: 10px;
 }
 .landmark__window_imgs-slider .imgs-slider__btn_next {
   position: absolute;
@@ -1279,13 +1281,14 @@ a {
   transform: translateY(-50%);
   width: 40px;
   height: 40px;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(255, 255, 255, 0.5);
   border: none;
   cursor: pointer;
   z-index: 10;
   right: 10px;
   font-size: 24px;
-  color: #fff;
+  color: #000;
+  border-radius: 10px;
 }
 .landmark__window_imgs-slider .imgs-slider__close {
   position: absolute;
@@ -1330,6 +1333,9 @@ a {
     width: 100%;
     height: auto;
   }
+}
+.landmark__window_imgs .imgs__item {
+  cursor: pointer;
 }
 .landmark__window_imgs img {
   width: 100%;

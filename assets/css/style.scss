@@ -1137,6 +1137,7 @@ a {
                     width: 1100px;
                     height: 800px;
                     object-fit: cover;
+                    cursor: unset;
                 }
                 &__btn_prev {
                     position: absolute;
@@ -1144,13 +1145,14 @@ a {
                     transform: translateY(-50%);
                     width: 40px;
                     height: 40px;
-                    background: rgba(0, 0, 0, 0.5);
+                    background: rgba(255, 255, 255, 0.5);
                     border: none;
                     cursor: pointer;
                     z-index: 10;
                     left: 10px;
                     font-size: 24px;
-                    color: #fff;
+                    color: #000;
+                    border-radius: 10px;
                 }
                 &__btn_next {
                     position: absolute;
@@ -1158,13 +1160,14 @@ a {
                     transform: translateY(-50%);
                     width: 40px;
                     height: 40px;
-                    background: rgba(0, 0, 0, 0.5);
+                    background: rgba(255, 255, 255, 0.5);
                     border: none;
                     cursor: pointer;
                     z-index: 10;
                     right: 10px;
                     font-size: 24px;
-                    color: #fff;
+                    color: #000;
+                    border-radius: 10px;
                 }
                 &__close {
                     position: absolute;
@@ -1206,6 +1209,9 @@ a {
             @media (max-width: 800px) {
                 width: 100%;
                 height: auto;
+            }
+            .imgs__item {
+                cursor: pointer;
             }
             & img {
                 width: 100%;
