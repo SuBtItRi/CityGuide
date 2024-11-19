@@ -24,6 +24,10 @@ document.addEventListener('DOMContentLoaded', async function () {
     await getData()
 
     function createPlate(elemNum) {
+        let description=filteredItems[elemNum].description
+        if(description.length > 275) {
+            description = description.slice(0, 250) + '...'
+        }
         const catalogPlate = document.createElement('div');
         catalogPlate.classList.add('catalog__plate');
         catalogPlate.id = filteredItems[elemNum].filter
@@ -38,7 +42,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 <p class="catalog__plate_grade">${filteredItems[elemNum].grade}</p>
                 <p class="catalog__plate_type">${filteredItems[elemNum].filter}</p>
                 <p class="catalog__plate_description">
-                    ${filteredItems[elemNum].description}
+                    ${description}
                 </p>
                 <p class="catalog__plate_adress">${filteredItems[elemNum].adress}</p>
             </div>
