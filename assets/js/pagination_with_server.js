@@ -2,10 +2,8 @@ document.addEventListener('DOMContentLoaded', async function () {
     let showAllItems = false;
     let filteredItems = [];
     let activeFilter = new URLSearchParams(window.location.search).get('filter') || 'Все';
-    let currentPage = parseInt(localStorage.getItem('currentPage')) || 1;
-
+    let currentPage = parseInt(new URLSearchParams(window.location.search).get('page')) || 1;
     const itemsPerPage = 6;
-    // const items = document.querySelectorAll('.catalog__plate');
     let items = []
     const pagination = document.getElementById('pagination');
     const noResultsMessage = document.getElementById('noResultsMessage');
@@ -33,30 +31,24 @@ document.addEventListener('DOMContentLoaded', async function () {
         catalogPlate.id = filteredItems[elemNum].filter
         catalogPlate.setAttribute('data-id', filteredItems[elemNum].id)
         catalogPlate.innerHTML = `
-        <a href="landmark.html">
-            <img src="./assets/img/${filteredItems[elemNum].imgs[0]}"></img>
-            <div class="catalog__plate_text">
-                <h4 class="catalog__plate_title">
-                    ${filteredItems[elemNum].title}
-                </h4>
-                <p class="catalog__plate_grade">${filteredItems[elemNum].grade}</p>
-                <p class="catalog__plate_type">${filteredItems[elemNum].filter}</p>
-                <p class="catalog__plate_description">
-                    ${description}
-                </p>
-                <p class="catalog__plate_adress">${filteredItems[elemNum].adress}</p>
-            </div>
-        </a>
+        <img src="./assets/img/${filteredItems[elemNum].imgs[0]}"></img>
+        <div class="catalog__plate_text">
+            <h4 class="catalog__plate_title">
+                ${filteredItems[elemNum].title}
+            </h4>
+            <p class="catalog__plate_grade">${filteredItems[elemNum].grade}</p>
+            <p class="catalog__plate_type">${filteredItems[elemNum].filter}</p>
+            <p class="catalog__plate_description">
+                ${description}
+            </p>
+            <p class="catalog__plate_adress">${filteredItems[elemNum].adress}</p>
+        </div>
         `
         document.getElementById('catalog__container').appendChild(catalogPlate);
     }
 
-    function createPage(elemNum) {
-        document.querySelector('.catalog__container').innerHTML = '';
-    }
-
     function renderCatalog(page) {
-        currentPage = parseInt(localStorage.getItem('currentPage')) || 1;
+        currentPage = parseInt(new URLSearchParams(window.location.search).get('page')) || 1;
         let searchTerm = document.getElementById('searchInput').value.toLowerCase();
         if (localStorage.getItem('textinput')) {
             document.getElementById('searchInput').value=localStorage.getItem('textinput')
@@ -69,6 +61,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             const title = item.title.toLowerCase(); 
             return title.includes(searchTerm) && (activeFilter === 'Все' || item.filter === activeFilter);
         });
+
         localStorage.setItem('textinput', '')
         
         if (searchTerm === 'апрпапр') {
@@ -79,21 +72,12 @@ document.addEventListener('DOMContentLoaded', async function () {
             document.getElementById('secretContainer').style.display = 'none';
             document.getElementById('catalog__container').style.display = 'grid'
         }
+
         document.querySelector(`button[data-id="${activeFilter}"]`).classList.add('active');
         
-        // items.forEach(item => item.style.display = 'none');
-        filteredItems.forEach(item => {
-            createPage()
-            for (let i = start; i < end && i < filteredItems.length; i++) {
-                createPlate(i)
-            }
-        });
-
-        if (showAllItems) {
-            createPage()
-            for (let i = start; i < end && i < filteredItems.length; i++) {
-                createPlate(i)
-            }
+        document.querySelector('.catalog__container').innerHTML = '';
+        for (let i = start; i < end && i < filteredItems.length; i++) {
+            createPlate(i)
         }
 
         if (filteredItems.length === 0) {
@@ -147,7 +131,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             updateCatalog();
         });
         pagination.appendChild(pageButton);
-    }
+        }
 
         const nextButton = document.createElement('button');
         nextButton.textContent = '>';
@@ -171,9 +155,9 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 
     function saveState() {
-        localStorage.setItem('currentPage', currentPage);
         const url = new URL(window.location);
         url.searchParams.set('filter', activeFilter);
+        url.searchParams.set('page', currentPage)
         window.history.replaceState(null, '', url);
     }
 
@@ -195,16 +179,9 @@ document.addEventListener('DOMContentLoaded', async function () {
     document.querySelectorAll('.catalog__container').forEach(plate => {
         plate.addEventListener('click', function (elem) {
             const itemid = elem.target.closest('.catalog__plate').getAttribute('data-id')
-            localStorage.setItem('item-id', itemid)
+            window.location.href = `landmark.html?item=${itemid}`
         });
     });
-
-    // document.querySelector('.catalog__container').forEach(plate => {
-    //     plate.addEventListener('click', function(event) {
-    //         const clickedElement = event.target;
-    //         console.log(clickedElement); // Элемент, на который кликнули
-    //     });
-    // })
 
     document.getElementById('showAllButton').addEventListener('click', function () {
         showAllItems = true;
@@ -216,11 +193,11 @@ document.addEventListener('DOMContentLoaded', async function () {
         renderCatalog(currentPage);
         renderPagination();
         showAllItems=false
-        setTimeout(() => {
-            document.querySelector('.loader__wrap').classList.add('hidden')
-            document.body.classList.remove('overflow-h')
-        }, 500);
     }
 
     updateCatalog();
+    setTimeout(() => {
+        document.querySelector('.loader__wrap').classList.add('hidden')
+        document.body.classList.remove('overflow-h')
+    }, 500);
 });

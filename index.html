@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="./assets/css/style.css">
     <script src="./assets/js/loader.js"></script>
     <script src="./assets/js/home.js"></script>
-    <script src="./assets/js/footer_filters.js"></script>
     <script src="./assets/js/subscribe.js"></script>
     <link rel="icon" href="./assets/img/favicon.ico">
     <title>City Guide Belgorod</title>
@@ -56,7 +55,9 @@
     </header>
     <main class="main" id="main">
         <div class="main__wrap">
-            <button class="main__btn_back" onclick="back_main_photo()">🠈</button>
+            <button class="main__btn_back" onclick="back_main_photo()">
+                <img src="./assets/img/arrow_l.svg" alt="arrow_l">
+            </button>
             <div class="main__title">
                 <h2 class="main__subtitle">
                     City Guide
@@ -65,8 +66,9 @@
                     Belgorod
                 </h1>
             </div>
-            <button class="main__btn_next" onclick="next_main_photo()">🠊</button>
-            <button class="main__btn_pause" id="btn_pause" onclick="pause()" title="Поставить на паузу слайдшоу">▶️</button>
+            <button class="main__btn_next" onclick="next_main_photo()">
+                <img src="./assets/img/arrow_r.svg" alt="arrow_r">
+            </button>
         </div>
     </main>
     <section class="about">
@@ -156,28 +158,28 @@
                 </div>
                 <div class="footer__blocks2">
                     <div class="footer__block">
-                        <a href="catalog.html" class="footer__block_title" id="Все">
+                        <a href="catalog.html?filter=Все" class="footer__block_title" id="Все">
                             Каталог
                         </a>
-                        <a href="catalog.html" class="footer__block_subtitle" id="Памятники">
+                        <a href="catalog.html?filter=Памятники&page=1" class="footer__block_subtitle" id="Памятники">
                             Памятники
                         </a>
-                        <a href="catalog.html" class="footer__block_subtitle" id="Музеи">
+                        <a href="catalog.html?filter=Музеи&page=1" class="footer__block_subtitle" id="Музеи">
                             Музеи
                         </a>
-                        <a href="catalog.html" class="footer__block_subtitle" id="Парки и сады">
+                        <a href="catalog.html?filter=Парки+и+сады&page=1" class="footer__block_subtitle" id="Парки и сады">
                             Парки и сады
                         </a>
-                        <a href="catalog.html" class="footer__block_subtitle" id="Храмы и церкви">
+                        <a href="catalog.html?filter=Храмы+и+церкви&page=1" class="footer__block_subtitle" id="Храмы и церкви">
                             Храмы и церкви
                         </a>
-                        <a href="catalog.html" class="footer__block_subtitle" id="Театры и культурные центры">
+                        <a href="catalog.html?filter=Театры+и+культурные+центры&page=1" class="footer__block_subtitle" id="Театры и культурные центры">
                             Театры и культурные центры
                         </a>
-                        <a href="catalog.html" class="footer__block_subtitle" id="Фонтаны">
+                        <a href="catalog.html?filter=Фонтаны&page=1" class="footer__block_subtitle" id="Фонтаны">
                             Фонтаны 
                         </a>
-                        <a href="catalog.html" class="footer__block_subtitle" id="Площади">
+                        <a href="catalog.html?filter=Площади&page=1" class="footer__block_subtitle" id="Площади">
                             Площади
                         </a>
                     </div>

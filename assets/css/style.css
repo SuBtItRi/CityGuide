@@ -523,35 +523,6 @@ a {
     font-size: 20px;
   }
 }
-.main__btn_pause {
-  position: absolute;
-  border: none;
-  background: none;
-  font-size: 50px;
-  cursor: pointer;
-  display: flex;
-  color: #fff;
-  transition: 0.5s;
-  margin: 10px;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  font-size: 40px;
-}
-.main__btn_pause:hover {
-  color: red;
-}
-@media (max-width: 1024px) {
-  .main__btn_pause {
-    font-size: 30px;
-    font-size: 20px;
-  }
-}
-@media (max-width: 600px) {
-  .main__btn_pause {
-    font-size: 20px;
-  }
-}
 
 .main-2 {
   display: flex;
@@ -1229,10 +1200,6 @@ a {
 .landmark__window-imgs.active {
   display: flex;
 }
-.landmark__window-imgs img {
-  height: 550px;
-  cursor: pointer;
-}
 .landmark__window-imgs_item {
   cursor: pointer;
 }
@@ -1254,8 +1221,8 @@ a {
 }
 .landmark__window_imgs-slider .imgs-slider__item {
   transition: transform 0.3s ease;
-  width: 1100px;
-  height: 800px;
+  width: auto;
+  height: 550px;
   -o-object-fit: cover;
      object-fit: cover;
   cursor: unset;
@@ -1274,6 +1241,8 @@ a {
   font-size: 24px;
   color: #000;
   border-radius: 10px;
+  align-items: center;
+  justify-content: center;
 }
 .landmark__window_imgs-slider .imgs-slider__btn_next {
   position: absolute;
@@ -1289,6 +1258,8 @@ a {
   font-size: 24px;
   color: #000;
   border-radius: 10px;
+  align-items: center;
+  justify-content: center;
 }
 .landmark__window_imgs-slider .imgs-slider__close {
   position: absolute;

@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentPage = parseInt(localStorage.getItem('currentPage')) || 1;
 
     const items = document.querySelectorAll('.catalog__plate');
+    
     const pagination = document.getElementById('pagination');
     const noResultsMessage = document.getElementById('noResultsMessage');
 
@@ -59,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             noResultsMessage.style.display = 'none';
             pagination.style.display = 'flex';
-            catalogContainer.classList.remove('none-h')
+            catalogContainer.classList.remove('none-h');
         }
     }
 
@@ -91,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         pagination.appendChild(prevButton);
 
-        // btns
+        
         for (let i = 1; i <= totalPages; i++) {
             const pageButton = document.createElement('button');
             pageButton.textContent = i;
@@ -126,7 +127,6 @@ document.addEventListener('DOMContentLoaded', function () {
         pagination.appendChild(lastButton);
     }
 
-    // save filter and page
     function saveState() {
         localStorage.setItem('selectedFilter', activeFilter);
         localStorage.setItem('currentPage', currentPage);

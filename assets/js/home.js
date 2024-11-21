@@ -2,7 +2,6 @@ let num_main_photo = 0
 let max_photes = 7 
 let notpause = true 
 
-
 document.addEventListener("DOMContentLoaded", function() {
     // auto slide slider
     setInterval( function () {
@@ -53,13 +52,4 @@ function next_main_photo() {
     num_main_photo++ 
     if (num_main_photo > max_photes){num_main_photo=0 }
     document.getElementById('main').style.backgroundImage = `url('./assets/img/main${num_main_photo}.jpeg')` 
-}
-function pause() {
-    if (notpause) {
-        notpause=false 
-        document.getElementById('btn_pause').textContent = '⏸️'
-    } else {
-        notpause=true 
-        document.getElementById('btn_pause').textContent = '▶️'
-    }
 }
