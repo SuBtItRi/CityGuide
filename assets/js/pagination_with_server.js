@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     function createPlate(elemNum) {
         let description=filteredItems[elemNum].description
         if(description.length > 275) {
-            description = description.slice(0, 250) + '...'
+            description = description.slice(0, 255) + '...'
         }
         const catalogPlate = document.createElement('div');
         catalogPlate.classList.add('catalog__plate');
@@ -33,15 +33,21 @@ document.addEventListener('DOMContentLoaded', async function () {
         catalogPlate.innerHTML = `
         <img src="./assets/img/${filteredItems[elemNum].imgs[0]}"></img>
         <div class="catalog__plate_text">
-            <h4 class="catalog__plate_title">
-                ${filteredItems[elemNum].title}
-            </h4>
-            <p class="catalog__plate_grade">${filteredItems[elemNum].grade}</p>
-            <p class="catalog__plate_type">${filteredItems[elemNum].filter}</p>
-            <p class="catalog__plate_description">
-                ${description}
-            </p>
-            <p class="catalog__plate_adress">${filteredItems[elemNum].adress}</p>
+            <div class="catalog__plate_up-block">
+                <h4 class="catalog__plate_title">
+                    ${filteredItems[elemNum].title}
+                </h4>
+            </div>
+            <div class="catalog__plate_middle-block">
+                <p class="catalog__plate_grade">${filteredItems[elemNum].grade}</p>
+                <p class="catalog__plate_type">${filteredItems[elemNum].filter}</p>
+                <p class="catalog__plate_description">
+                    ${description}
+                </p>
+            </div>
+            <div class="catalog__plate_bottom-block">
+                <p class="catalog__plate_adress">${filteredItems[elemNum].adress}</p>
+            </div>
         </div>
         `
         document.getElementById('catalog__container').appendChild(catalogPlate);
@@ -200,4 +206,5 @@ document.addEventListener('DOMContentLoaded', async function () {
         document.querySelector('.loader__wrap').classList.add('hidden')
         document.body.classList.remove('overflow-h')
     }, 500);
+    
 });
