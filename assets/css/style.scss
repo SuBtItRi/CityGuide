@@ -1092,13 +1092,13 @@ a {
     &__window {
         background-color: #fff;
         padding: 30px;
-        @media (max-width: 800px) {
-            padding: 10px;
-        }
         margin-top: 20px;
         margin-bottom: 50px;
         border-radius: 20px;
         box-shadow: 0 1px 2px 0 #0000001a;
+        @media (max-width: 800px) {
+            padding: 10px;
+        }
         &-imgs {
             &.active {
                 display: flex;
@@ -1185,8 +1185,7 @@ a {
             grid-template-columns: 1fr 1fr;
             gap: 50px;
             @media (max-width: 800px) {
-                padding: 10px;
-                margin-top: 10px;
+                margin-top: 0;
                 margin-bottom: 0px;
                 grid-template-columns: 1fr;
                 gap: 20px;
