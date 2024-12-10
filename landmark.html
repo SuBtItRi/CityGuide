@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="./assets/css/style.css">
     <script src="./assets/js/subscribe.js"></script>
     <script src="./assets/js/landmark_generate.js"></script>
+    <script src="./assets/js/check_log_account.js"></script>
     <link rel="icon" href="./assets/img/favicon.ico">
     <title>City Guide Catalog</title>
 </head>
@@ -17,51 +18,12 @@
             <button id="accept" onclick="accept()">Принять</button>
         </div>
     </div>
-    <div class="contact__modal">
-        <form class="contact__modal_wrap">
-            <button class="contact__modal_close">❌</button>
-            <div class="contact__modal_email-name">
-                <div class="contact__modal_block">
-                    <h3 class="contact__modal_title">Email</h3>
-                    <input type="email" placeholder="Введите вашу почту" id="contact_email" required>
-                </div>
-                <div class="contact__modal_block">
-                    <h3 class="contact__modal_title">Name</h3>
-                    <input type="text" placeholder="Введите ваше имя" id="contact_name" required>
-                </div>
-            </div>
-            <div class="contact__modal_block">
-                <h3 class="contact__modal_title">Adress</h3>
-                <input type="text" placeholder="Введите ваш адресс" id="contact_adress" required>
-            </div>
-            <div class="contact__modal_block">
-                <h3 class="contact__modal_title">Сообщение</h3>
-                <textarea type="text" placeholder="Введите сообщение" id="contact_msg" required></textarea>
-            </div>
-            <button class="contact__modal_btn" type="submit">Предоставить на рассмотрение</button>
-        </form>
-    </div>
-    <header class="header landmark">
+    <header class="header black-header">
         <div class="container">
             <div class="header__wrap">
                 <a href="index.html" class="header__logo">
                     <img src="./assets/img/logo.png" alt="logo">
                 </a>
-                <div class="header__burger_menu">
-                    <input type="checkbox" id="burger-checkbox" class="header__burger-checkbox">
-                    <label for="burger-checkbox" class="header__burger"></label>
-                    <ul class="header__menu-list">
-                        <a href="index.html#" class="header__menu-item">
-                            Главная
-                        </a>
-                        <a href="catalog.html" class="header__menu-item">
-                            Каталог
-                        </a>
-                        <a href="contacts.html" class="header__menu-item">
-                            Контакты
-                        </a>
-                    </ul>
-                </div>
                 <div class="header__menu">
                     <a href="index.html#" class="header__menu_item">
                         Главная
@@ -72,6 +34,35 @@
                     <a href="contacts.html" class="header__menu_item">
                         Контакты
                     </a>
+                </div>
+                <div>
+                    <div class="header__burger_menu">
+                        <input type="checkbox" id="burger-checkbox" class="header__burger-checkbox">
+                        <label for="burger-checkbox" class="header__burger"></label>
+                        <ul class="header__menu-list">
+                            <a href="index.html#" class="header__menu-item">
+                                Главная
+                            </a>
+                            <a href="catalog.html" class="header__menu-item">
+                                Каталог
+                            </a>
+                            <a href="contacts.html" class="header__menu-item">
+                                Контакты
+                            </a>
+                            <a href="account_settings.html" class="header__menu-item">
+                                Аккаунт
+                            </a>
+                        </ul>
+                    </div>
+                    <div class="header__usermenu">
+                        <input type="checkbox" id="usermenu-checkbox" class="header__usermenu-checkbox">
+                        <img src="./assets/img/avatar.png" alt="avatar" id="usermenu_avatar" class="header__usermenu_avatar">
+                        <div class="usermenu">
+                            <a href="reglog.html" class="usermenu__login">Войти</a>
+                            <a href="account_settings.html" class="usermenu__settings">Настройки</a>
+                            <a href="#" class="usermenu__logout">Выйти</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
