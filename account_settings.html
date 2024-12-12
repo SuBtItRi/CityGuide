@@ -7,6 +7,7 @@
     <script src="./assets/js/loader.js"></script>
     <script src="./assets/js/subscribe.js"></script>
     <script src="./assets/js/check_log_account.js"></script>
+    <script src="./assets/js/account_settings.js"></script>
     <link rel="icon" href="./assets/img/favicon.ico">
     <title>Document</title>
 </head>
@@ -68,20 +69,22 @@
             </div>
         </div>
     </header>
-    <section class="account-settings">
+    <section class="account">
         <div class="container">
-            <div class="account-settings__wrap">
+            <div class="account__wrap">
                 <h1 class="title">
                     Настройки
                 </h1>
                 <div class="settings">
-                    <h2>Аккаунт</h2>
+                    <div class="settings__title">
+                        <h2>Аккаунт</h2>
+                    </div>
                     <div class="settings__block">
                         <img src="./assets/img/avatar.png" alt="avatar" id="usermenu_avatar" class="settings__avatar">
                         <div class="settings__block_details">
                             <div class='settings__block_details-item'>
-                                <h3>Username</h3>
-                                <h4 id="setUsername"></h4>
+                                <h5>Username</h5>
+                                <h2 id="setUsername"></h2>
                             </div>
                             <button class='settings_change-pass-btn'>Изменить пароль</button>
                             <div class='settings__block_details-item'>
@@ -103,6 +106,10 @@
                             <p id="accountSuccessChangePass" class="allright">Пароль успешно изменен!</p>
                         </form>
                     </div>
+                </div>
+                <h1 class="title">Ваши отзывы</h1>
+                <div class='reviews__container'>
+                    
                 </div>
             </div>
         </div>

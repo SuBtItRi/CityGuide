@@ -1492,6 +1492,16 @@ a {
   display: none;
   font-size: 14px;
 }
+.form #haveAccount {
+  margin-top: 20px;
+  font-size: 14px;
+  color: darkgreen;
+  cursor: pointer;
+  transition: 0.5s;
+}
+.form #haveAccount:hover {
+  color: green;
+}
 .form #notHaveAccount {
   margin-top: 20px;
   font-size: 14px;
@@ -1503,54 +1513,73 @@ a {
   color: red;
 }
 
-.account-settings {
+.account {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  margin-top: 150px;
 }
-.account-settings__wrap {
+.account__wrap {
   padding: 20px;
 }
-.account-settings .settings {
+.account__wrap .title {
+  margin-top: 10px;
+}
+.account .settings {
   margin-top: 20px;
   padding: 30px;
   border-radius: 20px;
   background: #000;
   color: #fff;
 }
-.account-settings .settings__avatar {
+.account .settings__title {
+  display: flex;
+  justify-content: space-between;
+}
+.account .settings__title #delAccount {
+  padding: 10px;
+  font-family: Unbounded;
+  font-size: 14px;
+  font-weight: 600;
+  width: 200px;
+  background: red;
+  color: #fff;
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
+}
+.account .settings__avatar {
   width: 300px;
   height: 300px;
   border-radius: 100%;
   -o-object-fit: cover;
      object-fit: cover;
 }
-.account-settings .settings__block {
+.account .settings__block {
   margin-top: 20px;
   display: flex;
   gap: 50px;
   height: 300px;
 }
-.account-settings .settings__block_details {
+.account .settings__block_details {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 150px;
   width: 100%;
 }
-.account-settings .settings__block_details-item {
+.account .settings__block_details-item {
   display: flex;
   flex-direction: column;
 }
-.account-settings .settings_change-avatar {
+.account .settings_change-avatar {
   padding: 5px;
   border: none;
   border-radius: 15px;
   font-family: Unbounded;
   outline: none;
 }
-.account-settings .settings_change-pass-btn {
+.account .settings_change-pass-btn {
   width: 250px;
   border: none;
   border-radius: 15px;

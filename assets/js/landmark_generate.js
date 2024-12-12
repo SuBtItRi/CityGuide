@@ -22,6 +22,10 @@ class DataFetcher {
         });
         if (!response.ok) {
             throw new Error('Ошибка отправки данных');
+        } else {
+            console.log(
+                `Отзыв сохранен`, postData
+            )
         }
         return await response.json();
     }
@@ -47,12 +51,12 @@ class Landmark {
         this.random_reviews = Math.floor(Math.random() * (999 - 1 + 1) + 1)
         this.itemData = new DataFetcher(`https://6728a8d3270bd0b97556a70f.mockapi.io/catalog/filters/${landmarkID}`)
         this.reviewData = new DataFetcher(`https://6751eebad1983b9597b4dc21.mockapi.io/reviews?currentLandmarkID=${landmarkID}`)
-        this.currentUserID = new DataFetcher('https://6751eebad1983b9597b4dc21.mockapi.io/users')
+        this.usersData = new DataFetcher('https://6751eebad1983b9597b4dc21.mockapi.io/users')
         this.delReviewData = new DataFetcher(`https://6751eebad1983b9597b4dc21.mockapi.io/reviews`)
     }
     
     async init () {
-        this.users = await this.currentUserID.fetchData()
+        this.users = await this.usersData.fetchData()
         
         let currentUserID
         this.users.forEach(elem => {
@@ -101,7 +105,8 @@ class Landmark {
                 <form class='reviews__add' id='reviewForm'>
                     <div class='reviews__up-block'>
                         <div class='reviews__user-details'>
-                            details
+                            <img class='header__usermenu_avatar' src='./assets/img/avatar.png' alt='user-avatar'>
+                            <h3>Нужно войти в аккаунт</h3>
                         </div>
                         <div class='reviews__add-close'>
                             Закрыть
@@ -137,7 +142,7 @@ class Landmark {
                         </div>
                     </div>
                     <input type="number" name='grade' style='display:none'>
-                    <input maxlength='120' type='text' name='title' class='reviews__add_review title' placeholder='Заголовок отзыва' required> 
+                    <input maxlength='60' type='text' name='title' class='reviews__add_review title' placeholder='Заголовок отзыва' required> 
                     <textarea minlength='100' type='text' name='review' class='reviews__add_review' placeholder='Отзыв' required></textarea>
                     <input id='postReview' type='submit' class='landmark__window_blue-btn' value='Отправить отзыв'/>
                 </form>
@@ -194,10 +199,12 @@ class Landmark {
             `
         } catch {}
 
-        this.reviews = await this.reviewData.fetchData()
-        this.reviews.forEach(review => {
-            this.createReview(review.id)
-        })
+        try {
+            this.reviews = await this.reviewData.fetchData()
+            this.reviews.forEach(review => {
+                this.createReview(review.id)
+            })
+        } catch {}
         
         this.addReviewBtn = document.getElementById('add-review')
         this.addReviewBlock = document.querySelector('.reviews__add')
@@ -221,9 +228,7 @@ class Landmark {
                 }
             })
         })
-        
-        this.reviewsContainer = document.querySelector('.reviews__container')
-        
+                
         const slider_items = document.querySelectorAll(".imgs-slider__item")
         
         if (getItem.imgs.length < 3) {
@@ -259,7 +264,7 @@ class Landmark {
             this.addReviewBlock.style.marginTop = '-35%'
         })
 
-        this.reviewForm.addEventListener('submit', (e) => {
+        this.reviewForm.addEventListener('submit', async (e) => {
             e.preventDefault()
             this.when = document.getElementsByName('when')[0].value
             this.title = document.getElementsByName('title')[0].value
@@ -273,15 +278,24 @@ class Landmark {
                 "currentLandmarkID": landmarkID,
                 "date":this.getFormattedDate()
             }
-            this.reviewData.postReview(postData)
-            console.log(
-                `Отзыв сохранен`, postData
-            )
+            await this.reviewData.postReview(postData)
             this.reviewForm.reset()
             document.getElementById('postReview').classList.add('green-btn')
             document.getElementById('postReview').value = 'Отзыв отправлен'
-            setInterval(() => {
+            
+            this.reviewsContainer = document.querySelector('.reviews__container')
+            this.reviewsContainer.innerHTML = ''
+            try {
+                this.reviews = await this.reviewData.fetchData()
+                this.reviews.forEach(review => {
+                    this.createReview(review.id)
+                })
+            } catch {}
+            setTimeout(() => {
                 this.closeAddReviewBlock.click()
+                setTimeout(() => {
+                    document.getElementById('postReview').classList.remove('green-btn')
+                }, 1000);
             }, 2500);
         })
 

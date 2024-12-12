@@ -1368,6 +1368,16 @@ a {
         display: none;
         font-size: 14px;
     }
+    #haveAccount {
+        margin-top: 20px;
+        font-size: 14px;
+        color: darkgreen;
+        cursor: pointer;
+        transition: 0.5s;
+        &:hover {
+            color: green;
+        }
+    }
     #notHaveAccount {
         margin-top: 20px;
         font-size: 14px;
@@ -1380,11 +1390,14 @@ a {
     }
 }
 
-.account-settings {
+.account {
     @include center;
-    height: 100vh;
+    margin-top: 150px;
     &__wrap {
         padding: 20px;
+        .title {
+            margin-top: 10px;
+        }
     }
     .settings {
         margin-top: 20px;
@@ -1392,6 +1405,23 @@ a {
         border-radius: 20px;
         background: #000;
         color: #fff;
+        &__title {
+            display: flex;
+            justify-content: space-between;
+            #delAccount {
+                padding: 10px;
+                font-family: Unbounded;
+                font-size: 14px;
+                font-weight: 600;
+                width: 200px;
+                background: red;
+                color: #fff;
+                border-radius: 15px;
+                border: none;
+                cursor: pointer;
+                
+            }
+        }
         &__avatar {
             width: 300px;
             height: 300px;
