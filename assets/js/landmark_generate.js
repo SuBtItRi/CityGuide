@@ -199,12 +199,10 @@ class Landmark {
             `
         } catch {}
 
-        try {
-            this.reviews = await this.reviewData.fetchData()
-            this.reviews.forEach(review => {
-                this.createReview(review.id)
-            })
-        } catch {}
+        this.reviews = await this.reviewData.fetchData()
+        this.reviews.forEach(currentReview => {
+            this.createReview(currentReview)
+        })
         
         this.addReviewBtn = document.getElementById('add-review')
         this.addReviewBlock = document.querySelector('.reviews__add')
@@ -228,7 +226,9 @@ class Landmark {
                 }
             })
         })
-                
+        
+        this.reviewsContainer = document.querySelector('.reviews__container')
+        
         const slider_items = document.querySelectorAll(".imgs-slider__item")
         
         if (getItem.imgs.length < 3) {
@@ -282,8 +282,6 @@ class Landmark {
             this.reviewForm.reset()
             document.getElementById('postReview').classList.add('green-btn')
             document.getElementById('postReview').value = 'Отзыв отправлен'
-            
-            this.reviewsContainer = document.querySelector('.reviews__container')
             this.reviewsContainer.innerHTML = ''
             try {
                 this.reviews = await this.reviewData.fetchData()
@@ -298,8 +296,6 @@ class Landmark {
                 }, 1000);
             }, 2500);
         })
-
-
 
         setTimeout(() => {
             document.querySelector('.loader__wrap').classList.add('hidden')
@@ -356,9 +352,9 @@ class Landmark {
         return `Опубликовано ${day} ${month} ${year} г.`;
     }
     
-    createReview(elemID) {
+    createReview(currentReview) {
         this.reviewsContainer = document.querySelector('.reviews__container')
-        this.currentReview = this.reviews[elemID-1]
+        this.currentReview = currentReview
         this.currentUser = this.users[this.currentReview.currentUserID-1]
         const fullReviewText = this.currentReview.review
         let reviewText = this.currentReview.review
@@ -377,11 +373,11 @@ class Landmark {
         <p class='reviews__review_grade'> ${'⭐'.repeat(this.currentReview.grade)} </p>
         <p class='reviews__review_when'> ${this.currentReview.when} </p>
         <h2 class='reviews__review_text title'> ${this.currentReview.title} </h2>
-        <p id='reviewText${elemID}' class='reviews__review_text'> ${reviewText.replace('\\n', '<br>')}  </p>
+        <p id='reviewText${currentReview.id}' class='reviews__review_text'> ${reviewText.replace('\\n', '<br>')}  </p>
         <p class='reviews__review_when-published'> ${this.currentReview.date} </p>
         `
         this.reviewsContainer.appendChild(review);
-        const reviewTextElement = document.getElementById(`reviewText${elemID}`);
+        const reviewTextElement = document.getElementById(`reviewText${currentReview.id}`);
         reviewTextElement.addEventListener('click', (e) => {
             if (e.target.id === 'more') {
                 reviewTextElement.innerHTML = 
@@ -404,7 +400,6 @@ class Landmark {
 
             deleteReviewBtn.addEventListener('click', async (e) => {
                 const reviewBlock = e.target.closest('.reviews__review');
-                console.log(reviewBlock) 
 
                 this.delReviewData.delReview(reviewBlock)
             });
