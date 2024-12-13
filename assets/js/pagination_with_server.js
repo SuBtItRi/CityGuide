@@ -121,6 +121,7 @@ class Pagination {
         firstButton.disabled = this.currentPage === 1;
         firstButton.addEventListener('click', () => {
             this.currentPage = 1;
+            this.updateCatalog()
         });
         pagination.appendChild(firstButton);
 
@@ -130,6 +131,7 @@ class Pagination {
         prevButton.addEventListener('click', () => {
             if (this.currentPage > 1) {
                 this.currentPage--;
+                this.updateCatalog()
             }
         });
         pagination.appendChild(prevButton);
@@ -147,6 +149,7 @@ class Pagination {
         pageButton.classList.toggle('active', i === this.currentPage);
         pageButton.addEventListener('click', () => {
             this.currentPage = i;
+            this.updateCatalog()
         });
         pagination.appendChild(pageButton);
         }
@@ -157,6 +160,7 @@ class Pagination {
         nextButton.addEventListener('click', () => {
             if (this.currentPage < totalPages) {
                 this.currentPage++;
+                this.updateCatalog()
             }
         });
         pagination.appendChild(nextButton);
@@ -166,6 +170,7 @@ class Pagination {
         lastButton.disabled = this.currentPage === totalPages;
         lastButton.addEventListener('click', () => {
             this.currentPage = totalPages;
+            this.updateCatalog()
         });
         pagination.appendChild(lastButton);
     }
