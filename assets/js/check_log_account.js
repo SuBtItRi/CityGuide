@@ -12,45 +12,49 @@ class Check {
         this.passwordNotMatchReg = document.getElementById('passwordNotMatchReg')
         this.passwordNotMatchLog = document.getElementById('passwordNotMatchLog')
         this.accountSuccessChangePass = document.getElementById('accountSuccessChangePass')
+        this.currentUser
+    }
+
+    async simpleHash(password) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(password);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(b => ('00' + b.toString(16)).slice(-2)).join('');
+        return hashHex;
     }
 
     async fetchData() {
-        const response = await fetch(this.apiUrl)
+        const response = await fetch(`${this.apiUrl}?password=${await this.simpleHash(localStorage.getItem('password'))}&username${localStorage.getItem('username')}`)
         if (!response.ok) {
             throw new Error('response not ok')
         }
-        return await response.json()
+        const data = await response.json()
+        return data[0]
     }
 
     async init() {
-        const users = await this.fetchData();
-        let currentUser
-        if (localStorage.getItem('username')) {
-            users.forEach(user => { 
-                if (user.username === localStorage.getItem('username') && user.password === localStorage.getItem('password')) {
-                    this.avatars.forEach(elem => elem.src = user.avatar);
-                    currentUser=user
-                }
-            });
-            
-            this.usermenu.addEventListener('click', () => {
-                if (currentUser) {
-                    this.um_login.style.display = 'none'
-                    this.um_settings.style.display = 'flex'
-                    this.um_logout.style.display = 'flex'
-                } else {
-                    this.um_login.style.display = 'flex'
-                    this.um_settings.style.display = 'none'
-                    this.um_logout.style.display = 'none'
-                }
-            })
-            this.logout_btn.addEventListener('click', () => {
-                location.reload()
-                localStorage.setItem('username', '')
-                localStorage.setItem('password', '')
-                console.log('rebotaet')
-            })
-        } 
+        try {
+            this.currentUser = await this.fetchData();
+            this.avatars.forEach(elem => elem.src = this.currentUser.avatar)
+        } catch {}
+        this.usermenu.addEventListener('click', () => {
+            if (this.currentUser) {
+                this.um_login.style.display = 'none'
+                this.um_settings.style.display = 'flex'
+                this.um_logout.style.display = 'flex'
+            } else {
+                this.um_login.style.display = 'flex'
+                this.um_settings.style.display = 'none'
+                this.um_logout.style.display = 'none'
+            }
+        })
+        this.logout_btn.addEventListener('click', () => {
+            location.reload()
+            localStorage.setItem('username', '')
+            localStorage.setItem('password', '')
+            console.log('rebotaet')
+        })
     }
 }
 

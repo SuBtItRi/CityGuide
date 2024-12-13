@@ -55,15 +55,25 @@ class Landmark {
         this.delReviewData = new DataFetcher(`https://6751eebad1983b9597b4dc21.mockapi.io/reviews`)
     }
     
+    async simpleHash(password) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(password);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(b => ('00' + b.toString(16)).slice(-2)).join('');
+        return hashHex;
+    }
+    
     async init () {
         this.users = await this.usersData.fetchData()
-        
-        let currentUserID
+        let currentUserID;
+        const hashPassword = await this.simpleHash(localStorage.getItem('password'))
         this.users.forEach(elem => {
-            if (elem.username == localStorage.getItem('username')) {
-                currentUserID = elem.id
+            if (elem.username == localStorage.getItem('username') && elem.password == hashPassword) {
+            currentUserID = elem.id;
+            console.log(currentUserID)
             }
-        })
+        });
 
         const getItem = await this.itemData.fetchData()
         const currentYear = new Date().getFullYear() % 100
