@@ -620,6 +620,9 @@ a {
   }
 }
 
+.catalog {
+  min-height: 100vh;
+}
 .catalog__wrap {
   padding: 20px;
   margin-top: 50px;
