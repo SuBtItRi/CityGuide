@@ -4,11 +4,12 @@ class AccountSettings {
         this.usermenu = document.querySelector('.header__usermenu-checkbox');
         this.um_login = document.querySelector('.usermenu__login');
         this.um_settings = document.querySelector('.usermenu__settings');
-        this.um_logout = document.querySelector('.usermenu__logout');
         this.avatars = document.querySelectorAll('#usermenu_avatar');
         this.logout_btn = document.querySelector('.usermenu__logout');
         this.settings__block_details = document.querySelector('.settings__block_details');
         this.setting_title = document.querySelector('.settings__title');
+        this.delAccountModal = document.querySelector('.del-account__modal')
+        this.delAccountModalContainer = document.querySelector('.del-account__modal_container');
         this.changePassForm = document.getElementById('changePassForm');
         this.passwordNotMatchReg = document.getElementById('passwordNotMatchReg');
         this.passwordNotMatchLog = document.getElementById('passwordNotMatchLog');
@@ -48,7 +49,6 @@ class AccountSettings {
         const response = await fetch(`${this.apiUrl}/${userId}`, {
             method: 'DELETE',
         });
-
         if (response.ok) {
             console.log(`User с ID ${userId} успешно удален.`);
         } else {
@@ -60,12 +60,12 @@ class AccountSettings {
         this.users = await this.getData('https://6751eebad1983b9597b4dc21.mockapi.io/users');
         let currentUserID;
         this.users.forEach(elem => {
-            if (elem.username == localStorage.getItem('username')) {
+            if (elem.username == localStorage.getItem('username') && elem.password == localStorage.getItem('password')) {
                 currentUserID = elem.id;
             }
         });
 
-        if (localStorage.getItem('username')) {
+        if (currentUserID) {
             document.getElementById('setUsername').innerHTML = `
                 ${localStorage.getItem('username')}
             `;
@@ -73,7 +73,14 @@ class AccountSettings {
             <h2>Аккаунт</h2>
             <button id="delAccount">Удалить аккаунт</button>
             `
+            this.delAccountModalContainer.innerHTML = `
+            <h3>Вы точно хотите удалить свой аккаунт?</h3>
+            <button id="delAccountSuccess">Удалить аккаунт</button>
+            <img src='./assets/img/close.svg' alt='close' id='hideModal'>
+            `
             this.delAccount = document.getElementById('delAccount');
+            this.delAccountSuccess = document.getElementById('delAccountSuccess');
+            this.hideModal = document.getElementById('hideModal')
         } else {
             this.settings__block_details.innerHTML = `
                 <h3>Нужно войти в аккаунт</h3>
@@ -117,25 +124,27 @@ class AccountSettings {
             }
         });
 
-        this.logout_btn.addEventListener('click', () => {
-            localStorage.setItem('username', '');
-            localStorage.setItem ('password', '');
-            location.reload();
-        });
-
         this.delAccount.addEventListener('click', () => {
-            this.delUser(currentUserID)
+            this.delAccountModal.classList.add('show')
+        })
+        this.hideModal.addEventListener('click', () => {
+            this.delAccountModal.classList.remove('show')
+        })
+        this.delAccountSuccess.addEventListener('click', async () => {
+            await this.delUser(currentUserID)
             this.logout_btn.click()
         })
 
         this.reviewsContainer = document.querySelector('.reviews__container')
         this.reviewsContainer.innerHTML = ''
-        this.reviews = await this.getData(`https://6751eebad1983b9597b4dc21.mockapi.io/reviews?currentUserID=${currentUserID}`)
-        let i = 0
-        this.reviews.forEach(review => {
-            this.createReview(i, currentUserID)
-            i++
-        })
+        try {
+            this.reviews = await this.getData(`https://6751eebad1983b9597b4dc21.mockapi.io/reviews?currentUserID=${currentUserID}`)
+            for (let i = 0; i < this.reviews.length; i++) {
+                this.createReview(i, currentUserID)
+            }
+        } catch {
+            console.log('У этого пользователя еще нет отзывов')
+        }
     }
     
     createReview(elemID, currentUserID) {
@@ -184,7 +193,6 @@ class AccountSettings {
 
             deleteReviewBtn.addEventListener('click', async (e) => {
                 const reviewBlock = e.target.closest('.reviews__review');
-                console.log(reviewBlock) 
                 this.delReviewData.delReview(reviewBlock)
             });
         }

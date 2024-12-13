@@ -215,7 +215,7 @@ a {
 }
 
 .header {
-  z-index: 10000;
+  z-index: 10;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1593,6 +1593,55 @@ a {
   cursor: pointer;
 }
 
+.del-account__modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.4);
+  width: 100vw;
+  height: 100vh;
+  z-index: 99;
+  display: none;
+}
+.del-account__modal.show {
+  display: block;
+}
+.del-account__modal_container {
+  position: relative;
+  margin: 25% auto;
+  width: 500px;
+  background: #160202;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-radius: 25px;
+  z-index: 100;
+  gap: 20px;
+}
+.del-account__modal_container h3 {
+  text-align: center;
+}
+.del-account__modal_container #delAccountSuccess {
+  padding: 10px;
+  font-family: Unbounded;
+  font-size: 14px;
+  font-weight: 600;
+  width: 200px;
+  background: red;
+  color: #fff;
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
+}
+.del-account__modal_container #hideModal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
 .reviews {
   -o-object-fit: cover;
      object-fit: cover;
@@ -1697,6 +1746,7 @@ a {
 .reviews__review_text {
   width: 100%;
   border-radius: 20px;
+  word-break: break-all;
 }
 .reviews__review_text.title {
   height: 30px;

@@ -199,10 +199,14 @@ class Landmark {
             `
         } catch {}
 
-        this.reviews = await this.reviewData.fetchData()
-        this.reviews.forEach(currentReview => {
-            this.createReview(currentReview)
-        })
+        try {
+            this.reviews = await this.reviewData.fetchData()
+            this.reviews.forEach(currentReview => {
+                this.createReview(currentReview)
+            })
+        } catch {
+            console.log('на этой странице нету отзывов')
+        }
         
         this.addReviewBtn = document.getElementById('add-review')
         this.addReviewBlock = document.querySelector('.reviews__add')
@@ -283,12 +287,7 @@ class Landmark {
             document.getElementById('postReview').classList.add('green-btn')
             document.getElementById('postReview').value = 'Отзыв отправлен'
             this.reviewsContainer.innerHTML = ''
-            try {
-                this.reviews = await this.reviewData.fetchData()
-                this.reviews.forEach(review => {
-                    this.createReview(review.id)
-                })
-            } catch {}
+            this.createReview(postData)
             setTimeout(() => {
                 this.closeAddReviewBlock.click()
                 setTimeout(() => {

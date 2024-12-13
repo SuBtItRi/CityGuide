@@ -99,11 +99,11 @@ class Form {
             const user = users.find(user => user.username === this.usernameLog.value);
 
             if (user) {
-                console.log(user.password, await this.simpleHash(this.passwordLog.value))
-                if (user.password === await this.simpleHash(this.passwordLog.value)) { 
+                this.hashPass = await this.simpleHash(this.passwordLog.value)
+                if (user.password === this.hashPass) { 
                     this.accountSuccessLog.style.display = 'block';
                     localStorage.setItem('username', this.usernameLog.value);
-                    localStorage.setItem('password', this.passwordLog.value);
+                    localStorage.setItem('password', this.hashPass);
                     location.reload();
                 } else {
                     this.passwordNotMatchLog.style.display = 'block';

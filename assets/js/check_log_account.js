@@ -23,36 +23,34 @@ class Check {
     }
 
     async init() {
-        this.usermenu.addEventListener('click', () => {
-            if (localStorage.getItem('username')) {
-                this.um_login.style.display = 'none'
-                this.um_settings.style.display = 'flex'
-                this.um_logout.style.display = 'flex'
-            } else {
-                this.um_login.style.display = 'flex'
-                this.um_settings.style.display = 'none'
-                this.um_logout.style.display = 'none'
-            }
-        })
-        this.logout_btn.addEventListener('click', () => {
-            location.reload()
-            localStorage.setItem('username', '')
-            localStorage.setItem('password', '')
-            console.log('rebotaet')
-        })
         const users = await this.fetchData();
+        let currentUser
         if (localStorage.getItem('username')) {
             users.forEach(user => { 
-                if (user.username === localStorage.getItem('username')) {
+                if (user.username === localStorage.getItem('username') && user.password === localStorage.getItem('password')) {
                     this.avatars.forEach(elem => elem.src = user.avatar);
+                    currentUser=user
                 }
             });
-        } else {
-            this.settings__block_details.innerHTML = `
-                <h3>Нужно войти в аккаунт</h3>
-                <a href='reglog.html'>Войти в аккаунт</a>
-            `;
-        }
+            
+            this.usermenu.addEventListener('click', () => {
+                if (currentUser) {
+                    this.um_login.style.display = 'none'
+                    this.um_settings.style.display = 'flex'
+                    this.um_logout.style.display = 'flex'
+                } else {
+                    this.um_login.style.display = 'flex'
+                    this.um_settings.style.display = 'none'
+                    this.um_logout.style.display = 'none'
+                }
+            })
+            this.logout_btn.addEventListener('click', () => {
+                location.reload()
+                localStorage.setItem('username', '')
+                localStorage.setItem('password', '')
+                console.log('rebotaet')
+            })
+        } 
     }
 }
 
