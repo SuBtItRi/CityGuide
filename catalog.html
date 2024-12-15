@@ -101,7 +101,15 @@
                     <div class="catalog__title">
                         Каталог достопримечательностей
                     </div>
-                    <input type="text" id="searchInput" class="catalog__search-input" placeholder="Поиск по заголовку">
+                    <div class="catalog__sort-container">
+                        <input type="text" id="searchInput" class="catalog__search-input" placeholder="Поиск по заголовку">
+                        <select name="catalogSort" id="catalogSort">
+                            <option value="grade&order=desc">По убыванию рейтинга</option>
+                            <option value="grade&order=asc">По возрастанию рейтинга</option>
+                            <option value="title&order=asc">От А до Я</option>
+                            <option value="title&order=desc">От Я до А</option>
+                        </select>
+                    </div>
                     <div id="noResultsMessage">Ничего не найдено... :(</div>
                     <div  id="secretContainer" class="secret__plate" style="display:none;">
                         <img src="./assets/img/secret.jpg" class="secret__container_plate_img"></img>

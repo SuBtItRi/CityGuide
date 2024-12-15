@@ -9,16 +9,18 @@ class Pagination {
         this.noResultsMessage = document.getElementById('noResultsMessage');
         this.catalog_filter_btn = document.querySelectorAll('.catalog__filter-btn')
         this.catalog_container = document.getElementById('catalog__container')
+        this.catalogSort = document.getElementById('catalogSort')
     }
 
-    async getData(filter, searchterm) {
+    async getData(filter, searchterm, sortBy = '') {
         try {
             let url
             if (searchterm == '') {
-                url = `https://6728a8d3270bd0b97556a70f.mockapi.io/catalog/filters?filter=${filter}&limit=6&page=${this.currentPage}`
+                url = `https://6728a8d3270bd0b97556a70f.mockapi.io/catalog/filters?filter=${filter}&limit=6&page=${this.currentPage}&sortBy=${sortBy}`
             } else {
-                url = `https://6728a8d3270bd0b97556a70f.mockapi.io/catalog/filters?filter=${filter}&page=${this.currentPage}&limit=6&title=${searchterm}`
+                url = `https://6728a8d3270bd0b97556a70f.mockapi.io/catalog/filters?filter=${filter}&page=${this.currentPage}&limit=6&title=${searchterm}&sortBy=${sortBy}`
             }
+            console.log(url)
             const response = await fetch(url)
             const getdata = await response.json(); 
             return getdata
@@ -27,7 +29,6 @@ class Pagination {
         }
     }
 
-    
     async getLength(filter, searchterm) {
         try {
             const response = await fetch(`https://6728a8d3270bd0b97556a70f.mockapi.io/catalog/filters?filter=${filter}&title=${searchterm}`)
@@ -38,10 +39,29 @@ class Pagination {
         }
     }
 
-    createPlate(elemNum) {
+    async getReviewGrades(currentLandmarkID) {
+        try {
+            const response = await fetch(`https://6751eebad1983b9597b4dc21.mockapi.io/reviews?currentLandmarkID=${currentLandmarkID}`)
+            const getdata = await response.json(); 
+            return getdata
+        } catch (error) {
+            console.error('Ошибка:', error);
+        }
+    }
+
+    createPlate(elemNum, review_grades) {
         let description=this.filteredItems[elemNum].description
         if(description.length > 275) {
             description = description.slice(0, 255) + '...'
+        }
+        if (review_grades == 'Not found') {
+            this.average_grade = 'Нету'
+        } else {
+            this.average_grade = review_grades.reduce((sum, elem) => {
+                return sum + elem.grade
+            }, 0)
+            console.log(this.average_grade, review_grades.length)
+            this.average_grade = this.average_grade/review_grades.length
         }
         const catalogPlate = document.createElement('div');
         catalogPlate.classList.add('catalog__plate');
@@ -56,7 +76,7 @@ class Pagination {
                 </h4>
             </div>
             <div class="catalog__plate_middle-block">
-                <p class="catalog__plate_grade">${this.filteredItems[elemNum].grade}</p>
+                <p class="catalog__plate_grade">${this.average_grade}</p>
                 <p class="catalog__plate_type">${this.filteredItems[elemNum].filter}</p>
                 <p class="catalog__plate_description">
                     ${description}
@@ -78,7 +98,7 @@ class Pagination {
             this.searchTerm = document.getElementById('searchInput').value.toLowerCase();
         } 
         
-        this.filteredItems = await this.getData((this.activeFilter == 'Все') ? '':this.activeFilter, (this.searchTerm) ? this.searchTerm:'')
+        this.filteredItems = await this.getData((this.activeFilter == 'Все') ? '':this.activeFilter, (this.searchTerm) ? this.searchTerm:'', this.catalogSort.value)
 
         localStorage.setItem('textinput', '')
         
@@ -96,7 +116,8 @@ class Pagination {
         this.catalog_container.innerHTML = '';
         try {
             for (let i = 0; i < 6 && i < this.filteredItems.length; i++) {
-                this.createPlate(i)
+                this.review_grades = await this.getReviewGrades(this.filteredItems[i].id)
+                this.createPlate(i, this.review_grades)
             }
         } catch {}
 
@@ -204,17 +225,20 @@ class Pagination {
             document.getElementById('showAllButton').addEventListener('click', function () {
                 this.updateCatalog();
             });
-            setTimeout(() => {
-                document.querySelector('.loader__wrap').classList.add('hidden')
-                document.body.classList.remove('overflow-h')
-            }, 500);
         });
+        this.catalogSort.addEventListener('change', () => {
+            this.updateCatalog()
+        })
         this.updateCatalog();
     }
     async updateCatalog() {   
+        document.querySelector('.loader__wrap').classList.remove('hidden')
+        document.body.classList.add('overflow-h')
         this.saveState(); 
         await this.renderCatalog();
         await this.renderPagination();
+        document.querySelector('.loader__wrap').classList.add('hidden')
+        document.body.classList.remove('overflow-h')
     }
 }
 

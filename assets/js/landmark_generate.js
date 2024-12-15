@@ -48,13 +48,12 @@ class DataFetcher {
 class Landmark {
     constructor() {
         this.currentImg = 0
-        this.random_reviews = Math.floor(Math.random() * (999 - 1 + 1) + 1)
         this.itemData = new DataFetcher(`https://6728a8d3270bd0b97556a70f.mockapi.io/catalog/filters/${landmarkID}`)
         this.reviewData = new DataFetcher(`https://6751eebad1983b9597b4dc21.mockapi.io/reviews?currentLandmarkID=${landmarkID}`)
         this.usersData = new DataFetcher('https://6751eebad1983b9597b4dc21.mockapi.io/users')
         this.delReviewData = new DataFetcher(`https://6751eebad1983b9597b4dc21.mockapi.io/reviews`)
     }
-    
+
     async simpleHash(password) {
         const encoder = new TextEncoder();
         const data = encoder.encode(password);
@@ -71,9 +70,13 @@ class Landmark {
         this.users.forEach(elem => {
             if (elem.username == localStorage.getItem('username') && elem.password == hashPassword) {
             currentUserID = elem.id;
-            console.log(currentUserID)
             }
         });
+        this.reviews = await this.reviewData.fetchData()
+        this.average_grade = this.reviews.reduce((sum, elem) => {
+            return sum + elem.grade
+        }, 0)
+        this.average_grade = this.average_grade/this.reviews.length
 
         const getItem = await this.itemData.fetchData()
         const currentYear = new Date().getFullYear() % 100
@@ -96,7 +99,7 @@ class Landmark {
                     <div class="landmark__window_bottom-block">
                         <iframe class="map" src="${getItem.map}" width="100%" height="150px" frameborder="0"></iframe>
                         <p class="landmark__window_grade">
-                            ${getItem.grade} | ${this.random_reviews} отзыв
+                            ${this.average_grade} | ${this.reviews.length} отзыв
                         </p>
                         <p class="landmark__window_adress">
                             ${getItem.adress}
@@ -269,13 +272,13 @@ class Landmark {
         })
 
         this.addReviewBtn.addEventListener('click', () => {
-            this.addReviewBlock.style.marginTop = '-7%'
+            this.addReviewBlock.style.marginTop = '-70px'
             this.addReviewBlock.style.transform = 'translateY(0)'
         })
 
         this.closeAddReviewBlock.addEventListener('click', () => {
-            this.addReviewBlock.style.transform = 'translateY(-41%)'
-            this.addReviewBlock.style.marginTop = '-35%'
+            this.addReviewBlock.style.transform = 'translateY(-150px)'
+            this.addReviewBlock.style.marginTop = '-371px'
         })
 
         this.reviewForm.addEventListener('submit', async (e) => {
@@ -297,7 +300,10 @@ class Landmark {
             document.getElementById('postReview').classList.add('green-btn')
             document.getElementById('postReview').value = 'Отзыв отправлен'
             this.reviewsContainer.innerHTML = ''
-            this.createReview(postData)
+            this.reviews = await this.reviewData.fetchData()
+            this.reviews.forEach(currentReview => {
+                this.createReview(currentReview)
+            })
             setTimeout(() => {
                 this.closeAddReviewBlock.click()
                 setTimeout(() => {
@@ -365,8 +371,8 @@ class Landmark {
         this.reviewsContainer = document.querySelector('.reviews__container')
         this.currentReview = currentReview
         this.currentUser = this.users[this.currentReview.currentUserID-1]
-        const fullReviewText = this.currentReview.review
-        let reviewText = this.currentReview.review
+        const fullReviewText = this.currentReview.review.replace(/\n/g, '<br>')
+        let reviewText = this.currentReview.review.replace(/\n/g, '<br>')
         if(reviewText.length > 600) {
             reviewText = reviewText.slice(0, 600) + '...' + `<span id='more' class='reviews__review_more'> Подробнее </span>`
         }
@@ -382,7 +388,7 @@ class Landmark {
         <p class='reviews__review_grade'> ${'⭐'.repeat(this.currentReview.grade)} </p>
         <p class='reviews__review_when'> ${this.currentReview.when} </p>
         <h2 class='reviews__review_text title'> ${this.currentReview.title} </h2>
-        <p id='reviewText${currentReview.id}' class='reviews__review_text'> ${reviewText.replace('\\n', '<br>')}  </p>
+        <p id='reviewText${currentReview.id}' class='reviews__review_text'> ${reviewText}  </p>
         <p class='reviews__review_when-published'> ${this.currentReview.date} </p>
         `
         this.reviewsContainer.appendChild(review);
