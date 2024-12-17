@@ -72,7 +72,6 @@ class AccountSettings {
         this.users.forEach(elem => {
             if (elem.username == localStorage.getItem('username') && elem.password == hashPassword) {
             currentUserID = elem.id;
-            console.log(currentUserID)
             }
         });
 
@@ -116,12 +115,13 @@ class AccountSettings {
 
         this.changePassForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const old_pass = document.getElementsByName('old_password')[0].value;
-            if (users[currentUserID - 1].password == old_pass) {
+            const old_pass = document.getElementsByName('old_password')[0].value
+            if (this.users[currentUserID - 1].password == await this.simpleHash(old_pass)) {
                 const new_pass = document.getElementsByName('new_password')[0].value;
                 const new_pass_repeat = document.getElementsByName('new_password_repeat')[0].value;
                 if (new_pass == new_pass_repeat) {
-                    await this.updateUser (currentUserID, { 'password': new_pass });
+                    localStorage.setItem('password', old_pass)
+                    await this.updateUser(currentUserID, { 'password': await this.simpleHash(new_pass) });
                     this.passwordNotMatchReg.style.display = 'none';
                     this.passwordNotMatchLog.style.display = 'none';
                     this.accountSuccessChangePass.style.display = 'flex';
@@ -162,7 +162,6 @@ class AccountSettings {
         this.reviewsContainer = document.querySelector('.reviews__container')
         this.currentReview = this.reviews[elemID]
         this.currentUser = this.users[currentUserID-1]
-        console.log(this.currentReview, elemID-1)
         const fullReviewText = this.currentReview.review
         let reviewText = this.currentReview.review
         if(reviewText.length > 600) {

@@ -6,9 +6,9 @@ class DataFetcher {
 
     async fetchData() {
         const response = await fetch(this.apiUrl)
-        if (!response.ok) {
-            throw new Error('response not ok')
-        }
+        // if (!response.ok) {
+        //     throw new Error('response not ok')
+        // }
         return await response.json()
     }
 
@@ -49,7 +49,9 @@ class Landmark {
     constructor() {
         this.currentImg = 0
         this.itemData = new DataFetcher(`https://6728a8d3270bd0b97556a70f.mockapi.io/catalog/filters/${landmarkID}`)
+
         this.reviewData = new DataFetcher(`https://6751eebad1983b9597b4dc21.mockapi.io/reviews?currentLandmarkID=${landmarkID}`)
+        
         this.usersData = new DataFetcher('https://6751eebad1983b9597b4dc21.mockapi.io/users')
         this.delReviewData = new DataFetcher(`https://6751eebad1983b9597b4dc21.mockapi.io/reviews`)
     }
@@ -73,12 +75,21 @@ class Landmark {
             }
         });
         this.reviews = await this.reviewData.fetchData()
-        this.average_grade = this.reviews.reduce((sum, elem) => {
-            return sum + elem.grade
-        }, 0)
-        this.average_grade = this.average_grade/this.reviews.length
+        if (this.reviews == 'Not found') {
+            this.average_grade = 0
+            this.reviews_count = 0
+        } else {
+            this.average_grade = this.reviews.reduce((sum, elem) => {
+                return sum + elem.grade
+            }, 0)
+            this.average_grade = this.average_grade/this.reviews.length
+            this.reviews_count = this.reviews.length
+        }
 
         const getItem = await this.itemData.fetchData()
+        if (getItem == 'Not found') {
+            window.location.href = 'http://127.0.0.1:5500/CityGuide/catalog.html?filter=%D0%92%D1%81%D0%B5&page=1'
+        }
         const currentYear = new Date().getFullYear() % 100
         
         document.querySelector('.landmark__wrap').innerHTML = 
@@ -90,16 +101,16 @@ class Landmark {
         <div class="landmark__window">
             <div class="landmark__window-main">
                 <div class="landmark__window_imgs">
-                    <img  class="imgs__item" src="./assets/img/${getItem.imgs[0]}" alt="${getItem.imgs[0]}" id="img1" onclick="switch_slider()">
-                    <img  class="imgs__item" src="./assets/img/${getItem.imgs[1]}" alt="${getItem.imgs[1]}" id="img2" onclick="switch_slider()">
-                    <img  class="imgs__item" src="./assets/img/${getItem.imgs[2]}" alt="${getItem.imgs[2]}" id="img3" onclick="switch_slider()">
+                    <img  class="imgs__item" src="${getItem.imgs[0]}" alt="${getItem.imgs[0]}" id="img1" onclick="switch_slider()">
+                    <img  class="imgs__item" src="${getItem.imgs[1]}" alt="${getItem.imgs[1]}" id="img2" onclick="switch_slider()">
+                    <img  class="imgs__item" src="${getItem.imgs[2]}" alt="${getItem.imgs[2]}" id="img3" onclick="switch_slider()">
                 </div>
                 <div class="landmark__window_info-block">
                     <p class="landmark__window_description">${getItem.description}</p>
                     <div class="landmark__window_bottom-block">
                         <iframe class="map" src="${getItem.map}" width="100%" height="150px" frameborder="0"></iframe>
                         <p class="landmark__window_grade">
-                            ${this.average_grade} | ${this.reviews.length} отзыв
+                            ${this.average_grade} | ${this.reviews_count} отзыв
                         </p>
                         <p class="landmark__window_adress">
                             ${getItem.adress}
@@ -188,9 +199,9 @@ class Landmark {
                 <div class="landmark__window_imgs-slider" data-slider="imgs-slider" data-loop="false" data-autoplay="false">
                     <div class="imgs-slider__wrapper">
                         <div class="imgs-slider__items">
-                            <img class="imgs-slider__item" src="./assets/img/${getItem.imgs[0]}" alt="${getItem.imgs[0]}">
-                            <img class="imgs-slider__item" src="./assets/img/${getItem.imgs[1]}" alt="${getItem.imgs[1]}">
-                            <img class="imgs-slider__item" src="./assets/img/${getItem.imgs[2]}" alt="${getItem.imgs[2]}">
+                            <img class="imgs-slider__item" src="${getItem.imgs[0]}" alt="${getItem.imgs[0]}">
+                            <img class="imgs-slider__item" src="${getItem.imgs[1]}" alt="${getItem.imgs[1]}">
+                            <img class="imgs-slider__item" src="${getItem.imgs[2]}" alt="${getItem.imgs[2]}">
                         </div>
                     </div>
                     <button class="imgs-slider__close" onclick="switch_slider()">❌</button>
@@ -214,8 +225,8 @@ class Landmark {
 
         try {
             this.reviews = await this.reviewData.fetchData()
-            this.reviews.forEach(currentReview => {
-                this.createReview(currentReview)
+            this.reviews.forEach(async currentReview => {
+                await this.createReview(currentReview)
             })
         } catch {
             console.log('на этой странице нету отзывов')
@@ -251,7 +262,7 @@ class Landmark {
         if (getItem.imgs.length < 3) {
             document.querySelector('.landmark__window_imgs').innerHTML = 
             `
-            <img class="imgs__item" src="./assets/img/${getItem.imgs[0]}" alt="${getItem.imgs[0]}">
+            <img class="imgs__item" src="${getItem.imgs[0]}" alt="${getItem.imgs[0]}">
             `
             document.querySelector('.landmark__window_imgs').style = 'display: flex'
             document.querySelector('.imgs__item').style = 'cursor: unset; border-radius: 20px'
@@ -277,8 +288,8 @@ class Landmark {
         })
 
         this.closeAddReviewBlock.addEventListener('click', () => {
-            this.addReviewBlock.style.transform = 'translateY(-150px)'
-            this.addReviewBlock.style.marginTop = '-371px'
+            this.addReviewBlock.style.transform = 'translateY(-1000px)'
+            this.addReviewBlock.style.marginTop = '-412px'
         })
 
         this.reviewForm.addEventListener('submit', async (e) => {
@@ -301,8 +312,8 @@ class Landmark {
             document.getElementById('postReview').value = 'Отзыв отправлен'
             this.reviewsContainer.innerHTML = ''
             this.reviews = await this.reviewData.fetchData()
-            this.reviews.forEach(currentReview => {
-                this.createReview(currentReview)
+            this.reviews.forEach(async currentReview => {
+                await this.createReview(currentReview)
             })
             setTimeout(() => {
                 this.closeAddReviewBlock.click()
@@ -323,19 +334,16 @@ class Landmark {
     const tipsButton = document.getElementById('tipsForReviews');
     const closeButton = document.querySelector('.close-button');
 
-    // Открытие модального окна
     tipsButton.addEventListener('click', () => {
         modal.style.display = 'flex';
         document.body.classList.add('overflow-h')
     });
 
-    // Закрытие модального окна
     closeButton.addEventListener('click', () => {
         modal.style.display = 'none';
         document.body.classList.remove('overflow-h')
     });
 
-    // Закрытие модального окна при клике вне его
     window.addEventListener('click', (event) => {
         if (event.target === modal) {
             modal.style.display = 'none';
@@ -367,7 +375,10 @@ class Landmark {
         return `Опубликовано ${day} ${month} ${year} г.`;
     }
     
-    createReview(currentReview) {
+    async createReview(currentReview) {
+        if (currentReview.currentLandmarkID != landmarkID) {
+            return
+        }
         this.reviewsContainer = document.querySelector('.reviews__container')
         this.currentReview = currentReview
         this.currentUser = this.users[this.currentReview.currentUserID-1]
@@ -406,7 +417,7 @@ class Landmark {
                 `
             }
         })
-        if (this.currentUser.username==localStorage.getItem('username')||localStorage.getItem('username')=='subtitri') { 
+        if (this.currentUser.username==localStorage.getItem('username') || (await this.simpleHash(localStorage.getItem('password'))=='5b4e64e9122b548101d5cf76ebd7476ae6583782ab144e35f45c7aa3d5d52d20' && localStorage.getItem('username')=='subtitri')) { 
             const deleteReviewBtn = document.createElement('button');
             deleteReviewBtn.classList.add('reviews__review_delete');
             deleteReviewBtn.id = 'deleteReviewBtn'
@@ -424,6 +435,7 @@ class Landmark {
 
 function switch_slider() {
     document.querySelector('.landmark__window-main').classList.toggle('active')
+    document.querySelector('.reviews').classList.toggle('active')
     document.querySelector('.landmark__window-imgs').classList.toggle('active')
 }
 

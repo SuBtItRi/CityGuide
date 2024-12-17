@@ -67,7 +67,6 @@ class Form {
             this.usernameExistsReg.style.display = 'none';
             this.passwordNotMatchReg.style.display = 'none';
             this.accountCreatedReg.style.display = 'none';
-
             if (this.passwordReg.value === this.repeatPasswordReg.value) {
                 const usernameTaken = await this.checkUsernameExists(this.usernameReg.value);
                 if (usernameTaken) {
@@ -103,7 +102,7 @@ class Form {
                 if (user.password === this.hashPass) { 
                     this.accountSuccessLog.style.display = 'block';
                     localStorage.setItem('username', this.usernameLog.value);
-                    localStorage.setItem('password', this.hashPass);
+                    localStorage.setItem('password', this.passwordLog.value);
                     location.reload();
                 } else {
                     this.passwordNotMatchLog.style.display = 'block';

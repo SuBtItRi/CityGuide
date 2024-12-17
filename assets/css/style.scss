@@ -289,6 +289,10 @@ a {
             height: 50px;
             object-fit: cover;
             border-radius: 100%;
+            @media (max-width: 1024px) {
+                width: 35px;
+                height: 35px;
+            }
         }
         &-checkbox {
             position: absolute;
@@ -738,7 +742,8 @@ a {
         }
     }
     &__plate {
-        z-index: 1000;
+        position: relative;
+        z-index: 2;
         display: flex;
         flex-direction: column;
         color: #000;
@@ -747,7 +752,6 @@ a {
         box-shadow: 0 0 10px 0 rgba(97, 97, 97, 0.2);
         cursor: pointer;
         transition: 0.5s;
-        height: 550px;
         &:hover {
             box-shadow: 0 0 10px 0 rgba(255, 215, 0, 1);
         }
@@ -761,12 +765,28 @@ a {
             height: 250px;
             object-fit: cover;
         }
+        #delLandmark {
+            cursor: pointer;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 15px;
+            background: red;
+            color: white;
+            font-family: Unbounded;
+        }
         &_up-block {
             display: flex;
             align-items: center;
         }
         &_middle-block {
             height: 200px;
+            @media (max-width: 1024px) {
+                height: auto;
+            }
         }
         &
         &_text {
@@ -798,6 +818,24 @@ a {
         &_adress {
             margin-top: 5px;
             font-size: 13px;
+        }
+    }
+    &__blue-btn {
+        margin-top: 20px;
+        background-color: #d6ecff;
+        border-radius: 20px;
+        padding: 15px;
+        border: none;
+        font-family: Unbounded;
+        font-size: 14px;
+        cursor: pointer;
+        transition: 0.3s;
+        &:hover {
+            background-color: #b5dcff;
+        }
+        &.green-btn {
+            background-color: #53ff95;
+            transition: 1s;
         }
     }
 }
@@ -1233,8 +1271,6 @@ a {
         &_imgs {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            width: 550px;
-            height: 550px;
             gap: 2px;
             @media (max-width: 800px) {
                 width: 100%;
@@ -1313,6 +1349,113 @@ a {
                 background-color: #53ff95;
                 transition: 1s;
             }
+            @media (max-width: 1024px) {
+                padding: 10px;
+                font-size: 10px;
+            }
+        }
+    }
+    &__title {
+        @media (max-width: 1024px) {
+            font-size: 13px;
+        }
+    }
+    &__add {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        background: #f5f5f5;
+        padding: 20px;
+        border-radius: 10px;
+        transition: 1s;
+        transform: translateY(-1000px);
+        margin-top: -541px;
+        .input-photo__container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        &_choice-reviews {
+            display: flex;
+            justify-content: space-between;
+            &_tag {
+                outline: 0;
+                border: none;
+                background: #fff;
+                border-radius: 10px;
+                padding: 10px;
+                font-family: Unbounded;
+            }
+            &_left-block {
+                display: flex;
+                gap: 20px;
+            }
+            &_filter {
+                outline: 0;
+                border: none;
+                background: #fff;
+                border-radius: 10px;
+                padding: 10px;
+                font-family: Unbounded;
+                width: 100%;
+            }
+        }
+        &_photes-btn {
+            padding: 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            background: #d6ecff;
+            outline: 0;
+            font-size: 14px;
+            border: none;
+            font-family: Unbounded;
+            transition: 0.3s;
+            &:hover {
+                background: #b5dcff;
+            }
+            @media (max-width: 1024px) {
+                font-size: 12px;
+            }
+        }
+        &-close {
+            text-decoration: underline;
+            transition: 0.3s;
+            cursor: pointer;
+            &:hover {
+                color: #666;
+            }
+            @media (max-width: 1024px) {
+                font-size: 13px;
+            }
+        }
+        &_description{
+            display: flex;
+            font-family: Unbounded;
+            font-size: 16px;
+            width: 100%;
+            height: 100px;
+            border: none;
+            border-radius: 20px;
+            background-color: #ddd;
+            padding: 10px;
+            outline: none;
+            resize: none;
+            &.title {
+                height: 40px;
+                font-weight: 600;
+            }
+        }
+        &_elem-input {
+            display: flex;
+            font-family: Unbounded;
+            font-size: 16px;
+            width: 100%;
+            height: 40px;
+            border: none;
+            border-radius: 20px;
+            background-color: #ddd;
+            padding: 10px;
+            outline: none;
         }
     }
 }
@@ -1420,9 +1563,15 @@ a {
         border-radius: 20px;
         background: #000;
         color: #fff;
+        @media (max-width: 800px) {
+            height: 920px;
+        }
         &__title {
             display: flex;
             justify-content: space-between;
+            @media (max-width: 800px) {
+                font-size: 12px;
+            }
             #delAccount {
                 padding: 10px;
                 font-family: Unbounded;
@@ -1434,12 +1583,18 @@ a {
                 border-radius: 15px;
                 border: none;
                 cursor: pointer;
+                @media (max-width: 800px) {
+                    font-size: 12px;
+                    padding: 5px;
+                }
             }
         }
         &__avatar {
             width: 300px;
             height: 300px;
-            border-radius: 100%;
+            min-width: 300px;
+            min-height: 300px;
+            border-radius: 50%;
             object-fit: cover;
         }
         &__block {
@@ -1447,12 +1602,16 @@ a {
             display: flex;
             gap: 50px;
             height: 300px;
+            @media (max-width: 800px) {
+                flex-direction: column;
+            }
             &_details {
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
                 height: 150px;
                 width: 100%;
+                gap: 20px;
                 &-item {
                     display: flex;
                     flex-direction: column;
@@ -1533,6 +1692,9 @@ a {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    &.active {
+        display: none;
+    }
     &__up-block {
         display: flex;
         justify-content: space-between;
@@ -1549,12 +1711,10 @@ a {
         padding: 20px;
         border-radius: 10px;
         transition: 1s;
-        transform: translateY(-150px);
-        margin-top: -371px;
-        @media (max-width:990px) {
-            
-        }
-        @media (max-width:400px) {
+        transform: translateY(-1000px);
+        margin-top: -412px;
+        @media (max-width: 1024px) {
+            font-size: 12px;
         }
         &_choice-reviews {
             display: flex;
@@ -1564,6 +1724,7 @@ a {
                 gap: 10px;
             }
             &_grade {
+                width: 100%;
                 span {
                     cursor: pointer; 
                     opacity: 0.3;
@@ -1583,6 +1744,7 @@ a {
                 border-radius: 10px;
                 padding: 10px;
                 font-family: Unbounded;
+                width: 100%;
             }
             &_right-block {
                 text-decoration: underline;
@@ -1590,6 +1752,10 @@ a {
                 cursor: pointer;
                 &:hover {
                     color: #666;
+                }
+                @media (max-width: 1024px) {
+                    padding: 5px;
+                    font-size: 12px;
                 }
             }
         }
@@ -1635,11 +1801,18 @@ a {
         gap: 5px;
         &_text {
             width: 100%;
-            border-radius: 20px;
+            border-radius: 18px;
             word-break: break-all;
+            @media (max-width: 1024px) {
+                font-size: 14px;
+                margin-top: 5px;
+            }
             &.title {
                 height: 30px;
-                font-weight: 600;
+                font-size: 20px;
+                @media (max-width: 1024px) {
+                    font-size: 16px;
+                }
             }
         }
         &_when-published {

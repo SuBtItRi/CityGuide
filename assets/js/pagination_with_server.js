@@ -10,6 +10,7 @@ class Pagination {
         this.catalog_filter_btn = document.querySelectorAll('.catalog__filter-btn')
         this.catalog_container = document.getElementById('catalog__container')
         this.catalogSort = document.getElementById('catalogSort')
+        this.timeout
     }
 
     async getData(filter, searchterm, sortBy = '') {
@@ -20,7 +21,6 @@ class Pagination {
             } else {
                 url = `https://6728a8d3270bd0b97556a70f.mockapi.io/catalog/filters?filter=${filter}&page=${this.currentPage}&limit=6&title=${searchterm}&sortBy=${sortBy}`
             }
-            console.log(url)
             const response = await fetch(url)
             const getdata = await response.json(); 
             return getdata
@@ -29,10 +29,14 @@ class Pagination {
         }
     }
 
-    async getLength(filter, searchterm) {
+    async getLength(filter, searchterm = '') {
         try {
-            const response = await fetch(`https://6728a8d3270bd0b97556a70f.mockapi.io/catalog/filters?filter=${filter}&title=${searchterm}`)
-            const getdata = await response.json(); 
+            if (searchterm == '') {
+                this.response = await fetch(`https://6728a8d3270bd0b97556a70f.mockapi.io/catalog/filters?filter=${filter}`)
+            } else {
+                this.response = await fetch(`https://6728a8d3270bd0b97556a70f.mockapi.io/catalog/filters?filter=${filter}&title=${searchterm}`)
+            }
+            const getdata = await this.response.json();
             return getdata.length
         } catch (error) {
             console.error('Ошибка:', error);
@@ -49,26 +53,28 @@ class Pagination {
         }
     }
 
-    createPlate(elemNum, review_grades) {
+    async delLandmark(landmarkID) {
+        const response = await fetch(`https://6728a8d3270bd0b97556a70f.mockapi.io/catalog/filters/${landmarkID}`, {
+            method: 'DELETE',
+        });
+        if (response.ok) {
+            console.log(`Landmark с ID ${landmarkID} успешно удален.`);
+        } else {
+            console.error('Ошибка при удалении landmark:', response.statusText);
+        }
+    }
+
+    async createPlate(elemNum) {
         let description=this.filteredItems[elemNum].description
         if(description.length > 275) {
             description = description.slice(0, 255) + '...'
-        }
-        if (review_grades == 'Not found') {
-            this.average_grade = 'Нету'
-        } else {
-            this.average_grade = review_grades.reduce((sum, elem) => {
-                return sum + elem.grade
-            }, 0)
-            console.log(this.average_grade, review_grades.length)
-            this.average_grade = this.average_grade/review_grades.length
         }
         const catalogPlate = document.createElement('div');
         catalogPlate.classList.add('catalog__plate');
         catalogPlate.id = this.filteredItems[elemNum].filter
         catalogPlate.setAttribute('data-id', this.filteredItems[elemNum].id)
         catalogPlate.innerHTML = `
-        <img src="./assets/img/${this.filteredItems[elemNum].imgs[0]}"></img>
+        <img src="${this.filteredItems[elemNum].imgs[0]}"></img>
         <div class="catalog__plate_text">
             <div class="catalog__plate_up-block">
                 <h4 class="catalog__plate_title">
@@ -76,7 +82,7 @@ class Pagination {
                 </h4>
             </div>
             <div class="catalog__plate_middle-block">
-                <p class="catalog__plate_grade">${this.average_grade}</p>
+                <p class="catalog__plate_grade">${this.filteredItems[elemNum].grade}</p>
                 <p class="catalog__plate_type">${this.filteredItems[elemNum].filter}</p>
                 <p class="catalog__plate_description">
                     ${description}
@@ -87,6 +93,21 @@ class Pagination {
             </div>
         </div>
         `
+        try {
+            if (localStorage.getItem('username')=='subtitri' || (await this.simpleHash(localStorage.getItem('password'))=='5b4e64e9122b548101d5cf76ebd7476ae6583782ab144e35f45c7aa3d5d52d20' && localStorage.getItem('username')=='subtitri')) { 
+                const deleteLandmarkBtn = document.createElement('button');
+                deleteLandmarkBtn.id = 'delLandmark'
+                deleteLandmarkBtn.innerHTML = `DEL`
+                catalogPlate.append(deleteLandmarkBtn)
+    
+                deleteLandmarkBtn.addEventListener('click', async (e) => {
+                    const landmarkID = e.target.closest('.catalog__plate').getAttribute('data-id')
+    
+                    await this.delLandmark(landmarkID)
+                    this.updateCatalog()
+                });
+            }
+        } catch {}
         this.catalog_container.appendChild(catalogPlate);
     }
 
@@ -116,8 +137,7 @@ class Pagination {
         this.catalog_container.innerHTML = '';
         try {
             for (let i = 0; i < 6 && i < this.filteredItems.length; i++) {
-                this.review_grades = await this.getReviewGrades(this.filteredItems[i].id)
-                this.createPlate(i, this.review_grades)
+                await this.createPlate(i, this.review_grades)
             }
         } catch {}
 
@@ -205,8 +225,11 @@ class Pagination {
     
     async init() {
         document.getElementById('searchInput').addEventListener('input', () => {
-            this.currentPage = 1; 
-            this.updateCatalog();
+            this.currentPage = 1;
+            clearTimeout(this.timeout)
+            this.timeout = setTimeout(() => {
+                this.updateCatalog()
+            }, 1000);
         });
         this.catalog_filter_btn.forEach(button => {
             button.addEventListener('click', (e) => {
@@ -219,7 +242,9 @@ class Pagination {
             document.querySelectorAll('.catalog__container').forEach(plate => {
                 plate.addEventListener('click', function (elem) {
                     const itemid = elem.target.closest('.catalog__plate').getAttribute('data-id')
-                    window.location.href = `landmark.html?item=${itemid}`
+                    setTimeout(() => {
+                        window.location.href = `landmark.html?item=${itemid}`
+                    }, 500);
                 });
             });
             document.getElementById('showAllButton').addEventListener('click', function () {
@@ -245,4 +270,87 @@ class Pagination {
 document.addEventListener('DOMContentLoaded', () => {
     const pagination = new Pagination()
     pagination.init()
+    class Management {
+        constructor() {
+            this.addLandmarkBtn = document.getElementById('add-landmark')
+            this.landmarkForm = document.getElementById('landmarkForm')
+            this.landmarkAddClose = document.querySelector('.landmark__add-close')
+            this.addPhotoBtn = document.getElementById('add_photo')
+            this.inpPhotoContainer = document.querySelector('.input-photo__container')
+            this.countPhotes = 1
+        }
+    
+        async addLandmark (postData) {
+            const response = await fetch(`https://6728a8d3270bd0b97556a70f.mockapi.io/catalog/filters`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(postData),
+            });
+            if (!response.ok) {
+                throw new Error('response not ok');
+            }
+            return await response.json();
+        }
+    
+        init() {
+            this.addLandmarkBtn.addEventListener('click', () => {
+                this.landmarkForm.style = `
+                transform: translateY(0);
+                margin-top: 20px;
+                `
+            })
+            this.landmarkAddClose.addEventListener('click', () => {
+                this.landmarkForm.style = `
+                transform: translateY(-1000px);
+                margin-top: -${this.landmarkForm.clientHeight}px;
+                `
+            })
+            this.addPhotoBtn.addEventListener('click', () => {
+                if (this.countPhotes > 4) {
+                    return
+                }
+                this.countPhotes++;
+                const input = document.createElement('input');
+                input.type = 'url';
+                input.name = 'url';
+                input.className = 'landmark__add_elem-input';
+                input.placeholder = 'Ссылка на фото';
+                input.required = true;
+                this.inpPhotoContainer.appendChild(input);
+            });
+            this.landmarkForm.addEventListener('submit', async (e) => {
+                e.preventDefault(); 
+            
+                const formData = new FormData(this.landmarkForm);
+                const postData = {};
+                formData.forEach((value, key) => {
+                    if (key === 'url') {
+                        if (!postData.imgs) {
+                            postData.imgs = []; 
+                        }
+                        postData.imgs.push(value); 
+                    } else {
+                        postData[key] = value; 
+                    }
+                });
+            
+                this.landmarkForm.reset()
+                document.getElementById('postLandmark').classList.add('green-btn')
+                document.getElementById('postLandmark').value = 'Достопримечательность добавлена'
+                await this.addLandmark(postData)
+                pagination.updateCatalog()
+                setTimeout(() => {
+                    this.landmarkAddClose.click()
+                    setTimeout(() => {
+                        document.getElementById('postLandmark').classList.remove('green-btn')
+                    }, 1000);
+                }, 2500);
+            });
+        }
+    }
+    
+        const management = new Management()
+        management.init()
 })
