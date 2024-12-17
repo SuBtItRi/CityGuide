@@ -64,6 +64,29 @@ class Pagination {
         }
     }
 
+    async addLandmark (postData) {
+        const response = await fetch(`https://6728a8d3270bd0b97556a70f.mockapi.io/catalog/filters`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(postData),
+        });
+        if (!response.ok) {
+            throw new Error('response not ok');
+        }
+        return await response.json();
+    }
+
+    async simpleHash(password) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(password);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(b => ('00' + b.toString(16)).slice(-2)).join('');
+        return hashHex;
+    }
+
     async createPlate(elemNum) {
         let description=this.filteredItems[elemNum].description
         if(description.length > 275) {
@@ -224,6 +247,118 @@ class Pagination {
     }
     
     async init() {
+        if (localStorage.getItem('username')=='subtitri' || (await this.simpleHash(localStorage.getItem('password'))=='5b4e64e9122b548101d5cf76ebd7476ae6583782ab144e35f45c7aa3d5d52d20' && localStorage.getItem('username')=='subtitri')) { 
+            document.querySelector('.catalog__sort-container').innerHTML = `
+            <div class="catalog__sort-container">
+                <input type="text" id="searchInput" class="catalog__search-input" placeholder="Поиск по заголовку">
+                <select name="catalogSort" id="catalogSort">
+                    <option value="grade&amp;order=desc">По убыванию рейтинга</option>
+                    <option value="grade&amp;order=asc">По возрастанию рейтинга</option>
+                    <option value="title&amp;order=asc">От А до Я</option>
+                    <option value="title&amp;order=desc">От Я до А</option>
+                </select>
+                <button class="catalog__blue-btn" id="add-landmark">Добавить</button>
+            </div>
+            `
+            const form = document.createElement('form')
+            form.classList.add('landmark__add')
+            form.classList.add('hide')
+            form.id = 'landmarkForm'
+            form.innerHTML = `
+            <div class="landmark__up-block">
+                <div class="landmark__title">
+                    <h3>Добавление достопримечательности</h3>
+                </div>
+            </div>
+            <div class="landmark__add_choice-reviews">
+                <div class="landmark__add_choice-reviews_left-block">
+                    <select name="filter" class="landmark__add_choice-reviews_filter">
+                        <option value="Памятники">Памятники</option>
+                        <option value="Музеи">Музеи</option>
+                        <option value="Парки и сады">Парки и сады</option>
+                        <option value="Храмы и церкви">Храмы и церкви</option>
+                        <option value="Театры и культурные центры">Театры и культурные центры</option>
+                        <option value="Фонтаны">Фонтаны</option>
+                        <option value="Площади">Площади</option>
+                    </select>
+                    <button class="landmark__add_photes-btn" type="button" id="add_photo">Добавить фото</button>
+                </div>
+                <div class="landmark__add-close">
+                    Закрыть
+                </div>
+            </div>
+            <input maxlength="60" type="text" name="title" class="landmark__add_description title" placeholder="Заголовок достопримечательности" required=""> 
+            <textarea minlength="100" maxlength="1000" type="text" name="description" class="landmark__add_description" placeholder="Описание достопримечательности" required=""></textarea>
+            <input type="number" name="grade" class="landmark__add_elem-input" placeholder="Оценка" required="">
+            <input maxlength="50" type="text" name="adress" class="landmark__add_elem-input" placeholder="Адресс" required="">
+            <input type="url" name="map" class="landmark__add_elem-input" placeholder="Ссылка на карту" required="">
+            <div class="input-photo__container">
+                <input type="url" name="url" class="landmark__add_elem-input" placeholder="Ссылка на фото" required="">
+            </div>
+            <input id="postLandmark" type="submit" class="landmark__window_blue-btn" value="Добавить достопримечательность" required="">
+            `
+            document.getElementById('form-container').appendChild(form)
+            console.log('ok')
+            this.addLandmarkBtn = document.getElementById('add-landmark')
+            this.landmarkForm = document.getElementById('landmarkForm')
+            this.landmarkAddClose = document.querySelector('.landmark__add-close')
+            this.addPhotoBtn = document.getElementById('add_photo')
+            this.inpPhotoContainer = document.querySelector('.input-photo__container')
+            this.countPhotes = 1
+            this.addLandmarkBtn.addEventListener('click', () => {
+                this.landmarkForm.style = `
+                transform: translateY(0);
+                margin-top: 20px;
+                `
+            })
+            this.landmarkAddClose.addEventListener('click', () => {
+                this.landmarkForm.style = `
+                transform: translateY(-1000px);
+                margin-top: -${this.landmarkForm.clientHeight}px;
+                `
+            })
+            this.addPhotoBtn.addEventListener('click', () => {
+                if (this.countPhotes > 4) {
+                    return
+                }
+                this.countPhotes++;
+                const input = document.createElement('input');
+                input.type = 'url';
+                input.name = 'url';
+                input.className = 'landmark__add_elem-input';
+                input.placeholder = 'Ссылка на фото';
+                input.required = true;
+                this.inpPhotoContainer.appendChild(input);
+            });
+            this.landmarkForm.addEventListener('submit', async (e) => {
+                e.preventDefault(); 
+            
+                const formData = new FormData(this.landmarkForm);
+                const postData = {};
+                formData.forEach((value, key) => {
+                    if (key === 'url') {
+                        if (!postData.imgs) {
+                            postData.imgs = []; 
+                        }
+                        postData.imgs.push(value); 
+                    } else {
+                        postData[key] = value; 
+                    }
+                });
+            
+                this.landmarkForm.reset()
+                document.getElementById('postLandmark').classList.add('green-btn')
+                document.getElementById('postLandmark').value = 'Достопримечательность добавлена'
+                await this.addLandmark(postData)
+                this.updateCatalog()
+                setTimeout(() => {
+                    this.landmarkAddClose.click()
+                    setTimeout(() => {
+                        document.getElementById('postLandmark').classList.remove('green-btn')
+                    }, 1000);
+                }, 2500);
+            });
+        }
         document.getElementById('searchInput').addEventListener('input', () => {
             this.currentPage = 1;
             clearTimeout(this.timeout)
@@ -270,87 +405,4 @@ class Pagination {
 document.addEventListener('DOMContentLoaded', () => {
     const pagination = new Pagination()
     pagination.init()
-    class Management {
-        constructor() {
-            this.addLandmarkBtn = document.getElementById('add-landmark')
-            this.landmarkForm = document.getElementById('landmarkForm')
-            this.landmarkAddClose = document.querySelector('.landmark__add-close')
-            this.addPhotoBtn = document.getElementById('add_photo')
-            this.inpPhotoContainer = document.querySelector('.input-photo__container')
-            this.countPhotes = 1
-        }
-    
-        async addLandmark (postData) {
-            const response = await fetch(`https://6728a8d3270bd0b97556a70f.mockapi.io/catalog/filters`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(postData),
-            });
-            if (!response.ok) {
-                throw new Error('response not ok');
-            }
-            return await response.json();
-        }
-    
-        init() {
-            this.addLandmarkBtn.addEventListener('click', () => {
-                this.landmarkForm.style = `
-                transform: translateY(0);
-                margin-top: 20px;
-                `
-            })
-            this.landmarkAddClose.addEventListener('click', () => {
-                this.landmarkForm.style = `
-                transform: translateY(-1000px);
-                margin-top: -${this.landmarkForm.clientHeight}px;
-                `
-            })
-            this.addPhotoBtn.addEventListener('click', () => {
-                if (this.countPhotes > 4) {
-                    return
-                }
-                this.countPhotes++;
-                const input = document.createElement('input');
-                input.type = 'url';
-                input.name = 'url';
-                input.className = 'landmark__add_elem-input';
-                input.placeholder = 'Ссылка на фото';
-                input.required = true;
-                this.inpPhotoContainer.appendChild(input);
-            });
-            this.landmarkForm.addEventListener('submit', async (e) => {
-                e.preventDefault(); 
-            
-                const formData = new FormData(this.landmarkForm);
-                const postData = {};
-                formData.forEach((value, key) => {
-                    if (key === 'url') {
-                        if (!postData.imgs) {
-                            postData.imgs = []; 
-                        }
-                        postData.imgs.push(value); 
-                    } else {
-                        postData[key] = value; 
-                    }
-                });
-            
-                this.landmarkForm.reset()
-                document.getElementById('postLandmark').classList.add('green-btn')
-                document.getElementById('postLandmark').value = 'Достопримечательность добавлена'
-                await this.addLandmark(postData)
-                pagination.updateCatalog()
-                setTimeout(() => {
-                    this.landmarkAddClose.click()
-                    setTimeout(() => {
-                        document.getElementById('postLandmark').classList.remove('green-btn')
-                    }, 1000);
-                }, 2500);
-            });
-        }
-    }
-    
-        const management = new Management()
-        management.init()
 })

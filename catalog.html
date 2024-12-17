@@ -109,41 +109,10 @@
                             <option value="title&order=asc">От А до Я</option>
                             <option value="title&order=desc">От Я до А</option>
                         </select>
-                        <button class='catalog__blue-btn' id='add-landmark'>Добавить</button>
                     </div>
-                    <form class='landmark__add hide' id='landmarkForm'>
-                        <div class='landmark__up-block'>
-                            <div class='landmark__title'>
-                                <h3>Добавление достопримечательности</h3>
-                            </div>
-                        </div>
-                        <div class='landmark__add_choice-reviews'>
-                            <div class="landmark__add_choice-reviews_left-block">
-                                <select name='filter' class='landmark__add_choice-reviews_filter'>
-                                    <option value='Памятники'>Памятники</option>
-                                    <option value='Музеи'>Музеи</option>
-                                    <option value='Парки и сады'>Парки и сады</option>
-                                    <option value='Храмы и церкви'>Храмы и церкви</option>
-                                    <option value='Театры и культурные центры'>Театры и культурные центры</option>
-                                    <option value='Фонтаны'>Фонтаны</option>
-                                    <option value='Площади'>Площади</option>
-                                </select>
-                                <button class="landmark__add_photes-btn" type="button" id="add_photo">Добавить фото</button>
-                            </div>
-                            <div class='landmark__add-close'>
-                                Закрыть
-                            </div>
-                        </div>
-                        <input maxlength='60' type='text' name='title' class='landmark__add_description title' placeholder='Заголовок достопримечательности' required> 
-                        <textarea minlength='100' maxlength="1000" type='text' name='description' class='landmark__add_description' placeholder='Описание достопримечательности' required></textarea>
-                        <input type="number" name='grade' class='landmark__add_elem-input' placeholder='Оценка' required>
-                        <input maxlength="50" type='text' name='adress' class='landmark__add_elem-input' placeholder='Адресс' required>
-                        <input type='url' name='map' class='landmark__add_elem-input' placeholder='Ссылка на карту' required>
-                        <div class="input-photo__container">
-                            <input type="url" name='url' class='landmark__add_elem-input' placeholder='Ссылка на фото' required>
-                        </div>
-                        <input id='postLandmark' type='submit' class='landmark__window_blue-btn' value='Добавить достопримечательность' required>
-                    </form>
+                    <div id="form-container">
+                        
+                    </div>
                     <div id="noResultsMessage">Ничего не найдено... :(</div>
                     <div  id="secretContainer" class="secret__plate" style="display:none;">
                         <img src="./assets/img/secret.jpg" class="secret__container_plate_img"></img>
