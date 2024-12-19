@@ -43,16 +43,6 @@ class Pagination {
         }
     }
 
-    async getReviewGrades(currentLandmarkID) {
-        try {
-            const response = await fetch(`https://6751eebad1983b9597b4dc21.mockapi.io/reviews?currentLandmarkID=${currentLandmarkID}`)
-            const getdata = await response.json(); 
-            return getdata
-        } catch (error) {
-            console.error('Ошибка:', error);
-        }
-    }
-
     async delLandmark(landmarkID) {
         const response = await fetch(`https://6728a8d3270bd0b97556a70f.mockapi.io/catalog/filters/${landmarkID}`, {
             method: 'DELETE',
@@ -86,12 +76,20 @@ class Pagination {
         const hashHex = hashArray.map(b => ('00' + b.toString(16)).slice(-2)).join('');
         return hashHex;
     }
-
+ 
     async createPlate(elemNum) {
         let description=this.filteredItems[elemNum].description
         if(description.length > 275) {
             description = description.slice(0, 255) + '...'
         }
+        let average_grade = this.filteredItems[elemNum].grade.reduce((sum, grade) => {
+            return sum+grade
+        }, 0)
+        average_grade = average_grade/this.filteredItems[elemNum].grade.length
+        average_grade = Math.round(average_grade*10)/10
+        if (!average_grade) {
+            average_grade='Нету'
+        } 
         const catalogPlate = document.createElement('div');
         catalogPlate.classList.add('catalog__plate');
         catalogPlate.id = this.filteredItems[elemNum].filter
@@ -105,7 +103,7 @@ class Pagination {
                 </h4>
             </div>
             <div class="catalog__plate_middle-block">
-                <p class="catalog__plate_grade">${this.filteredItems[elemNum].grade}</p>
+                <p class="catalog__plate_grade">${average_grade}</p>
                 <p class="catalog__plate_type">${this.filteredItems[elemNum].filter}</p>
                 <p class="catalog__plate_description">
                     ${description}
@@ -135,6 +133,7 @@ class Pagination {
     }
 
     async renderCatalog() {
+        this.catalogSort = document.getElementById('catalogSort')
         this.currentPage = parseInt(new URLSearchParams(window.location.search).get('page')) || 1;
         this.searchTerm = document.getElementById('searchInput').value.toLowerCase();
         if (localStorage.getItem('textinput')) {
@@ -143,7 +142,7 @@ class Pagination {
         } 
         
         this.filteredItems = await this.getData((this.activeFilter == 'Все') ? '':this.activeFilter, (this.searchTerm) ? this.searchTerm:'', this.catalogSort.value)
-
+        
         localStorage.setItem('textinput', '')
         
         if (this.searchTerm === 'апрпапр') {
@@ -289,7 +288,6 @@ class Pagination {
             </div>
             <input maxlength="60" type="text" name="title" class="landmark__add_description title" placeholder="Заголовок достопримечательности" required=""> 
             <textarea minlength="100" maxlength="1000" type="text" name="description" class="landmark__add_description" placeholder="Описание достопримечательности" required=""></textarea>
-            <input type="number" name="grade" class="landmark__add_elem-input" placeholder="Оценка" required="">
             <input maxlength="50" type="text" name="adress" class="landmark__add_elem-input" placeholder="Адресс" required="">
             <input type="url" name="map" class="landmark__add_elem-input" placeholder="Ссылка на карту" required="">
             <div class="input-photo__container">
@@ -366,6 +364,10 @@ class Pagination {
                 this.updateCatalog()
             }, 1000);
         });
+        document.getElementById('catalogSort').addEventListener('change', () => {
+            console.log(this.catalogSort.value)
+            this.updateCatalog()
+        })
         this.catalog_filter_btn.forEach(button => {
             button.addEventListener('click', (e) => {
                 this.activeFilter = e.target.getAttribute('data-id');
@@ -383,12 +385,9 @@ class Pagination {
                 });
             });
             document.getElementById('showAllButton').addEventListener('click', function () {
-                this.updateCatalog();
+                this.updateCatalog()
             });
         });
-        this.catalogSort.addEventListener('change', () => {
-            this.updateCatalog()
-        })
         this.updateCatalog();
     }
     async updateCatalog() {   

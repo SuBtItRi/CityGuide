@@ -30,6 +30,24 @@ class DataFetcher {
         return await response.json();
     }
 
+    async updateGrades(patchGrades) {
+        const response = await fetch(this.apiUrl, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(patchGrades),
+        });
+        if (!response.ok) {
+            throw new Error('Ошибка отправки данных');
+        } else {
+            console.log(
+                `Оценка изменена`, patchGrades
+            )
+        }
+        return await response.json();
+    }
+
     async delReview(reviewBlock) {
         const reviewId = reviewBlock.getAttribute('id')
         const response = await fetch(`${this.apiUrl}/${reviewId}`, {
@@ -49,9 +67,7 @@ class Landmark {
     constructor() {
         this.currentImg = 0
         this.itemData = new DataFetcher(`https://6728a8d3270bd0b97556a70f.mockapi.io/catalog/filters/${landmarkID}`)
-
         this.reviewData = new DataFetcher(`https://6751eebad1983b9597b4dc21.mockapi.io/reviews?currentLandmarkID=${landmarkID}`)
-        
         this.usersData = new DataFetcher('https://6751eebad1983b9597b4dc21.mockapi.io/users')
         this.delReviewData = new DataFetcher(`https://6751eebad1983b9597b4dc21.mockapi.io/reviews`)
     }
@@ -69,25 +85,39 @@ class Landmark {
         this.users = await this.usersData.fetchData()
         let currentUserID;
         const hashPassword = await this.simpleHash(localStorage.getItem('password'))
-        this.users.forEach(elem => {
-            if (elem.username == localStorage.getItem('username') && elem.password == hashPassword) {
-            currentUserID = elem.id;
+        this.users.forEach(user => {
+            if (user.username == localStorage.getItem('username') && user.password == hashPassword) {
+                currentUserID = user.id;
+                this.currentUser = user
             }
         });
-        this.reviews = await this.reviewData.fetchData()
+        this.reviews_temp = await this.reviewData.fetchData()
+        this.reviews = []
+        if (this.reviews_temp != 'Not found') {
+            this.reviews_temp.forEach(review => {
+                if (review.currentLandmarkID == landmarkID) {
+                    this.reviews.push(review)
+                }
+            })
+        }
+        this.average_grade = 0
+        this.reviews_count = 0
         if (this.reviews == 'Not found') {
             this.average_grade = 0
             this.reviews_count = 0
         } else {
-            this.average_grade = this.reviews.reduce((sum, elem) => {
-                return sum + elem.grade
-            }, 0)
-            this.average_grade = this.average_grade/this.reviews.length
+            if (this.reviews.length > 0) {
+                this.average_grade = this.reviews.reduce((sum, elem) => {
+                    return sum + elem.grade
+                }, 0)
+                this.average_grade = this.average_grade/this.reviews.length
+            }
             this.reviews_count = this.reviews.length
         }
+        this.average_grade = Math.round(this.average_grade*10)/10
 
-        const getItem = await this.itemData.fetchData()
-        if (getItem == 'Not found') {
+        this.getItem = await this.itemData.fetchData()
+        if (this.getItem == 'Not found') {
             window.location.href = 'http://127.0.0.1:5500/CityGuide/catalog.html?filter=%D0%92%D1%81%D0%B5&page=1'
         }
         const currentYear = new Date().getFullYear() % 100
@@ -95,27 +125,27 @@ class Landmark {
         document.querySelector('.landmark__wrap').innerHTML = 
         `
         <p class="landmark__href">
-            <a href="catalog.html">Каталог</a> > <a href="catalog.html?filter=${getItem.filter}&page=1" id="href_with_filter">${getItem.filter}</a> > <a href="catalog.html?page=1" id="spec_href"> ${getItem.title} </a> </span>
+            <a href="catalog.html">Каталог</a> > <a href="catalog.html?filter=${this.getItem.filter.toLowerCase()}&page=1" id="href_with_filter">${this.getItem.filter}</a> > <a href="catalog.html?page=1" id="spec_href"> ${this.getItem.title} </a> </span>
         </p>
-        <h2 class="landmark__title">${getItem.title}</h2>
+        <h2 class="landmark__title">${this.getItem.title}</h2>
         <div class="landmark__window">
             <div class="landmark__window-main">
                 <div class="landmark__window_imgs">
-                    <img  class="imgs__item" src="${getItem.imgs[0]}" alt="${getItem.imgs[0]}" id="img1" onclick="switch_slider()">
-                    <img  class="imgs__item" src="${getItem.imgs[1]}" alt="${getItem.imgs[1]}" id="img2" onclick="switch_slider()">
-                    <img  class="imgs__item" src="${getItem.imgs[2]}" alt="${getItem.imgs[2]}" id="img3" onclick="switch_slider()">
+                    <img  class="imgs__item" src="${this.getItem.imgs[0]}" alt="${this.getItem.imgs[0]}" id="img1" onclick="switch_slider()">
+                    <img  class="imgs__item" src="${this.getItem.imgs[1]}" alt="${this.getItem.imgs[1]}" id="img2" onclick="switch_slider()">
+                    <img  class="imgs__item" src="${this.getItem.imgs[2]}" alt="${this.getItem.imgs[2]}" id="img3" onclick="switch_slider()">
                 </div>
                 <div class="landmark__window_info-block">
-                    <p class="landmark__window_description">${getItem.description}</p>
+                    <p class="landmark__window_description">${this.getItem.description}</p>
                     <div class="landmark__window_bottom-block">
-                        <iframe class="map" src="${getItem.map}" width="100%" height="150px" frameborder="0"></iframe>
+                        <iframe class="map" src="${this.getItem.map}" width="100%" height="150px" frameborder="0"></iframe>
                         <p class="landmark__window_grade">
                             ${this.average_grade} | ${this.reviews_count} отзыв
                         </p>
                         <p class="landmark__window_adress">
-                            ${getItem.adress}
+                            ${this.getItem.adress}
                         </p>
-                        <a href="${getItem.map}">
+                        <a href="${this.getItem.map}">
                             <button class="landmark__window_blue-btn">
                                 Показать на карте
                             </button>
@@ -199,9 +229,9 @@ class Landmark {
                 <div class="landmark__window_imgs-slider" data-slider="imgs-slider" data-loop="false" data-autoplay="false">
                     <div class="imgs-slider__wrapper">
                         <div class="imgs-slider__items">
-                            <img class="imgs-slider__item" src="${getItem.imgs[0]}" alt="${getItem.imgs[0]}">
-                            <img class="imgs-slider__item" src="${getItem.imgs[1]}" alt="${getItem.imgs[1]}">
-                            <img class="imgs-slider__item" src="${getItem.imgs[2]}" alt="${getItem.imgs[2]}">
+                            <img class="imgs-slider__item" src="${this.getItem.imgs[0]}" alt="${this.getItem.imgs[0]}">
+                            <img class="imgs-slider__item" src="${this.getItem.imgs[1]}" alt="${this.getItem.imgs[1]}">
+                            <img class="imgs-slider__item" src="${this.getItem.imgs[2]}" alt="${this.getItem.imgs[2]}">
                         </div>
                     </div>
                     <button class="imgs-slider__close" onclick="switch_slider()">❌</button>
@@ -218,10 +248,12 @@ class Landmark {
         
         try {
             document.querySelector('.reviews__user-details').innerHTML = `
-            <img class='header__usermenu_avatar' src='${this.users[currentUserID-1].avatar}' alt='user-avatar'>
+            <img class='header__usermenu_avatar' src='${this.currentUser.avatar}' alt='user-avatar'>
             <h3>${localStorage.getItem('username')}</h3>
             `
-        } catch {}
+        } catch {
+            document.getElementById('postReview').disabled = true
+        }
 
         try {
             this.reviews = await this.reviewData.fetchData()
@@ -259,17 +291,17 @@ class Landmark {
         
         const slider_items = document.querySelectorAll(".imgs-slider__item")
         
-        if (getItem.imgs.length < 3) {
+        if (this.getItem.imgs.length < 3) {
             document.querySelector('.landmark__window_imgs').innerHTML = 
             `
-            <img class="imgs__item" src="${getItem.imgs[0]}" alt="${getItem.imgs[0]}">
+            <img class="imgs__item" src="${this.getItem.imgs[0]}" alt="${this.getItem.imgs[0]}">
             `
             document.querySelector('.landmark__window_imgs').style = 'display: flex'
             document.querySelector('.imgs__item').style = 'cursor: unset; border-radius: 20px'
         }
 
         document.querySelector('#spec_href').addEventListener('click', function () {
-            localStorage.setItem('textinput', getItem.title)
+            localStorage.setItem('textinput', this.getItem.title)
         })
         
         document.querySelector(".imgs-slider__btn_next").addEventListener("click", () => {
@@ -302,15 +334,26 @@ class Landmark {
                 "when": this.when,
                 "title": this.title,
                 "review": this.review,
-                "currentUserID": this.users[currentUserID-1].id,
+                "currentUserID": currentUserID,
                 "currentLandmarkID": landmarkID,
                 "date":this.getFormattedDate()
             }
             await this.reviewData.postReview(postData)
+            await this.itemData.updateGrades({
+                "filter": this.getItem.filter,
+                "imgs": this.getItem.imgs,
+                "title": this.getItem.title,
+                "grade": [...this.getItem.grade, gradeValue],
+                "description": this.getItem.description,
+                "adress": this.getItem.adress,
+                "map": this.getItem.map,
+                "id": this.getItem.id
+            })
             this.reviewForm.reset()
             document.getElementById('postReview').classList.add('green-btn')
             document.getElementById('postReview').value = 'Отзыв отправлен'
             this.reviewsContainer.innerHTML = ''
+            
             this.reviews = await this.reviewData.fetchData()
             this.reviews.forEach(async currentReview => {
                 await this.createReview(currentReview)
@@ -331,25 +374,25 @@ class Landmark {
         this.updateSlider()
 
         const modal = document.getElementById('modal');
-    const tipsButton = document.getElementById('tipsForReviews');
-    const closeButton = document.querySelector('.close-button');
+        const tipsButton = document.getElementById('tipsForReviews');
+        const closeButton = document.querySelector('.close-button');
 
-    tipsButton.addEventListener('click', () => {
-        modal.style.display = 'flex';
-        document.body.classList.add('overflow-h')
-    });
+        tipsButton.addEventListener('click', () => {
+            modal.style.display = 'flex';
+            document.body.classList.add('overflow-h')
+        });
 
-    closeButton.addEventListener('click', () => {
-        modal.style.display = 'none';
-        document.body.classList.remove('overflow-h')
-    });
-
-    window.addEventListener('click', (event) => {
-        if (event.target === modal) {
+        closeButton.addEventListener('click', () => {
             modal.style.display = 'none';
             document.body.classList.remove('overflow-h')
-        }
-    });
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+                document.body.classList.remove('overflow-h')
+            }
+        });
     }
     
     updateSlider() {
@@ -381,7 +424,12 @@ class Landmark {
         }
         this.reviewsContainer = document.querySelector('.reviews__container')
         this.currentReview = currentReview
-        this.currentUser = this.users[this.currentReview.currentUserID-1]
+        this.currentUser = ''
+        this.users.forEach(async user => {
+            if (user.id == currentReview.currentUserID) {
+                this.currentUser = user
+            } 
+        })
         const fullReviewText = this.currentReview.review.replace(/\n/g, '<br>')
         let reviewText = this.currentReview.review.replace(/\n/g, '<br>')
         if(reviewText.length > 600) {
@@ -390,6 +438,26 @@ class Landmark {
         const review = document.createElement('div');
         review.classList.add('reviews__review');
         review.id = this.currentReview.id
+        if (!this.currentUser) {
+            console.log('Пользователь не найден!')
+            const indexToRemove = this.getItem.grade.indexOf(currentReview.grade);
+                if (indexToRemove !== -1) {
+                    this.getItem.grade.splice(indexToRemove, 1);
+                }
+                await this.itemData.updateGrades({
+                    "filter": this.getItem.filter,
+                    "imgs": this.getItem.imgs,
+                    "title": this.getItem.title,
+                    "grade": [...this.getItem.grade],
+                    "description": this.getItem.description,
+                    "adress": this.getItem.adress,
+                    "map": this.getItem.map,
+                    "id": this.getItem.id
+                  }
+                )
+            this.delReviewData.delReview(review)
+            return
+        }
         review.innerHTML = 
         `
         <div class='reviews__user-details'>
@@ -426,6 +494,22 @@ class Landmark {
 
             deleteReviewBtn.addEventListener('click', async (e) => {
                 const reviewBlock = e.target.closest('.reviews__review');
+                
+                const indexToRemove = this.getItem.grade.indexOf(currentReview.grade);
+                if (indexToRemove !== -1) {
+                    this.getItem.grade.splice(indexToRemove, 1);
+                }
+                await this.itemData.updateGrades({
+                    "filter": this.getItem.filter,
+                    "imgs": this.getItem.imgs,
+                    "title": this.getItem.title,
+                    "grade": [...this.getItem.grade],
+                    "description": this.getItem.description,
+                    "adress": this.getItem.adress,
+                    "map": this.getItem.map,
+                    "id": this.getItem.id
+                  }
+                )
 
                 this.delReviewData.delReview(reviewBlock)
             });

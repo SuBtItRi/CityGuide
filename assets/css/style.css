@@ -49,7 +49,7 @@ a {
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   background-color: #ccc;
   z-index: 100000;
 }
@@ -1499,7 +1499,7 @@ a {
   border-radius: 10px;
   transition: 1s;
   transform: translateY(-1000px);
-  margin-top: -541px;
+  margin-top: -508px;
 }
 .landmark__add .input-photo__container {
   display: flex;

@@ -31,6 +31,20 @@ class AccountSettings {
         return await response.json();
     }
 
+    async delReview(reviewBlock) {
+        const reviewId = reviewBlock.getAttribute('id')
+        const response = await fetch(`https://6751eebad1983b9597b4dc21.mockapi.io/reviews/${reviewId}`, {
+            method: 'DELETE',
+        });
+
+        if (response.ok) {
+            reviewBlock.remove();
+            console.log(`Отзыв с ID ${reviewId} успешно удален.`);
+        } else {
+            console.error('Ошибка при удалении отзыва:', response.statusText);
+        }
+    }
+
     async updateUser (userId, postData) {
         const response = await fetch(`${this.apiUrl}/${userId}`, {
             method: 'PUT',
@@ -69,9 +83,10 @@ class AccountSettings {
         this.users = await this.getData('https://6751eebad1983b9597b4dc21.mockapi.io/users');
         let currentUserID;
         const hashPassword = await this.simpleHash(localStorage.getItem('password'))
-        this.users.forEach(elem => {
-            if (elem.username == localStorage.getItem('username') && elem.password == hashPassword) {
-            currentUserID = elem.id;
+        this.users.forEach(user => {
+            if (user.username == localStorage.getItem('username') && user.password == hashPassword) {
+                currentUserID = user.id;
+                this.currentUser = user
             }
         });
 
@@ -116,11 +131,11 @@ class AccountSettings {
         this.changePassForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const old_pass = document.getElementsByName('old_password')[0].value
-            if (this.users[currentUserID - 1].password == await this.simpleHash(old_pass)) {
+            if (this.currentUser.password == await this.simpleHash(old_pass)) {
                 const new_pass = document.getElementsByName('new_password')[0].value;
                 const new_pass_repeat = document.getElementsByName('new_password_repeat')[0].value;
                 if (new_pass == new_pass_repeat) {
-                    localStorage.setItem('password', old_pass)
+                    localStorage.setItem('password', new_pass_repeat)
                     await this.updateUser(currentUserID, { 'password': await this.simpleHash(new_pass) });
                     this.passwordNotMatchReg.style.display = 'none';
                     this.passwordNotMatchLog.style.display = 'none';
@@ -161,7 +176,11 @@ class AccountSettings {
     createReview(elemID, currentUserID) {
         this.reviewsContainer = document.querySelector('.reviews__container')
         this.currentReview = this.reviews[elemID]
-        this.currentUser = this.users[currentUserID-1]
+        this.users.forEach(user => {
+            if (user.id == this.currentReview.currentUserID) {
+                this.currentUser = user
+            }
+        })
         const fullReviewText = this.currentReview.review
         let reviewText = this.currentReview.review
         if(reviewText.length > 600) {
@@ -203,7 +222,7 @@ class AccountSettings {
 
             deleteReviewBtn.addEventListener('click', async (e) => {
                 const reviewBlock = e.target.closest('.reviews__review');
-                this.delReviewData.delReview(reviewBlock)
+                this.delReview(reviewBlock)
             });
         }
     }
